@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YYC Connect — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/admin.css">
+<style>
+.panel { display:none } .panel.active { display:block }
+.settle-task-row { display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border) }
+.settle-task-row:last-child { border-bottom:none }
+.admin-modal { position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.2s }
+.admin-modal.open { opacity:1;pointer-events:all }
+.admin-modal-card { background:#fff;border-radius:16px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;transform:translateY(12px);transition:transform 0.2s }
+.admin-modal.open .admin-modal-card { transform:translateY(0) }
+.admin-modal-hdr { padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff }
+.admin-modal-hdr h3 { font-family:'Sora',sans-serif;font-size:15px;font-weight:600 }
+.admin-modal-body { padding:18px 20px }
+.admin-modal-ftr  { padding:14px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;position:sticky;bottom:0;background:#fff }
+.afield { margin-bottom:13px }
+.afield label { display:block;font-size:11px;font-weight:600;color:var(--subtext);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:5px }
+.afield input,.afield select,.afield textarea { width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;color:var(--text);outline:none;background:#fff;transition:border-color 0.2s }
+.afield input:focus,.afield select:focus,.afield textarea:focus { border-color:var(--amber) }
+.afield-row { display:grid;grid-template-columns:1fr 1fr;gap:10px }
+.acheck { display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;margin-bottom:8px }
+.acheck input { width:16px;height:16px;accent-color:var(--amber) }
+.section-actions { display:flex;gap:8px;align-items:center }
+.add-btn { display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--amber);color:var(--navy);border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif }
+.close-btn { background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;border-radius:8px }
+.settings-card { background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:16px }
+.settings-card h4 { font-family:'Sora',sans-serif;font-size:13px;font-weight:600;margin-bottom:14px }
+</style>
+</head>
+<body>
+<div class="admin-toast" id="admin-toast"></div>
+
+<!-- LOGIN -->
+<div id="admin-login">
+  <div class="admin-logo">YYC<span>Connect</span></div>
+  <p class="admin-logo-sub">Admin Dashboard</p>
+  <div class="admin-login-card">
+    <div class="admin-field"><label for="admin-email">Email</label><input id="admin-email" type="email" placeholder="admin@example.com" autocomplete="email"></div>
+    <div class="admin-field"><label for="admin-pass">Password</label><input id="admin-pass" type="password" placeholder="Password" autocomplete="current-password"></div>
+    <p id="admin-error"></p>
+    <button class="admin-signin-btn" id="admin-signin-btn">Sign in</button>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="admin-dashboard">
+  <div class="admin-layout">
+    <aside class="admin-sidebar" id="admin-sidebar">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-text">YYC<span>Connect</span></div>
+        <div class="sidebar-logo-sub">Admin Panel</div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-section-label">Content</div>
+        <button class="sidebar-link active" onclick="showPanel('users')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Users</button>
+        <button class="sidebar-link" onclick="showPanel('listings')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Listings</button>
+        <button class="sidebar-link" onclick="showPanel('jobs')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>Jobs</button>
+        <button class="sidebar-link" onclick="showPanel('events')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Events</button>
+        <div class="sidebar-section-label">App Settings</div>
+        <button class="sidebar-link" onclick="showPanel('settlement')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Settlement</button>
+        <button class="sidebar-link" onclick="showPanel('dashboard')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</button>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-av" id="sidebar-av">A</div>
+          <span class="sidebar-user-name" id="admin-user-name">Admin</span>
+          <button class="signout-link" id="admin-signout-btn" title="Sign out"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="admin-main">
+      <header class="admin-topbar">
+        <div style="display:flex;align-items:center;gap:12px">
+          <button id="sidebar-toggle" style="background:none;border:none;cursor:pointer;padding:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+          <div>
+            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:600">Welcome back, Admin</div>
+            <div class="admin-topbar-title" id="admin-welcome-name" style="font-size:18px">—</div>
+          </div>
+        </div>
+        <div class="admin-topbar-right">
+          <div class="topbar-search"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="search" id="admin-search" placeholder="Search..." oninput="window._setSearch(this.value)"></div>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-card-label">Total users</div><div class="stat-card-val" id="stat-total">—</div></div>
+          <div class="stat-card c-success"><div class="stat-card-label">Active</div><div class="stat-card-val" id="stat-active">—</div></div>
+          <div class="stat-card c-danger"><div class="stat-card-label">Banned</div><div class="stat-card-val" id="stat-banned">—</div></div>
+          <div class="stat-card c-info"><div class="stat-card-label">Students</div><div class="stat-card-val" id="stat-students">—</div></div>
+          <div class="stat-card"><div class="stat-card-label">Workers</div><div class="stat-card-val" id="stat-workers">—</div></div>
+          <div class="stat-card"><div class="stat-card-label">PR</div><div class="stat-card-val" id="stat-pr">—</div></div>
+          <div class="stat-card c-amber"><div class="stat-card-label">Admins</div><div class="stat-card-val" id="stat-admins">—</div></div>
+        </div>
+
+        <!-- USERS -->
+        <div id="panel-users" class="admin-section panel active">
+          <div class="admin-section-header"><span class="admin-section-title">All users</span><span class="results-count" id="results-count"></span></div>
+          <div class="admin-filters">
+            <button class="admin-filter-pill active" data-filter="all" onclick="window._setFilter('all')">All</button>
+            <button class="admin-filter-pill" data-filter="student" onclick="window._setFilter('student')">Students</button>
+            <button class="admin-filter-pill" data-filter="worker" onclick="window._setFilter('worker')">Workers</button>
+            <button class="admin-filter-pill" data-filter="pr" onclick="window._setFilter('pr')">PR</button>
+            <button class="admin-filter-pill" data-filter="active" onclick="window._setFilter('active')">Active</button>
+            <button class="admin-filter-pill" data-filter="banned" onclick="window._setFilter('banned')">Banned</button>
+            <button class="admin-filter-pill" data-filter="restricted" onclick="window._setFilter('restricted')">Restricted</button>
+            <button class="admin-filter-pill" data-filter="admin" onclick="window._setFilter('admin')">Admins</button>
+          </div>
+          <div class="table-wrap"><table><thead><tr><th>User</th><th>Country</th><th>Immigration</th><th>Dream city</th><th>Status</th><th>Role</th><th>Joined</th><th>Actions</th></tr></thead><tbody id="users-tbody"><tr><td colspan="8" class="empty-row">Loading...</td></tr></tbody></table></div>
+        </div>
+
+        <!-- LISTINGS -->
+        <div id="panel-listings" class="admin-section panel">
+          <div class="admin-section-header">
+            <span class="admin-section-title">Listings</span>
+            <button class="add-btn" onclick="openListingModal('')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add listing</button>
+          </div>
+          <div class="table-wrap"><table><thead><tr><th>Title</th><th>Neighbourhood</th><th>Price</th><th>Status</th><th>Tags</th><th>Actions</th></tr></thead><tbody id="listings-tbody"><tr><td colspan="6" class="empty-row">Loading...</td></tr></tbody></table></div>
+        </div>
+
+        <!-- JOBS -->
+        <div id="panel-jobs" class="admin-section panel">
+          <div class="admin-section-header">
+            <span class="admin-section-title">Jobs</span>
+            <button class="add-btn" onclick="openJobModal('')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add job</button>
+          </div>
+          <div class="table-wrap"><table><thead><tr><th>Title</th><th>Company</th><th>Salary</th><th>Type</th><th>Actions</th></tr></thead><tbody id="jobs-tbody"><tr><td colspan="5" class="empty-row">Loading...</td></tr></tbody></table></div>
+        </div>
+
+        <!-- EVENTS -->
+        <div id="panel-events" class="admin-section panel">
+          <div class="admin-section-header">
+            <span class="admin-section-title">Events</span>
+            <button class="add-btn" onclick="openEventModal('')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add event</button>
+          </div>
+          <div class="table-wrap"><table><thead><tr><th>Title</th><th>Date</th><th>Venue</th><th>Category</th><th>Actions</th></tr></thead><tbody id="events-tbody"><tr><td colspan="5" class="empty-row">Loading...</td></tr></tbody></table></div>
+        </div>
+
+        <!-- SETTLEMENT -->
+        <div id="panel-settlement" class="admin-section panel">
+          <div class="admin-section-header"><span class="admin-section-title">Settlement checklist</span></div>
+          <div style="padding:16px 20px">
+            <p style="font-size:13px;color:var(--subtext);margin-bottom:16px;line-height:1.6">These tasks appear on every user's settlement progress ring. Users can tick them off themselves. Add, remove, or rename tasks here.</p>
+            <div id="settle-tasks-list" style="margin-bottom:16px"></div>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+              <div style="display:flex;gap:8px">
+                <input id="new-task-input" type="text" placeholder="e.g. Get health card, Buy winter jacket..." style="flex:1;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;outline:none;transition:border-color 0.2s" onkeydown="if(event.key==='Enter')window._addTask()">
+                <button class="add-btn" id="add-task-btn" onclick="window._addTask()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add task</button>
+              </div>
+              <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;color:var(--subtext)">
+                <input id="new-task-student" type="checkbox" style="width:16px;height:16px;accent-color:var(--amber)">
+                Show this task to students only
+              </label>
+            </div>
+            <button class="admin-signin-btn" style="margin-top:14px;padding:11px" onclick="window._saveTasks()">Save checklist</button>
+          </div>
+        </div>
+
+        <!-- DASHBOARD SETTINGS -->
+        <div id="panel-dashboard" class="admin-section panel">
+          <div class="admin-section-header"><span class="admin-section-title">Dashboard settings</span></div>
+          <div style="padding:16px 20px">
+            <div class="settings-card">
+              <h4>Hero stats</h4>
+              <div class="afield"><label>Days to move-in (shown in stat box)</label><input id="dash-movein" type="number" placeholder="12"></div>
+              <div class="afield"><label>Average rent nearby</label><input id="dash-rent" type="text" placeholder="$850"></div>
+            </div>
+            <div class="settings-card">
+              <h4>Alert banner</h4>
+              <div class="afield"><label>Alert message (shown on Home and Resources)</label><textarea id="dash-alert" rows="2" style="resize:vertical" placeholder="First snowfall expected..."></textarea></div>
+            </div>
+            <div class="settings-card">
+              <h4>Weather pill</h4>
+              <div class="afield"><label>Weather display text</label><input id="dash-weather" type="text" placeholder="−3°C Calgary"></div>
+            </div>
+            <button class="admin-signin-btn" style="padding:11px" onclick="window._saveDashboard()">Save settings</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- USER DETAIL MODAL -->
+<div id="user-modal" class="admin-modal">
+  <div class="admin-modal-card" style="max-width:460px">
+    <div class="admin-modal-hdr" style="background:var(--navy)">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div id="modal-avatar"></div>
+        <div><div class="modal-name" id="modal-name" style="font-family:'Sora',sans-serif;font-size:15px;font-weight:600;color:#fff"></div><div id="modal-email" style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:2px"></div></div>
+      </div>
+      <button class="close-btn" style="color:#fff" onclick="closeModal()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="admin-modal-body">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+        <div><div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px">Country</div><div id="modal-country" style="font-size:13px;font-weight:500"></div></div>
+        <div><div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px">Immigration</div><div id="modal-immtype" style="font-size:13px"></div></div>
+        <div><div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px">Dream city</div><div id="modal-city" style="font-size:13px;font-weight:500"></div></div>
+        <div><div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px">Status</div><div id="modal-status"></div></div>
+        <div><div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px">Role</div><div id="modal-role"></div></div>
+        <div><div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px">Joined</div><div id="modal-joined" style="font-size:13px"></div></div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;padding-top:14px;border-top:1px solid var(--border)">
+        <button class="modal-btn danger" id="modal-ban-btn">Ban user</button>
+        <button class="modal-btn" id="modal-restrict-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>Restrict</button>
+        <button class="modal-btn primary" id="modal-role-btn">Promote to admin</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LISTING MODAL -->
+<div id="lm-modal" class="admin-modal">
+  <div class="admin-modal-card">
+    <div class="admin-modal-hdr"><h3 id="lm-title-hdr">Add listing</h3><button class="close-btn" onclick="closeLM()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="admin-modal-body">
+      <input id="lm-id" type="hidden">
+      <div class="afield"><label>Title</label><input id="lm-title" type="text" placeholder="Modern Studio – Beltline"></div>
+      <div class="afield-row">
+        <div class="afield"><label>Neighbourhood</label><input id="lm-neighbourhood" type="text" placeholder="Beltline"></div>
+        <div class="afield"><label>Price / mo (CAD)</label><input id="lm-price" type="number" placeholder="850"></div>
+      </div>
+      <div class="afield"><label>Address</label><input id="lm-address" type="text" placeholder="1240 12 Ave SW, Calgary, AB"></div>
+      <div class="afield-row">
+        <div class="afield"><label>Beds</label><input id="lm-beds" type="number" placeholder="1"></div>
+        <div class="afield"><label>Baths</label><input id="lm-baths" type="number" placeholder="1"></div>
+      </div>
+      <div class="afield-row">
+        <div class="afield"><label>Latitude</label><input id="lm-lat" type="number" step="any" placeholder="51.0369"></div>
+        <div class="afield"><label>Longitude</label><input id="lm-lng" type="number" step="any" placeholder="-114.0853"></div>
+      </div>
+      <div class="afield"><label>Tags (comma separated)</label><input id="lm-tags" type="text" placeholder="WiFi, Laundry, CTrain 3 min"></div>
+      <div class="afield"><label>Porchlight URL</label><input id="lm-url" type="url" placeholder="https://porchlights.pages.dev/..."></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
+        <label class="acheck"><input id="lm-furnished"  type="checkbox"> Furnished</label>
+        <label class="acheck"><input id="lm-utilities"  type="checkbox"> Utilities incl.</label>
+        <label class="acheck"><input id="lm-intl"       type="checkbox"> Intl. Friendly</label>
+        <label class="acheck"><input id="lm-shortterm"  type="checkbox"> Short-term OK</label>
+        <label class="acheck"><input id="lm-featured"   type="checkbox"> Featured</label>
+        <label class="acheck"><input id="lm-bvc"        type="checkbox"> Near BVC</label>
+      </div>
+    </div>
+    <div class="admin-modal-ftr">
+      <button class="modal-btn" onclick="closeLM()">Cancel</button>
+      <button class="modal-btn primary" onclick="saveListing()">Save listing</button>
+    </div>
+  </div>
+</div>
+
+<!-- JOB MODAL -->
+<div id="jm-modal" class="admin-modal">
+  <div class="admin-modal-card">
+    <div class="admin-modal-hdr"><h3>Add / edit job</h3><button class="close-btn" onclick="closeJM()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="admin-modal-body">
+      <input id="jm-id" type="hidden">
+      <div class="afield"><label>Job title</label><input id="jm-title" type="text" placeholder="Junior UI/UX Designer"></div>
+      <div class="afield"><label>Company</label><input id="jm-company" type="text" placeholder="Attain Design"></div>
+      <div class="afield-row">
+        <div class="afield"><label>Salary</label><input id="jm-salary" type="text" placeholder="$55K/yr"></div>
+        <div class="afield"><label>Type</label><select id="jm-type"><option value="design">Design</option><option value="frontend">Frontend</option><option value="dev">Dev</option><option value="other">Other</option></select></div>
+      </div>
+      <div class="afield"><label>Level</label><select id="jm-level"><option value="entry">Entry level</option><option value="mid">Mid level</option><option value="senior">Senior</option></select></div>
+      <div class="afield"><label>Tags (comma separated)</label><input id="jm-tags" type="text" placeholder="Figma, Hybrid, New"></div>
+      <label class="acheck"><input id="jm-remote" type="checkbox"> Remote / hybrid</label>
+    </div>
+    <div class="admin-modal-ftr">
+      <button class="modal-btn" onclick="closeJM()">Cancel</button>
+      <button class="modal-btn primary" onclick="saveJob()">Save job</button>
+    </div>
+  </div>
+</div>
+
+<!-- EVENT MODAL -->
+<div id="em-modal" class="admin-modal">
+  <div class="admin-modal-card">
+    <div class="admin-modal-hdr"><h3>Add / edit event</h3><button class="close-btn" onclick="closeEM()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="admin-modal-body">
+      <input id="em-id" type="hidden">
+      <div class="afield"><label>Event title</label><input id="em-title" type="text" placeholder="BVC Orientation"></div>
+      <div class="afield-row">
+        <div class="afield"><label>Day</label><input id="em-day" type="number" min="1" max="31" placeholder="18"></div>
+        <div class="afield"><label>Month</label><select id="em-mon"><option>Jan</option><option>Feb</option><option>Mar</option><option>Apr</option><option>May</option><option selected>Jun</option><option>Jul</option><option>Aug</option><option>Sep</option><option>Oct</option><option>Nov</option><option>Dec</option></select></div>
+      </div>
+      <div class="afield"><label>Time</label><input id="em-time" type="text" placeholder="10:00 AM"></div>
+      <div class="afield"><label>Venue</label><input id="em-venue" type="text" placeholder="Main Campus, BVC"></div>
+      <div class="afield"><label>Category</label><select id="em-category"><option value="campus">Campus</option><option value="tech">Tech</option><option value="cultural">Cultural</option><option value="winter">Winter</option><option value="networking">Networking</option></select></div>
+      <label class="acheck"><input id="em-free" type="checkbox"> Free event</label>
+    </div>
+    <div class="admin-modal-ftr">
+      <button class="modal-btn" onclick="closeEM()">Cancel</button>
+      <button class="modal-btn primary" onclick="saveEvent()">Save event</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { guardAdmin, adminSignIn, adminSignOut } from './js/admin-auth.js';
+import { startUserListener, setFilter, setSearch } from './js/admin-users.js';
+import { adminToast, initAdminUI } from './js/admin-ui.js';
+import {
+  startDashboardListener, saveDashboard,
+  startSettlementListener, addTask, saveSettleTasks,
+  startListingsListener, startJobsListener, startEventsListener,
+} from './js/admin-content.js';
+
+window._setFilter    = setFilter;
+window._setSearch    = setSearch;
+window._saveDashboard= saveDashboard;
+window._addTask      = addTask;
+window._saveTasks    = saveSettleTasks;
+
+document.getElementById('admin-signin-btn').addEventListener('click', adminSignIn);
+document.getElementById('admin-email').addEventListener('keydown', e => { if(e.key==='Enter') adminSignIn(); });
+document.getElementById('admin-pass').addEventListener('keydown',  e => { if(e.key==='Enter') adminSignIn(); });
+document.getElementById('admin-signout-btn').addEventListener('click', adminSignOut);
+
+initAdminUI();
+
+// Panel switching
+const PANELS = ['users','listings','jobs','events','settlement','dashboard'];
+const TITLES  = { users:'Users', listings:'Listings', jobs:'Jobs', events:'Events', settlement:'Settlement checklist', dashboard:'Dashboard settings' };
+window.showPanel = (name) => {
+  PANELS.forEach(p => document.getElementById('panel-'+p)?.classList.toggle('active', p===name));
+  document.getElementById('panel-title').textContent = TITLES[name] || name;
+  document.querySelectorAll('.sidebar-link').forEach((l,i) => l.classList.toggle('active', i===PANELS.indexOf(name)));
+};
+
+// Close modals on backdrop
+document.querySelectorAll('.admin-modal').forEach(m => {
+  m.addEventListener('click', e => { if(e.target===m) m.classList.remove('open'); });
+});
+document.addEventListener('keydown', e => {
+  if(e.key==='Escape') document.querySelectorAll('.admin-modal.open').forEach(m=>m.classList.remove('open'));
+});
+
+guardAdmin((user, data) => {
+  const name     = data.name || user.email || 'Admin';
+  const initials = name.split(' ').filter(Boolean).map(n=>n[0]).join('').toUpperCase().slice(0,2) || 'A';
+  const av = document.getElementById('sidebar-av');
+  if (av) av.textContent = initials;
+  const nameEl = document.getElementById('admin-user-name');
+  if (nameEl) nameEl.textContent = name.split(' ')[0] || name;
+  const welcomeEl = document.getElementById('admin-welcome-name');
+  if (welcomeEl) welcomeEl.textContent = name.split(' ')[0] || name;
+
+  startUserListener();
+  startListingsListener();
+  startJobsListener();
+  startEventsListener();
+  startSettlementListener();
+  startDashboardListener();
+});
+
+// Mobile sidebar
+const mq = window.matchMedia('(max-width:768px)');
+const st = document.getElementById('sidebar-toggle');
+if(st) {
+  st.style.display = mq.matches ? 'block' : 'none';
+  mq.addEventListener('change', e => { st.style.display = e.matches?'block':'none'; });
+  st.addEventListener('click', () => document.getElementById('admin-sidebar').classList.toggle('open'));
+}
+</script>
+</body>
+</html>

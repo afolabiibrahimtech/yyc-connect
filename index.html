@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0D1B2A">
+<title>YYC Connect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/layout.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+/* Housing embed */
+#sec-housing{padding:0}
+.porchlight-embed-header{padding:14px 20px;border-bottom:1px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:112px;z-index:10}
+.porchlight-embed-title{font-family:'Sora',sans-serif;font-size:13px;font-weight:600;color:var(--navy);display:flex;align-items:center;gap:6px}
+.porchlight-embed-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.porchlight-embed-wrap{position:relative;height:calc(100vh - 174px);min-height:480px;background:var(--navy)}
+#porchlight-embed-frame{width:100%;height:100%;border:none;display:block}
+.porchlight-embed-overlay{position:absolute;inset:0;background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);display:flex;align-items:center;justify-content:center;transition:opacity 0.4s}
+.porchlight-embed-overlay.hidden{opacity:0;pointer-events:none}
+.porchlight-embed-cta{text-align:center;padding:32px 24px;max-width:320px}
+@media(max-width:900px){
+  .porchlight-embed-header{top:56px}
+  .porchlight-embed-wrap{height:calc(100vh - 160px);min-height:400px}
+}
+/* Settlement chips */
+.chip{cursor:pointer;transition:all 0.2s;user-select:none;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;padding:4px 10px;border-radius:20px}
+.chip:hover{opacity:0.85;transform:scale(1.03)}
+.chip:active{transform:scale(0.97)}
+
+/* AI search bar */
+.ai-search-wrap{display:flex;gap:8px;margin-bottom:8px;align-items:center}
+.ai-search-btn{flex-shrink:0;display:flex;align-items:center;gap:6px;padding:10px 16px;background:var(--amber);color:var(--navy);border:none;border-radius:var(--radius-md);font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap;transition:background 0.15s}
+.ai-search-btn:hover{background:var(--amber2)}
+#settle-pct-n{font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:var(--amber);line-height:1;display:block}
+
+/* Settlement modal */
+#settle-modal{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:350;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.25s}
+#settle-modal.open{opacity:1;pointer-events:all}
+#settle-modal.open .settle-sheet{transform:translateY(0)}
+.settle-sheet{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:520px;max-height:85vh;display:flex;flex-direction:column;transform:translateY(100%);transition:transform 0.3s cubic-bezier(0.32,0.72,0,1)}
+.settle-sheet-hdr{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.settle-sheet-title{font-family:'Sora',sans-serif;font-size:15px;font-weight:600}
+.settle-sheet-close{background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;border-radius:8px}
+.settle-sheet-progress{padding:16px 20px;background:var(--navy);flex-shrink:0;display:flex;align-items:center;gap:14px}
+.settle-sheet-ring{position:relative;width:56px;height:56px;flex-shrink:0}
+.settle-sheet-ring svg{transform:rotate(-90deg)}
+.settle-sheet-pct{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:var(--amber)}
+.settle-sheet-stats{flex:1}
+.settle-sheet-stat-title{font-family:'Sora',sans-serif;font-size:13px;font-weight:600;color:#fff;margin-bottom:2px}
+.settle-sheet-stat-sub{font-size:11px;color:rgba(255,255,255,0.45)}
+.settle-task-list{flex:1;overflow-y:auto;padding:8px 0}
+.settle-task-item{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s}
+.settle-task-item:last-child{border-bottom:none}
+.settle-task-item:hover{opacity:0.9}
+.settle-task-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s}
+.settle-task-label{flex:1;min-width:0}
+.settle-task-label-text{font-size:14px;font-weight:500;color:var(--text);transition:all 0.2s}
+.settle-task-label-desc{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.5}
+.settle-task-status{flex-shrink:0;display:flex;align-items:center}
+.settle-sheet-footer{padding:14px 20px;border-top:1px solid var(--border);flex-shrink:0;text-align:center}
+.settle-sheet-footer p{font-size:12px;color:var(--muted)}
+@media(min-width:520px){
+  #settle-modal{align-items:center}
+  .settle-sheet{border-radius:20px;max-height:80vh}
+}
+/* Popular jobs grid */
+.popular-jobs-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.popular-job-card{border:1px solid var(--border);border-radius:var(--radius-md);padding:14px;cursor:pointer;transition:all 0.15s;background:var(--card);text-align:left}
+.popular-job-card:hover{border-color:var(--amber);background:var(--surface);transform:translateY(-1px)}
+.popular-job-card:active{transform:scale(0.97)}
+.pjc-role{font-family:'Sora',sans-serif;font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px}
+.pjc-meta{font-size:11px;color:var(--muted);margin-bottom:8px}
+.pjc-platforms{display:flex;gap:4px}
+.pjc-dot{width:8px;height:8px;border-radius:50%}
+@media(min-width:600px){.popular-jobs-grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:900px){.popular-jobs-grid{grid-template-columns:repeat(4,1fr)}}
+
+/* AI Job Search */
+.ai-job-results{display:none;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:16px;background:var(--card)}
+.ai-job-loading{padding:28px 20px;text-align:center;color:var(--muted);font-size:13px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.ai-spinner{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--amber);border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ai-job-header{padding:16px;display:flex;align-items:flex-start;gap:12px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--navy),var(--navy2))}
+.ai-job-icon{width:34px;height:34px;border-radius:10px;background:rgba(245,166,35,0.15);border:1px solid rgba(245,166,35,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--amber)}
+.ai-job-title{font-family:'Sora',sans-serif;font-size:14px;font-weight:600;color:#fff}
+.ai-job-sub{font-size:11px;color:rgba(255,255,255,0.45);margin-top:2px}
+.ai-job-tip{margin:12px 14px 0;padding:10px 12px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:var(--radius-sm);font-size:12px;color:#92400E;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.ai-job-tip svg{flex-shrink:0;margin-top:1px;color:#F59E0B}
+.ai-skills-row{padding:10px 14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;border-bottom:1px solid var(--border)}
+.ai-skills-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;flex-shrink:0}
+.ai-skill-chip{font-size:11px;padding:3px 10px;border-radius:20px;background:var(--navy);color:var(--amber);font-weight:500}
+.ai-platform-cards{padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.ai-platform-card{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--border);border-radius:var(--radius-md);text-decoration:none;color:var(--text);transition:all 0.15s;background:#fff}
+.ai-platform-card:hover{border-color:var(--amber);background:var(--surface);transform:translateX(2px)}
+.ai-platform-logo{width:32px;height:32px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.ai-platform-name{font-size:13px;font-weight:600}
+.ai-platform-desc{font-size:11px;color:var(--muted);margin-top:1px}
+.ai-platform-info{flex:1}
+.ai-related{padding:10px 14px 14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-top:1px solid var(--border)}
+.ai-related-label{font-size:11px;font-weight:600;color:var(--muted);flex-shrink:0}
+.ai-related-chip{font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid var(--border);background:#fff;color:var(--navy);cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.15s}
+.ai-related-chip:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+.ai-clear-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:10px;background:var(--surface);border:none;border-top:1px solid var(--border);font-size:12px;color:var(--muted);cursor:pointer;font-family:'Inter',sans-serif;transition:background 0.15s}
+.ai-clear-btn:hover{background:var(--border);color:var(--text)}
+
+/* Leaflet popup */
+.leaflet-popup-content-wrapper{border-radius:12px!important;box-shadow:0 4px 20px rgba(0,0,0,0.15)!important;padding:0!important}
+.leaflet-popup-content{margin:0!important;min-width:200px}
+.map-popup{padding:14px}
+.map-popup-price{font-family:'Sora',sans-serif;font-size:16px;font-weight:700;color:var(--navy)}
+.map-popup-title{font-size:12px;color:var(--subtext);margin:2px 0 8px}
+.map-popup-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px}
+.map-popup-tag{font-size:10px;padding:2px 8px;border-radius:20px;background:var(--surface);color:var(--subtext)}
+.map-popup-btn{width:100%;padding:8px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif}
+/* Porchlight drawer */
+#porchlight-drawer{position:fixed;inset:0;z-index:400;display:flex;flex-direction:column;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);background:#fff}
+#porchlight-drawer.open{transform:translateY(0)}
+.drawer-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--navy);flex-shrink:0}
+.drawer-logo{font-family:'Sora',sans-serif;font-size:16px;font-weight:700;color:var(--amber)}
+.drawer-logo span{color:#fff}
+.drawer-sub{font-size:11px;color:rgba(255,255,255,0.4)}
+.drawer-close{background:rgba(255,255,255,0.1);border:none;border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff}
+.drawer-open-link{padding:7px 14px;background:var(--amber);color:var(--navy);border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif}
+#porchlight-iframe{flex:1;border:none;width:100%}
+.drawer-footer{padding:10px 20px;background:var(--navy);text-align:center;flex-shrink:0}
+.drawer-footer a{font-size:11px;color:var(--amber);text-decoration:none}
+/* Edit profile modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.2s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal-card{background:#fff;border-radius:var(--radius-xl);width:100%;max-width:480px;max-height:90vh;overflow-y:auto;transform:translateY(12px);transition:transform 0.2s}
+.modal-overlay.open .modal-card{transform:translateY(0)}
+.modal-hdr{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:1}
+.modal-hdr-title{font-family:'Sora',sans-serif;font-size:15px;font-weight:600}
+.modal-close-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;border-radius:8px}
+.modal-body{padding:20px 22px}
+.modal-footer{padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:10px;position:sticky;bottom:0;background:#fff}
+.mfield{margin-bottom:14px}
+.mfield label{display:block;font-size:11px;font-weight:600;color:var(--subtext);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px}
+.mfield input,.mfield select{width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:var(--radius-md);font-size:13px;font-family:'Inter',sans-serif;color:var(--text);outline:none;transition:border-color 0.2s;background:#fff}
+.mfield input:focus,.mfield select:focus{border-color:var(--amber)}
+.photo-row{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.photo-thumb{width:56px;height:56px;border-radius:50%;background:var(--amber);display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-weight:700;font-size:18px;color:var(--navy);flex-shrink:0;overflow:hidden;background-size:cover;background-position:center}
+.photo-thumb img{width:100%;height:100%;object-fit:cover}
+.av-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:6px}
+.av-btn{background:none;border:2px solid transparent;border-radius:50%;width:40px;height:40px;padding:0;cursor:pointer;overflow:hidden;transition:border-color 0.15s}
+.av-btn.selected{border-color:var(--amber)}
+.ferr{font-size:12px;color:var(--danger);min-height:16px;margin-bottom:8px}
+</style>
+</head>
+<body>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<!-- ── AUTH ───────────────────────────────────────────────────────────────────── -->
+<div id="auth-screen">
+  <div class="auth-logo">YYC<span>Connect</span></div>
+  <p class="auth-tagline">Your guide to settling in Calgary</p>
+  <div class="auth-card">
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchAuthTab('signin')">Sign in</button>
+      <button class="auth-tab" onclick="switchAuthTab('signup')">Create account</button>
+    </div>
+
+    <!-- Sign in -->
+    <div id="signin-form">
+      <div class="auth-field"><label for="si-email">Email</label><input id="si-email" type="email" placeholder="you@example.com" autocomplete="email"></div>
+      <div class="auth-field"><label for="si-pass">Password</label><input id="si-pass" type="password" placeholder="Your password" autocomplete="current-password"></div>
+      <p class="auth-error" id="si-error" role="alert"></p>
+      <button class="auth-btn" id="si-btn">Sign in</button>
+      <div class="auth-divider">or</div>
+      <button class="google-btn" id="google-btn-si">
+        <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
+        Continue with Google
+      </button>
+    </div>
+
+    <!-- Sign up -->
+    <div id="signup-form" style="display:none">
+      <div class="auth-field"><label for="su-name">Full name</label><input id="su-name" type="text" placeholder="Your full name" autocomplete="name"></div>
+      <div class="auth-field"><label for="su-email">Email</label><input id="su-email" type="email" placeholder="you@example.com" autocomplete="email"></div>
+      <div class="auth-field"><label for="su-pass">Password</label><input id="su-pass" type="password" placeholder="At least 6 characters" autocomplete="new-password"></div>
+      <div class="auth-field"><label for="su-country">Country of origin</label>
+        <select id="su-country" style="width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-md);font-size:14px;font-family:Inter,sans-serif;color:var(--text);outline:none;background:#fff">
+          <option value="">Select your country...</option>
+        </select>
+      </div>
+      <div class="auth-field"><label for="su-immigration">Immigration type</label>
+        <select id="su-immigration" style="width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-md);font-size:14px;font-family:Inter,sans-serif;color:var(--text);outline:none;background:#fff">
+          <option value="">Select type...</option>
+          <option value="student">International Student</option>
+          <option value="worker">Temporary Foreign Worker</option>
+          <option value="pr">Permanent Resident (PR)</option>
+          <option value="visitor">Visitor / Tourist</option>
+          <option value="refugee">Refugee / Asylum Seeker</option>
+        </select>
+      </div>
+      <div class="auth-field"><label for="su-city">Dream city in Alberta</label>
+        <select id="su-city" style="width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-md);font-size:14px;font-family:Inter,sans-serif;color:var(--text);outline:none;background:#fff" onchange="document.getElementById('su-city-wrap').style.display=this.value==='other'?'block':'none'">
+          <option value="">Select a city...</option>
+        </select>
+      </div>
+      <div id="su-city-wrap" class="auth-field" style="display:none">
+        <label for="su-city-other">Specify city</label>
+        <input id="su-city-other" type="text" placeholder="Your city in Alberta">
+      </div>
+      <div class="auth-field">
+        <label>Profile photo</label>
+        <div style="border:1px dashed var(--border2);border-radius:var(--radius-md);padding:14px;text-align:center;cursor:pointer" onclick="document.getElementById('su-photo').click()">
+          <div id="su-photo-preview" style="display:none;margin-bottom:8px"><img id="su-photo-img" style="width:52px;height:52px;border-radius:50%;object-fit:cover;margin:0 auto"></div>
+          <svg id="su-photo-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.5" style="margin:0 auto 6px;display:block"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          <p id="su-photo-lbl" style="font-size:12px;color:var(--muted)">Tap to upload a photo</p>
+          <input id="su-photo" type="file" accept="image/*" style="display:none" onchange="onSignupPhotoChange(this)">
+        </div>
+      </div>
+      <div class="auth-field"><label>Or choose an avatar</label><div id="su-av-grid" class="av-grid"></div></div>
+      <p class="auth-error" id="su-error" role="alert"></p>
+      <button class="auth-btn" id="su-btn">Create account</button>
+      <div class="auth-divider">or</div>
+      <button class="google-btn" id="google-btn-su">
+        <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
+        Continue with Google
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── EDIT PROFILE MODAL ─────────────────────────────────────────────────────── -->
+<div id="edit-modal" class="modal-overlay">
+  <div class="modal-card">
+    <div class="modal-hdr">
+      <span class="modal-hdr-title">Edit profile</span>
+      <button class="modal-close-btn" onclick="window._closeModal()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="photo-row">
+        <div class="photo-thumb" id="ep-thumb"></div>
+        <div>
+          <button class="btn btn-outline" style="font-size:12px;padding:8px 14px" onclick="document.getElementById('ep-photo').click()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            Change photo
+          </button>
+          <input id="ep-photo" type="file" accept="image/*" style="display:none" onchange="onEditPhotoChange(this)">
+          <p style="font-size:11px;color:var(--muted);margin-top:6px">JPG or PNG, max 5MB</p>
+        </div>
+      </div>
+      <div class="mfield"><label>Choose avatar</label><div id="ep-av-grid" class="av-grid"></div></div>
+      <div class="mfield"><label for="ep-name">Full name</label><input id="ep-name" type="text"></div>
+      <div class="mfield"><label for="ep-country">Country of origin</label><select id="ep-country"><option value="">Select...</option></select></div>
+      <div class="mfield"><label for="ep-imm">Immigration type</label>
+        <select id="ep-imm">
+          <option value="">Select...</option>
+          <option value="student">International Student</option>
+          <option value="worker">Temporary Foreign Worker</option>
+          <option value="pr">Permanent Resident (PR)</option>
+          <option value="visitor">Visitor / Tourist</option>
+          <option value="refugee">Refugee / Asylum Seeker</option>
+        </select>
+      </div>
+      <div class="mfield"><label for="ep-city">Dream city in Alberta</label>
+        <select id="ep-city" onchange="document.getElementById('ep-city-wrap').style.display=this.value==='other'?'block':'none'">
+          <option value="">Select...</option>
+        </select>
+      </div>
+      <div id="ep-city-wrap" class="mfield" style="display:none"><label for="ep-city-other">Specify city</label><input id="ep-city-other" type="text"></div>
+      <div class="mfield"><label for="ep-budget">Monthly budget (e.g. 600-950)</label><input id="ep-budget" type="text" placeholder="600-950"></div>
+      <div class="mfield"><label for="ep-dietary">Dietary needs</label><input id="ep-dietary" type="text" placeholder="e.g. Vegetarian, Halal, None"></div>
+      <div class="mfield"><label for="ep-arrival">Arrival date</label><input id="ep-arrival" type="date"></div>
+      <p class="ferr" id="ep-err"></p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="window._closeModal()">Cancel</button>
+      <button class="btn btn-primary" id="ep-save">Save changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── PORCHLIGHT DRAWER ───────────────────────────────────────────────────────── -->
+<div id="porchlight-drawer">
+  <div class="drawer-header">
+    <div><div class="drawer-logo">Porch<span>light</span></div><div class="drawer-sub">porchlights.pages.dev</div></div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button class="drawer-open-link" onclick="window.open('https://porchlights.pages.dev','_blank')">Open full site</button>
+      <button class="drawer-close" onclick="window._closeDrawer()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+  </div>
+  <iframe id="porchlight-iframe" src="" title="Porchlight" loading="lazy"></iframe>
+  <div class="drawer-footer"><a href="https://porchlights.pages.dev" target="_blank">porchlights.pages.dev</a></div>
+</div>
+
+<!-- ── MAIN APP ────────────────────────────────────────────────────────────────── -->
+<div id="app">
+  <aside class="app-sidebar">
+    <div class="sidebar-brand"><div class="logo">YYC<span>Connect</span></div></div>
+    <nav class="sidebar-nav-links">
+      <button class="snav-tab active" onclick="window._nav('home')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</button>
+      <button class="snav-tab" onclick="window._nav('housing')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Housing</button>
+      <button class="snav-tab" onclick="window._nav('jobs')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>Jobs</button>
+      <button class="snav-tab" onclick="window._nav('events')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Events</button>
+      <button class="snav-tab" onclick="window._nav('resources')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Resources</button>
+      <button class="snav-tab" onclick="window._nav('profile')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</button>
+    </nav>
+    <div class="sidebar-footer">
+      <button id="sidebar-signout" style="display:flex;align-items:center;gap:8px;width:100%;padding:10px 12px;border-radius:10px;background:none;border:none;cursor:pointer;font-size:13px;color:rgba(255,255,255,0.4);font-family:Inter,sans-serif"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign out</button>
+    </div>
+  </aside>
+
+  <div class="app-main">
+    <header class="topbar app-topbar">
+      <div class="topbar-inner">
+        <div class="logo">YYC<span>Connect</span></div>
+        <div class="topbar-right" style="gap:16px">
+          <div class="weather-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 17.58A5 5 0 0018 8h-1.26A8 8 0 104 16.25"/><line x1="8" y1="16" x2="8.01" y2="16"/><line x1="8" y1="20" x2="8.01" y2="20"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>−3°C Calgary</div>
+          <button class="avatar" id="user-avatar" onclick="window._nav('profile')"></button>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-accent" aria-hidden="true"></div>
+      <p class="welcome-label">Welcome back</p>
+      <h1 class="welcome-name">Hello, <span id="hero-name">there</span></h1>
+      <div class="settle-card">
+        <div class="settle-ring">
+          <svg width="68" height="68" viewBox="0 0 68 68">
+            <circle cx="34" cy="34" r="26" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="6"/>
+            <circle cx="34" cy="34" r="26" fill="none" stroke="#F5A623" stroke-width="6" stroke-dasharray="163.4" stroke-dashoffset="163.4" stroke-linecap="round" id="settle-arc"/>
+          </svg>
+          <div class="settle-pct"><span id="settle-pct-n">0%</span><div class="l">settled</div></div>
+        </div>
+        <div class="settle-info">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
+            <div class="settle-title">Settlement progress</div>
+            <button id="settle-edit-btn" style="background:rgba(245,166,35,0.15);border:none;border-radius:20px;padding:4px 10px;font-size:10px;font-weight:600;color:var(--amber);cursor:pointer;font-family:Inter,sans-serif;flex-shrink:0" onclick="window._openSettleModal()">
+              Edit checklist
+            </button>
+          </div>
+          <p class="settle-sub" id="settle-sub">Loading your checklist...</p>
+          <div id="task-chips" class="task-chips"></div>
+        </div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-box"><div class="stat-val" id="s-movein">—</div><div class="stat-lbl">Days to move-in</div></div>
+        <div class="stat-box"><div class="stat-val" id="s-events">—</div><div class="stat-lbl">Events this week</div></div>
+        <div class="stat-box"><div class="stat-val" id="s-rent">$850</div><div class="stat-lbl">Avg rent nearby</div></div>
+      </div>
+    </section>
+
+    <nav class="snav">
+      <button class="snav-tab active" onclick="window._nav('home')">Home</button>
+      <button class="snav-tab" onclick="window._nav('housing')">Housing</button>
+      <button class="snav-tab" onclick="window._nav('jobs')">Jobs</button>
+      <button class="snav-tab" onclick="window._nav('events')">Events</button>
+      <button class="snav-tab" onclick="window._nav('resources')">Resources</button>
+      <button class="snav-tab" onclick="window._nav('profile')">Profile</button>
+    </nav>
+
+    <main>
+      <!-- HOME -->
+      <section id="sec-home" class="sec active">
+        <div class="alert"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><p><strong>Winter prep alert:</strong> First snowfall expected this week. Check Resources for the winter checklist.</p></div>
+        <div class="sec-title">Quick access</div>
+        <div class="quick-grid">
+          <div class="qcard qc-blue" onclick="window._nav('housing')" role="button" tabindex="0"><div class="qcard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="qcard-title">Housing</div><div class="qcard-sub">Powered by Porchlight</div></div>
+          <div class="qcard qc-green" onclick="window._nav('jobs')" role="button" tabindex="0"><div class="qcard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div><div class="qcard-title">Job Board</div><div class="qcard-sub" id="job-count-label">Loading...</div></div>
+          <div class="qcard qc-amber" onclick="window._nav('events')" role="button" tabindex="0"><div class="qcard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div class="qcard-title">Events</div><div class="qcard-sub" id="event-count-label">Loading...</div></div>
+          <div class="qcard qc-purple" onclick="window._nav('resources')" role="button" tabindex="0"><div class="qcard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><div class="qcard-title">Budget</div><div class="qcard-sub">Plan monthly costs</div></div>
+        </div>
+        <div class="sec-title">Featured listing <a onclick="window._nav('housing')">See all</a></div>
+        <div id="home-listing"><div class="skeleton" style="height:130px;border-radius:16px"></div><div class="skeleton" style="width:60%;margin-top:14px"></div><div class="skeleton" style="width:40%"></div></div>
+        <div class="sec-title" style="margin-top:8px">Upcoming events <a onclick="window._nav('events')">See all</a></div>
+        <div id="home-events"><div class="skeleton" style="height:72px;border-radius:12px"></div><div class="skeleton" style="height:72px;border-radius:12px;margin-top:12px"></div></div>
+      </section>
+
+      <!-- HOUSING -->
+      <section id="sec-housing" class="sec">
+        <div class="porchlight-embed-header">
+          <div>
+            <div class="porchlight-embed-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              Calgary listings via Porchlight
+            </div>
+            <div class="porchlight-embed-sub">Real listings · Live map · Apply directly on Porchlight</div>
+          </div>
+          <div style="display:flex;gap:8px;flex-shrink:0">
+            <button class="btn btn-outline" style="font-size:12px;padding:8px 12px" onclick="window.open('https://porchlights.pages.dev','_blank')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Open Porchlight
+            </button>
+          </div>
+        </div>
+        <div class="porchlight-embed-wrap">
+          <iframe
+            id="porchlight-embed-frame"
+            src="https://porchlights.pages.dev"
+            title="Porchlight — Calgary rental listings"
+            loading="lazy"
+            allow="fullscreen"
+          ></iframe>
+          <div class="porchlight-embed-overlay" id="porchlight-overlay">
+            <div class="porchlight-embed-cta">
+              <div style="font-family:'Sora',sans-serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:6px">Porch<span style="color:var(--amber)">light</span></div>
+              <p style="font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:20px">Real Calgary rentals with map, filters and instant apply</p>
+              <button class="btn btn-amber" onclick="loadPorchlightEmbed()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                Browse listings
+              </button>
+              <button class="btn btn-outline" style="margin-top:10px;width:100%;color:#fff;border-color:rgba(255,255,255,0.2)" onclick="window.open('https://porchlights.pages.dev','_blank')">
+                Open in new tab
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- JOBS -->
+      <section id="sec-jobs" class="sec">
+        <!-- AI search bar -->
+        <div class="ai-search-wrap">
+          <div class="search-wrap" style="margin-bottom:0;flex:1">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="search" id="job-search" placeholder="Search any role — e.g. UI designer, nurse, accountant..." onkeydown="if(event.key==='Enter'&&this.value.trim())window._jobAISearch(this.value.trim())">
+          </div>
+          <button class="ai-search-btn" onclick="(()=>{const v=document.getElementById('job-search').value.trim();if(v)window._jobAISearch(v)})()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            AI Search
+          </button>
+        </div>
+        <p style="font-size:11px;color:var(--muted);margin:-6px 0 14px;padding:0 2px">Press Enter or tap AI Search to find roles on Indeed, Glassdoor &amp; LinkedIn</p>
+
+        <!-- AI results -->
+        <div id="ai-job-results"></div>
+
+        <!-- Popular searches -->
+        <div class="sec-title" style="margin-top:4px">Popular searches in Calgary</div>
+        <div id="popular-jobs-grid" class="popular-jobs-grid"></div>
+      </section>
+
+      <!-- EVENTS -->
+      <section id="sec-events" class="sec">
+        <div class="filter-bar" id="event-filters">
+          <button class="fpill active" data-filter="all">All</button>
+          <button class="fpill" data-filter="campus">Campus</button>
+          <button class="fpill" data-filter="cultural">Cultural</button>
+          <button class="fpill" data-filter="tech">Tech</button>
+          <button class="fpill" data-filter="winter">Winter</button>
+          <button class="fpill" data-filter="free">Free</button>
+        </div>
+        <div class="sec-title">June 2026</div>
+        <div id="events-list"><div class="skeleton" style="height:72px;border-radius:12px;margin-bottom:12px"></div><div class="skeleton" style="height:72px;border-radius:12px"></div></div>
+      </section>
+
+      <!-- RESOURCES -->
+      <section id="sec-resources" class="sec">
+        <div class="alert"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><p><strong>−3°C today · Snow expected Thursday</strong></p></div>
+        <div class="sec-title">Budget calculator</div>
+        <div class="budget-card">
+          <div class="budget-row"><div class="budget-row-top"><label class="budget-label" for="br-rent"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Rent</label><span class="budget-val" id="bv-rent">$850</span></div><input type="range" id="br-rent" min="500" max="2000" step="50" value="850"></div>
+          <div class="budget-row"><div class="budget-row-top"><label class="budget-label" for="br-food"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>Food & groceries</label><span class="budget-val" id="bv-food">$250</span></div><input type="range" id="br-food" min="100" max="600" step="10" value="250"></div>
+          <div class="budget-row"><div class="budget-row-top"><label class="budget-label" for="br-transit"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>Transit</label><span class="budget-val" id="bv-transit">$110</span></div><input type="range" id="br-transit" min="0" max="120" step="5" value="110"></div>
+          <div class="budget-row"><div class="budget-row-top"><label class="budget-label" for="br-winter"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H5v10a2 2 0 002 2h10a2 2 0 002-2V10h1.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>Winter gear</label><span class="budget-val" id="bv-winter">$150</span></div><input type="range" id="br-winter" min="0" max="500" step="25" value="150"></div>
+          <div class="budget-row"><div class="budget-row-top"><label class="budget-label" for="br-misc"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>Phone & misc</label><span class="budget-val" id="bv-misc">$80</span></div><input type="range" id="br-misc" min="50" max="300" step="10" value="80"></div>
+          <div class="budget-total"><div class="budget-total-lbl">Estimated monthly total</div><div class="budget-total-val" id="budget-total">$1,440</div><div class="budget-total-sub">Canadian dollars (CAD)</div></div>
+        </div>
+        <div class="sec-title">Resource hub</div>
+        <div class="rcard"><div class="rcard-header"><div class="rcard-icon" style="background:#EFF6FF"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="rcard-title">Immigration & study tips</div></div><p class="rcard-sub">Study permit, PGWP, spousal open work permit, GIC setup</p></div>
+        <div class="rcard"><div class="rcard-header"><div class="rcard-icon" style="background:#ECFDF5"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#065F46" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div><div class="rcard-title">Local services directory</div></div><p class="rcard-sub">CTrain routes, walk-in clinics, banks, grocery stores near BVC</p></div>
+        <div class="rcard"><div class="rcard-header"><div class="rcard-icon" style="background:#F0F9FF"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0369A1" stroke-width="2"><path d="M20 17.58A5 5 0 0018 8h-1.26A8 8 0 104 16.25"/></svg></div><div class="rcard-title">Winter survival checklist</div></div><p class="rcard-sub">Prepare for −30°C: gear, black ice, transit tips</p></div>
+        <div class="rcard"><div class="rcard-header"><div class="rcard-icon" style="background:#FFF7ED"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9A3412" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div><div class="rcard-title">Banking & GIC setup</div></div><p class="rcard-sub">Open a Canadian bank account, set up your GIC, student credit cards</p></div>
+      </section>
+
+      <!-- PROFILE -->
+      <section id="sec-profile" class="sec">
+        <div class="profile-hdr">
+          <div class="profile-av" id="profile-initials"></div>
+          <div>
+            <div class="profile-name" id="profile-name">Loading...</div>
+            <div class="profile-email" id="profile-email"></div>
+            <span class="profile-badge" id="profile-badge">Member</span>
+          </div>
+        </div>
+        <div class="pref-card">
+          <div class="pref-lbl">My profile</div>
+          <div class="pref-row"><span>Country</span><span class="pref-row-val" id="pref-country">—</span></div>
+          <div class="pref-row"><span>Immigration type</span><span class="pref-row-val" id="pref-immigration">—</span></div>
+          <div class="pref-row"><span>Dream city</span><span class="pref-row-val" id="pref-city">—</span></div>
+          <div class="pref-row"><span>Monthly budget</span><span class="pref-row-val" id="pref-budget">—</span></div>
+          <div class="pref-row"><span>Dietary needs</span><span class="pref-row-val" id="pref-dietary">—</span></div>
+          <div class="pref-row"><span>Arrival date</span><span class="pref-row-val" id="pref-arrival">—</span></div>
+        </div>
+        <div class="pref-card">
+          <div class="pref-lbl">App settings</div>
+          <div class="pref-row"><span>Push notifications</span><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+          <div class="pref-row"><span>Event reminders</span><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+          <div class="pref-row"><span>Language</span><span class="pref-row-val">English</span></div>
+        </div>
+        <button class="btn btn-primary btn-block" id="edit-profile-btn" style="margin-bottom:10px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Edit profile
+        </button>
+        <button class="btn btn-danger btn-block" id="signout-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sign out
+        </button>
+      </section>
+    </main>
+
+    <nav class="bnav">
+      <button class="bnav-item active" id="bn-home" onclick="window._nav('home')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span class="bnav-lbl">Home</span></button>
+      <button class="bnav-item" id="bn-housing" onclick="window._nav('housing')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span class="bnav-lbl">Housing</span></button>
+      <button class="bnav-item" id="bn-jobs" onclick="window._nav('jobs')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg><span class="bnav-lbl">Jobs</span></button>
+      <button class="bnav-item" id="bn-events" onclick="window._nav('events')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="bnav-lbl">Events</span></button>
+      <button class="bnav-item" id="bn-resources" onclick="window._nav('resources')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span class="bnav-lbl">Resources</span></button>
+    </nav>
+  </div>
+</div>
+
+<!-- ── SETTLEMENT CHECKLIST MODAL ────────────────────────────────────────────── -->
+<div id="settle-modal">
+  <div class="settle-sheet">
+    <div class="settle-sheet-hdr">
+      <span class="settle-sheet-title">My settlement checklist</span>
+      <button class="settle-sheet-close" onclick="window._closeSettleModal()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="settle-sheet-progress">
+      <div class="settle-sheet-ring">
+        <svg width="56" height="56" viewBox="0 0 56 56">
+          <circle cx="28" cy="28" r="22" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="5"/>
+          <circle cx="28" cy="28" r="22" fill="none" stroke="#F5A623" stroke-width="5" stroke-dasharray="138.2" stroke-dashoffset="138.2" stroke-linecap="round" id="modal-settle-arc"/>
+        </svg>
+        <div class="settle-sheet-pct" id="modal-settle-pct">0%</div>
+      </div>
+      <div class="settle-sheet-stats">
+        <div class="settle-sheet-stat-title" id="modal-settle-title">Getting started</div>
+        <div class="settle-sheet-stat-sub" id="modal-settle-sub">Tick tasks as you complete them</div>
+      </div>
+    </div>
+    <div class="settle-task-list" id="settle-task-list">
+      <!-- Tasks rendered by settlement.js -->
+    </div>
+    <div class="settle-sheet-footer">
+      <p>Your progress is saved automatically</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── ALL IMPORTS AT TOP — NO MID-SCRIPT IMPORTS ────────────────────────────── -->
+<script type="module">
+// ── All imports first — this is mandatory for ES modules ──────────────────────
+import { auth, db }                                                    from './js/firebase.js';
+import { signIn, signUp, signInGoogle, signOut,
+         AVATARS, COUNTRIES, ALBERTA_CITIES, uploadToCloudinary }      from './js/auth.js';
+import { showSec, setBottomNav, switchAuthTab, toast, initToggles }    from './js/ui.js';
+import { seedIfEmpty, startListeners }                                  from './js/data.js';
+import { loadUserProfile, getCachedSettlement }                          from './js/profile.js';
+import { initSettlementChips, openSettleModal, closeSettleModal }       from './js/settlement.js';
+import { initFilters }                                                  from './js/filters.js';
+import { initBudget }                                                   from './js/budget.js';
+// map.js not used — Porchlight iframe handles map
+import { onAuthStateChanged }                                           from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import { doc, getDoc, updateDoc, setDoc, serverTimestamp }              from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import { updateProfile }                                                from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import { runJobAISearch, renderPopularJobs }                             from './js/jobs-ai.js';
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let currentUid  = null;
+let drawerLoaded= false;
+let epNewPhoto  = null;
+let epSelAvatar = null;
+
+// ── Expose globals needed by inline onclick handlers ──────────────────────────
+window._toast         = toast;
+window.switchAuthTab  = switchAuthTab;
+
+// ── AI job search globals ─────────────────────────────────────────────────────
+window._jobAISearch = async (query) => {
+  document.getElementById('job-search').value = query;
+  await runJobAISearch(query);
+};
+window._clearJobAI = () => {
+  const el = document.getElementById('ai-job-results');
+  if (el) { el.innerHTML = ''; el.style.display = 'none'; }
+  document.getElementById('job-search').value = '';
+};
+window._openSettleModal  = () => {
+  const { tasks, completed, uid } = getCachedSettlement();
+  openSettleModal(tasks, completed, uid);
+};
+window._closeSettleModal = closeSettleModal;
+
+// ── Navigation ────────────────────────────────────────────────────────────────
+const SECTIONS = ['home','housing','jobs','events','resources','profile'];
+window._nav = (id) => {
+  showSec(id);
+  document.querySelectorAll('.app-sidebar .snav-tab').forEach((t,i) =>
+    t.classList.toggle('active', SECTIONS[i] === id));
+  const bnMap = {home:'bn-home',housing:'bn-housing',jobs:'bn-jobs',events:'bn-events',resources:'bn-resources'};
+  if (bnMap[id]) setBottomNav(bnMap[id]);
+  if (id === 'housing') {
+    // Porchlight iframe loads on first "Browse listings" click
+    // Nothing to do here
+  }
+};
+
+// ── Map — update markers whenever listings are rendered ───────────────────────
+
+
+// ── Porchlight drawer ─────────────────────────────────────────────────────────
+window._openDrawer = () => {
+  if (!drawerLoaded) { document.getElementById('porchlight-iframe').src = 'https://porchlights.pages.dev'; drawerLoaded = true; }
+  document.getElementById('porchlight-drawer').classList.add('open');
+  document.body.style.overflow = 'hidden';
+};
+window._closeDrawer = () => {
+  document.getElementById('porchlight-drawer').classList.remove('open');
+  document.body.style.overflow = '';
+};
+
+// ── Load Porchlight embed (triggered by "Browse listings" button) ─────────────
+window.loadPorchlightEmbed = () => {
+  const overlay = document.getElementById('porchlight-overlay');
+  if (overlay) overlay.classList.add('hidden');
+  // iframe src is already set — just show it
+};
+
+// ── Edit profile modal ────────────────────────────────────────────────────────
+window._closeModal = () => {
+  document.getElementById('edit-modal').classList.remove('open');
+  epNewPhoto = null;
+};
+
+// Close modal on backdrop click
+document.getElementById('edit-modal').addEventListener('click', e => {
+  if (e.target.id === 'edit-modal') window._closeModal();
+});
+
+// Escape key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { window._closeModal(); window._closeDrawer(); closeSettleModal(); }
+});
+
+// ── Avatar grid builder ───────────────────────────────────────────────────────
+function buildAvatarGrid(containerId, onPick) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  el.innerHTML = '';
+  AVATARS.forEach(av => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'av-btn';
+    btn.dataset.id = av.id;
+    btn.style.background = av.bg;
+    btn.innerHTML = `<svg viewBox="0 0 100 100" width="40" height="40">${av.svg}</svg>`;
+    btn.addEventListener('click', () => {
+      el.querySelectorAll('.av-btn').forEach(b => { b.classList.remove('selected'); b.style.borderColor='transparent'; });
+      btn.classList.add('selected'); btn.style.borderColor='var(--amber)';
+      onPick(av);
+    });
+    el.appendChild(btn);
+  });
+}
+
+// ── Populate dropdowns ────────────────────────────────────────────────────────
+function populateSelect(id, options) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  options.forEach(o => {
+    const opt = document.createElement('option');
+    opt.value = typeof o === 'string' ? o : o.name;
+    opt.textContent = typeof o === 'string'
+      ? (o === 'other' ? 'Somewhere else in Alberta...' : o)
+      : `${o.flag} ${o.name}`;
+    el.appendChild(opt);
+  });
+}
+populateSelect('su-country',  COUNTRIES);
+populateSelect('su-city',     ALBERTA_CITIES);
+populateSelect('ep-country',  COUNTRIES);
+populateSelect('ep-city',     ALBERTA_CITIES);
+
+// ── Avatar grids ──────────────────────────────────────────────────────────────
+buildAvatarGrid('su-av-grid', () => {
+  document.getElementById('su-photo-preview').style.display = 'none';
+  document.getElementById('su-photo-icon').style.display    = 'block';
+  document.getElementById('su-photo-lbl').textContent       = 'Tap to upload a photo';
+  document.getElementById('su-photo').value = '';
+});
+
+buildAvatarGrid('ep-av-grid', (av) => {
+  epSelAvatar = av.id;
+  epNewPhoto  = null;
+  document.getElementById('ep-photo').value = '';
+  const thumb = document.getElementById('ep-thumb');
+  thumb.style.cssText = `background:${av.bg};background-image:none`;
+  thumb.innerHTML = `<svg viewBox="0 0 100 100" width="56" height="56">${av.svg}</svg>`;
+});
+
+// ── Photo preview handlers (called from inline onchange) ──────────────────────
+window.onSignupPhotoChange = (input) => {
+  if (!input.files?.[0]) return;
+  document.getElementById('su-av-grid').querySelectorAll('.av-btn').forEach(b => b.classList.remove('selected'));
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('su-photo-img').src = e.target.result;
+    document.getElementById('su-photo-preview').style.display = 'block';
+    document.getElementById('su-photo-icon').style.display    = 'none';
+    document.getElementById('su-photo-lbl').textContent       = input.files[0].name;
+  };
+  reader.readAsDataURL(input.files[0]);
+};
+
+window.onEditPhotoChange = (input) => {
+  if (!input.files?.[0]) return;
+  epNewPhoto = input.files[0];
+  epSelAvatar = null;
+  document.getElementById('ep-av-grid').querySelectorAll('.av-btn').forEach(b => b.classList.remove('selected'));
+  const reader = new FileReader();
+  reader.onload = e => {
+    const thumb = document.getElementById('ep-thumb');
+    thumb.style.cssText = 'background:transparent;background-image:none';
+    thumb.innerHTML = `<img src="${e.target.result}" style="width:56px;height:56px;object-fit:cover;border-radius:50%">`;
+  };
+  reader.readAsDataURL(epNewPhoto);
+};
+
+// ── Open edit profile ─────────────────────────────────────────────────────────
+async function openEditProfile() {
+  if (!currentUid) return;
+  const snap = await getDoc(doc(db, 'users', currentUid));
+  const d    = snap.data() || {};
+
+  document.getElementById('ep-name').value    = d.name             || '';
+  document.getElementById('ep-country').value = d.country          || '';
+  document.getElementById('ep-imm').value     = d.immigrationType  || '';
+  document.getElementById('ep-budget').value  = d.budget           || '';
+  document.getElementById('ep-dietary').value = d.dietary          || '';
+  document.getElementById('ep-arrival').value = d.arrivalDate      || '';
+  document.getElementById('ep-err').textContent = '';
+  epNewPhoto = null; epSelAvatar = null;
+
+  // City
+  const cityInList = ALBERTA_CITIES.includes(d.dreamCity);
+  const cityVal    = cityInList ? d.dreamCity : (d.dreamCity ? 'other' : '');
+  document.getElementById('ep-city').value = cityVal;
+  document.getElementById('ep-city-wrap').style.display = cityVal === 'other' ? 'block' : 'none';
+  if (cityVal === 'other') document.getElementById('ep-city-other').value = d.dreamCity || '';
+
+  // Pre-select avatar
+  epSelAvatar = d.avatarId || null;
+  document.getElementById('ep-av-grid').querySelectorAll('.av-btn').forEach(b => {
+    const sel = b.dataset.id === epSelAvatar;
+    b.classList.toggle('selected', sel);
+    b.style.borderColor = sel ? 'var(--amber)' : 'transparent';
+  });
+
+  // Thumb
+  const thumb = document.getElementById('ep-thumb');
+  if (d.photoURL) {
+    thumb.style.cssText = `background-image:url(${d.photoURL});background-size:cover;background-position:center;background-color:transparent`;
+    thumb.innerHTML = '';
+  } else if (d.avatarId) {
+    const av = AVATARS.find(a => a.id === d.avatarId);
+    if (av) { thumb.style.cssText=`background:${av.bg};background-image:none`; thumb.innerHTML=`<svg viewBox="0 0 100 100" width="56" height="56">${av.svg}</svg>`; }
+  } else {
+    thumb.style.cssText = 'background:var(--amber);background-image:none';
+    thumb.innerHTML = (d.name || '?')[0].toUpperCase();
+  }
+
+  document.getElementById('edit-modal').classList.add('open');
+}
+
+// ── Save profile ──────────────────────────────────────────────────────────────
+async function saveProfile() {
+  const btn = document.getElementById('ep-save');
+  btn.textContent = 'Saving...'; btn.disabled = true;
+  document.getElementById('ep-err').textContent = '';
+  try {
+    const name    = document.getElementById('ep-name').value.trim();
+    const country = document.getElementById('ep-country').value;
+    const immType = document.getElementById('ep-imm').value;
+    const cityVal = document.getElementById('ep-city').value;
+    const budget  = document.getElementById('ep-budget').value.trim();
+    const dietary = document.getElementById('ep-dietary').value.trim();
+    const arrival = document.getElementById('ep-arrival').value;
+    const finalCity = cityVal === 'other'
+      ? (document.getElementById('ep-city-other').value.trim() || '')
+      : cityVal;
+    const co = COUNTRIES.find(c => c.name === country) || { name: country, flag: '🌍' };
+
+    let photoURL = null;
+    if (epNewPhoto) {
+      toast('Uploading photo...');
+      photoURL = await uploadToCloudinary(epNewPhoto);
+    }
+
+    const update = {
+      name, country: co.name, countryFlag: co.flag,
+      immigrationType: immType, dreamCity: finalCity,
+      budget, dietary, arrivalDate: arrival,
+      updatedAt: serverTimestamp(),
+    };
+    if (photoURL !== null)   { update.photoURL = photoURL; update.avatarId = ''; }
+    else if (epSelAvatar)    { update.avatarId = epSelAvatar; update.photoURL = ''; }
+
+    await updateDoc(doc(db, 'users', currentUid), update);
+    if (name && auth.currentUser) await updateProfile(auth.currentUser, { displayName: name });
+    window._closeModal();
+    toast('Profile updated');
+  } catch(e) {
+    console.error(e);
+    document.getElementById('ep-err').textContent = 'Failed to save. Please try again.';
+  } finally {
+    btn.textContent = 'Save changes'; btn.disabled = false;
+  }
+}
+
+// ── Auth button listeners ─────────────────────────────────────────────────────
+document.getElementById('si-btn').addEventListener('click', signIn);
+document.getElementById('su-btn').addEventListener('click', signUp);
+document.getElementById('google-btn-si').addEventListener('click', signInGoogle);
+document.getElementById('google-btn-su').addEventListener('click', signInGoogle);
+document.getElementById('signout-btn').addEventListener('click', signOut);
+document.getElementById('sidebar-signout').addEventListener('click', signOut);
+document.getElementById('edit-profile-btn').addEventListener('click', openEditProfile);
+document.getElementById('ep-save').addEventListener('click', saveProfile);
+
+['si-pass', 'su-pass'].forEach(id => {
+  document.getElementById(id)?.addEventListener('keydown', e => {
+    if (e.key === 'Enter') id === 'si-pass' ? signIn() : signUp();
+  });
+});
+
+// ── Auth state observer ───────────────────────────────────────────────────────
+onAuthStateChanged(auth, async (user) => {
+  const authScreen = document.getElementById('auth-screen');
+  const appEl      = document.getElementById('app');
+
+  if (user) {
+    currentUid = user.uid;
+    authScreen.classList.add('hidden');
+    appEl.style.display = 'block';
+
+    // Ensure role + status exist for users who signed up before these fields
+    const existingSnap = await getDoc(doc(db, 'users', user.uid));
+    const existing = existingSnap.data() || {};
+    await setDoc(doc(db, 'users', user.uid), {
+      lastSeen: serverTimestamp(),
+      role:     existing.role   || 'member',
+      status:   existing.status || 'active',
+    }, { merge: true });
+
+    await seedIfEmpty();
+    startListeners();
+    loadUserProfile(user.uid);
+    renderPopularJobs();
+
+  } else {
+    currentUid = null;
+    authScreen.classList.remove('hidden');
+    appEl.style.display = 'none';
+  }
+});
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+initFilters();
+initBudget();
+initToggles();
+initSettlementChips();
+</script>
+
+<script>
+// Non-module helpers for inline onchange attributes
+window.onSignupPhotoChange = window.onSignupPhotoChange || function(){};
+window.onEditPhotoChange   = window.onEditPhotoChange   || function(){};
+</script>
+</body>
+</html>
