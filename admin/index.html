@@ -9,29 +9,35 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/admin.css">
 <style>
-.panel { display:none } .panel.active { display:block }
-.settle-task-row { display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border) }
-.settle-task-row:last-child { border-bottom:none }
-.admin-modal { position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.2s }
-.admin-modal.open { opacity:1;pointer-events:all }
-.admin-modal-card { background:#fff;border-radius:16px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;transform:translateY(12px);transition:transform 0.2s }
-.admin-modal.open .admin-modal-card { transform:translateY(0) }
-.admin-modal-hdr { padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff }
-.admin-modal-hdr h3 { font-family:'Sora',sans-serif;font-size:15px;font-weight:600 }
-.admin-modal-body { padding:18px 20px }
-.admin-modal-ftr  { padding:14px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;position:sticky;bottom:0;background:#fff }
-.afield { margin-bottom:13px }
-.afield label { display:block;font-size:11px;font-weight:600;color:var(--subtext);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:5px }
-.afield input,.afield select,.afield textarea { width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;color:var(--text);outline:none;background:#fff;transition:border-color 0.2s }
-.afield input:focus,.afield select:focus,.afield textarea:focus { border-color:var(--amber) }
-.afield-row { display:grid;grid-template-columns:1fr 1fr;gap:10px }
-.acheck { display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;margin-bottom:8px }
-.acheck input { width:16px;height:16px;accent-color:var(--amber) }
-.section-actions { display:flex;gap:8px;align-items:center }
-.add-btn { display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--amber);color:var(--navy);border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif }
-.close-btn { background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;border-radius:8px }
-.settings-card { background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:16px }
-.settings-card h4 { font-family:'Sora',sans-serif;font-size:13px;font-weight:600;margin-bottom:14px }
+.panel{display:none}.panel.active{display:block}
+.settle-task-row{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)}
+.settle-task-row:last-child{border-bottom:none}
+.admin-modal{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.2s}
+.admin-modal.open{opacity:1;pointer-events:all}
+.admin-modal-card{background:#fff;border-radius:16px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;transform:translateY(12px);transition:transform 0.2s}
+.admin-modal.open .admin-modal-card{transform:translateY(0)}
+.admin-modal-hdr{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff}
+.admin-modal-hdr h3{font-family:'Sora',sans-serif;font-size:15px;font-weight:600}
+.admin-modal-body{padding:18px 20px}
+.admin-modal-ftr{padding:14px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;position:sticky;bottom:0;background:#fff}
+.afield{margin-bottom:13px}
+.afield label{display:block;font-size:11px;font-weight:600;color:var(--subtext);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:5px}
+.afield input,.afield select,.afield textarea{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;color:var(--text);outline:none;background:#fff;transition:border-color 0.2s}
+.afield input:focus,.afield select:focus,.afield textarea:focus{border-color:var(--amber)}
+.afield-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.acheck{display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;margin-bottom:8px}
+.acheck input{width:16px;height:16px;accent-color:var(--amber)}
+.section-actions{display:flex;gap:8px;align-items:center}
+.add-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--amber);color:var(--navy);border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif}
+.close-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;border-radius:8px}
+.settings-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:16px}
+.settings-card h4{font-family:'Sora',sans-serif;font-size:13px;font-weight:600;margin-bottom:14px}
+.pref-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px}
+.pref-row:last-child{border-bottom:none}
+.toggle{width:40px;height:22px;background:var(--border);border-radius:20px;cursor:pointer;position:relative;transition:background 0.2s;border:none;flex-shrink:0}
+.toggle.on{background:var(--amber)}
+.toggle::after{content:'';position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;top:3px;left:3px;transition:left 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.2)}
+.toggle.on::after{left:21px}
 </style>
 </head>
 <body>
@@ -64,8 +70,10 @@
         <button class="sidebar-link" onclick="showPanel('jobs')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>Jobs</button>
         <button class="sidebar-link" onclick="showPanel('events')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Events</button>
         <div class="sidebar-section-label">App Settings</div>
+        <button class="sidebar-link" onclick="showPanel('ui-controls')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="4" height="4"/><rect x="10" y="3" width="4" height="4"/><rect x="17" y="3" width="4" height="4"/><rect x="3" y="10" width="4" height="4"/><rect x="10" y="10" width="4" height="4"/><rect x="17" y="10" width="4" height="4"/></svg>UI Controls</button>
         <button class="sidebar-link" onclick="showPanel('settlement')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Settlement</button>
         <button class="sidebar-link" onclick="showPanel('dashboard')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</button>
+        <button class="sidebar-link" onclick="showPanel('banned-emails')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Banned Emails</button>
       </nav>
       <div class="sidebar-footer">
         <div class="sidebar-user">
@@ -86,7 +94,7 @@
           </div>
         </div>
         <div class="admin-topbar-right">
-          <div class="topbar-search"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="search" id="admin-search" placeholder="Search..." oninput="window._setSearch(this.value)"></div>
+          <div class="topbar-search"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="search" id="admin-search" placeholder="Search users..." oninput="window._setSearch(this.value)"></div>
         </div>
       </header>
 
@@ -120,40 +128,57 @@
 
         <!-- LISTINGS -->
         <div id="panel-listings" class="admin-section panel">
-          <div class="admin-section-header">
-            <span class="admin-section-title">Listings</span>
-            <button class="add-btn" onclick="openListingModal('')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add listing</button>
-          </div>
+          <div class="admin-section-header"><span class="admin-section-title">Listings</span><button class="add-btn" onclick="openListingModal('')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add listing</button></div>
           <div class="table-wrap"><table><thead><tr><th>Title</th><th>Neighbourhood</th><th>Price</th><th>Status</th><th>Tags</th><th>Actions</th></tr></thead><tbody id="listings-tbody"><tr><td colspan="6" class="empty-row">Loading...</td></tr></tbody></table></div>
         </div>
 
         <!-- JOBS -->
         <div id="panel-jobs" class="admin-section panel">
-          <div class="admin-section-header">
-            <span class="admin-section-title">Jobs</span>
-            <button class="add-btn" onclick="openJobModal('')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add job</button>
-          </div>
+          <div class="admin-section-header"><span class="admin-section-title">Jobs</span><button class="add-btn" onclick="openJobModal('')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add job</button></div>
           <div class="table-wrap"><table><thead><tr><th>Title</th><th>Company</th><th>Salary</th><th>Type</th><th>Actions</th></tr></thead><tbody id="jobs-tbody"><tr><td colspan="5" class="empty-row">Loading...</td></tr></tbody></table></div>
         </div>
 
         <!-- EVENTS -->
         <div id="panel-events" class="admin-section panel">
-          <div class="admin-section-header">
-            <span class="admin-section-title">Events</span>
-            <button class="add-btn" onclick="openEventModal('')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add event</button>
-          </div>
+          <div class="admin-section-header"><span class="admin-section-title">Events</span><button class="add-btn" onclick="openEventModal('')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add event</button></div>
           <div class="table-wrap"><table><thead><tr><th>Title</th><th>Date</th><th>Venue</th><th>Category</th><th>Actions</th></tr></thead><tbody id="events-tbody"><tr><td colspan="5" class="empty-row">Loading...</td></tr></tbody></table></div>
+        </div>
+
+        <!-- UI CONTROLS -->
+        <div id="panel-ui-controls" class="admin-section panel">
+          <div class="admin-section-header"><span class="admin-section-title">UI Controls</span></div>
+          <div style="padding:16px 20px">
+            <p style="font-size:13px;color:var(--subtext);margin-bottom:20px;line-height:1.6">Control what users see on their dashboard. Changes apply instantly for all users.</p>
+            <div class="settings-card">
+              <h4>Home page sections</h4>
+              <div class="pref-row"><span>Featured listing</span><button class="toggle on" id="toggle-featured-listing" onclick="window._toggleUI('showFeaturedListing',this)"></button></div>
+              <div class="pref-row"><span>Upcoming events</span><button class="toggle on" id="toggle-upcoming-events" onclick="window._toggleUI('showUpcomingEvents',this)"></button></div>
+            </div>
+            <div class="settings-card">
+              <h4>Quick access cards</h4>
+              <div class="pref-row"><span>Housing card</span><button class="toggle on" id="toggle-qa-housing" onclick="window._toggleUI('qa-housing',this)"></button></div>
+              <div class="pref-row"><span>Job Board card</span><button class="toggle on" id="toggle-qa-jobs" onclick="window._toggleUI('qa-jobs',this)"></button></div>
+              <div class="pref-row"><span>Events card</span><button class="toggle on" id="toggle-qa-events" onclick="window._toggleUI('qa-events',this)"></button></div>
+              <div class="pref-row"><span>Budget card</span><button class="toggle on" id="toggle-qa-budget" onclick="window._toggleUI('qa-budget',this)"></button></div>
+            </div>
+            <div class="settings-card">
+              <h4>Custom alert banner</h4>
+              <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Override the weather alert with a custom message. Leave empty to use automatic weather alerts.</p>
+              <div class="afield"><label>Alert text</label><input id="ui-alert-text" type="text" placeholder="e.g. Welcome to YYC Connect! Fill your profile to get started."></div>
+              <button class="admin-signin-btn" style="padding:10px" onclick="window._saveUIAlert()">Save alert</button>
+            </div>
+          </div>
         </div>
 
         <!-- SETTLEMENT -->
         <div id="panel-settlement" class="admin-section panel">
           <div class="admin-section-header"><span class="admin-section-title">Settlement checklist</span></div>
           <div style="padding:16px 20px">
-            <p style="font-size:13px;color:var(--subtext);margin-bottom:16px;line-height:1.6">These tasks appear on every user's settlement progress ring. Users can tick them off themselves. Add, remove, or rename tasks here.</p>
+            <p style="font-size:13px;color:var(--subtext);margin-bottom:16px;line-height:1.6">These tasks appear on every user's settlement progress ring. Add, rename or remove tasks here.</p>
             <div id="settle-tasks-list" style="margin-bottom:16px"></div>
             <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
               <div style="display:flex;gap:8px">
-                <input id="new-task-input" type="text" placeholder="e.g. Get health card, Buy winter jacket..." style="flex:1;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;outline:none;transition:border-color 0.2s" onkeydown="if(event.key==='Enter')window._addTask()">
+                <input id="new-task-input" type="text" placeholder="e.g. Get health card, Buy winter jacket..." style="flex:1;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;outline:none" onkeydown="if(event.key==='Enter')window._addTask()">
                 <button class="add-btn" id="add-task-btn" onclick="window._addTask()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add task</button>
               </div>
               <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;color:var(--subtext)">
@@ -169,20 +194,35 @@
         <div id="panel-dashboard" class="admin-section panel">
           <div class="admin-section-header"><span class="admin-section-title">Dashboard settings</span></div>
           <div style="padding:16px 20px">
-            <div class="settings-card">
-              <h4>Hero stats</h4>
-              <div class="afield"><label>Days to move-in (shown in stat box)</label><input id="dash-movein" type="number" placeholder="12"></div>
-              <div class="afield"><label>Average rent nearby</label><input id="dash-rent" type="text" placeholder="$850"></div>
+            <div class="settings-card"><h4>Hero stats</h4>
+              <div class="afield"><label>Days to move-in (fallback if user has no arrival date)</label><input id="dash-movein" type="number" placeholder="12"></div>
             </div>
             <div class="settings-card">
-              <h4>Alert banner</h4>
-              <div class="afield"><label>Alert message (shown on Home and Resources)</label><textarea id="dash-alert" rows="2" style="resize:vertical" placeholder="First snowfall expected..."></textarea></div>
+              <h4>Calgary rent averages <span style="font-size:11px;font-weight:400;color:var(--muted)">(source: Zumper — update monthly)</span></h4>
+              <div class="afield-row">
+                <div class="afield"><label>Studio avg/mo</label><input id="dash-rent-studio" type="text" placeholder="$1,399"></div>
+                <div class="afield"><label>1-Bedroom avg/mo</label><input id="dash-rent-1br" type="text" placeholder="$1,599"></div>
+              </div>
+              <div class="afield-row">
+                <div class="afield"><label>2-Bedroom avg/mo</label><input id="dash-rent-2br" type="text" placeholder="$1,910"></div>
+                <div class="afield"><label>House avg/mo</label><input id="dash-rent-house" type="text" placeholder="$2,110"></div>
+              </div>
+              <p style="font-size:11px;color:var(--muted)">Check <a href="https://www.zumper.com/rent-research/calgary-ab" target="_blank" style="color:var(--amber)">Zumper Calgary</a> for latest figures.</p>
             </div>
-            <div class="settings-card">
-              <h4>Weather pill</h4>
+            <div class="settings-card"><h4>Weather pill</h4>
               <div class="afield"><label>Weather display text</label><input id="dash-weather" type="text" placeholder="−3°C Calgary"></div>
             </div>
             <button class="admin-signin-btn" style="padding:11px" onclick="window._saveDashboard()">Save settings</button>
+          </div>
+        </div>
+
+        <div id="panel-banned-emails" class="admin-section panel">
+          <div class="admin-section-header"><span class="admin-section-title">Banned emails</span></div>
+          <div style="padding:16px 20px">
+            <p style="font-size:12.5px;color:var(--subtext);line-height:1.6;margin-bottom:16px">
+              Emails listed here are permanently blocked from signing in or creating new accounts. Active sessions are force-signed-out within ~60 seconds of being added.
+            </p>
+            <div id="banned-emails-list"></div>
           </div>
         </div>
       </div>
@@ -196,14 +236,14 @@
     <div class="admin-modal-hdr" style="background:var(--navy)">
       <div style="display:flex;align-items:center;gap:12px">
         <div id="modal-avatar"></div>
-        <div><div class="modal-name" id="modal-name" style="font-family:'Sora',sans-serif;font-size:15px;font-weight:600;color:#fff"></div><div id="modal-email" style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:2px"></div></div>
+        <div><div id="modal-name" style="font-family:'Sora',sans-serif;font-size:15px;font-weight:600;color:#fff"></div><div id="modal-email" style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:2px"></div></div>
       </div>
       <button class="close-btn" style="color:#fff" onclick="closeModal()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>
     <div class="admin-modal-body">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
         <div><div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px">Country</div><div id="modal-country" style="font-size:13px;font-weight:500"></div></div>
-        <div><div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px">Immigration</div><div id="modal-immtype" style="font-size:13px"></div></div>
+        <div><div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px">Immigration</div><div id="modal-immtype"></div></div>
         <div><div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px">Dream city</div><div id="modal-city" style="font-size:13px;font-weight:500"></div></div>
         <div><div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px">Status</div><div id="modal-status"></div></div>
         <div><div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px">Role</div><div id="modal-role"></div></div>
@@ -214,95 +254,96 @@
         <button class="modal-btn" id="modal-restrict-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>Restrict</button>
         <button class="modal-btn primary" id="modal-role-btn">Promote to admin</button>
       </div>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+        <button class="modal-btn danger" id="modal-banemail-btn" style="width:100%;background:#FFF7ED;border-color:#FDBA74;color:#9A3412">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          Lock out this email
+        </button>
+        <p style="font-size:10.5px;color:var(--muted);margin-top:6px;text-align:center">Forces sign-out and blocks all future sign-in/sign-up with this email.</p>
+      </div>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+        <button class="modal-btn danger" id="modal-delete-btn" style="width:100%;background:#FEF2F2;border-color:#FCA5A5">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a2 2 0 012-2h2a2 2 0 012 2v2"/></svg>
+          Delete account permanently
+        </button>
+        <p style="font-size:10.5px;color:var(--muted);margin-top:6px;text-align:center">Removes login, profile, and all saved data. Cannot be undone.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRMATION MODAL -->
+<div id="delete-confirm-modal" class="admin-modal">
+  <div class="admin-modal-card" style="max-width:420px">
+    <div class="admin-modal-hdr" style="background:#7F1D1D">
+      <h3 style="color:#fff">Delete account permanently</h3>
+      <button class="close-btn" style="color:#fff" onclick="closeDeleteConfirm()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="admin-modal-body">
+      <p style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:14px">
+        You are about to permanently delete <strong id="del-confirm-name"></strong>'s account. This will remove:
+      </p>
+      <ul style="font-size:12.5px;color:var(--subtext);line-height:1.9;margin-bottom:16px;padding-left:18px">
+        <li>Their login credentials (they will be signed out everywhere)</li>
+        <li>Profile, settlement progress, and budget data</li>
+        <li>Saved jobs, job alerts, and notifications</li>
+        <li>Favourited listings</li>
+      </ul>
+      <p style="font-size:12px;color:#DC2626;font-weight:600;margin-bottom:10px">This action cannot be undone.</p>
+      <div class="afield">
+        <label>Type DELETE to confirm</label>
+        <input id="del-confirm-input" type="text" placeholder="DELETE" autocomplete="off">
+      </div>
+      <p id="del-confirm-error" style="font-size:11.5px;color:#DC2626;margin-top:4px"></p>
+    </div>
+    <div class="admin-modal-ftr">
+      <button class="modal-btn" onclick="closeDeleteConfirm()">Cancel</button>
+      <button class="modal-btn danger" id="del-confirm-btn" style="background:#DC2626;color:#fff;border-color:#DC2626">Delete permanently</button>
+    </div>
+  </div>
+</div>
+
+<!-- BAN EMAIL CONFIRMATION MODAL -->
+<div id="banemail-confirm-modal" class="admin-modal">
+  <div class="admin-modal-card" style="max-width:420px">
+    <div class="admin-modal-hdr" style="background:#9A3412">
+      <h3 style="color:#fff">Lock out this email</h3>
+      <button class="close-btn" style="color:#fff" onclick="closeBanEmailConfirm()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="admin-modal-body">
+      <p style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:14px">
+        This will permanently lock out <strong id="banemail-confirm-email"></strong>:
+      </p>
+      <ul style="font-size:12.5px;color:var(--subtext);line-height:1.9;margin-bottom:16px;padding-left:18px">
+        <li>Signs them out immediately if currently active (within ~60 seconds)</li>
+        <li>Blocks all future sign-in attempts with this email</li>
+        <li>Blocks creating a new account with this email</li>
+        <li>Their existing data is <strong>not</strong> deleted — only access is blocked</li>
+      </ul>
+      <div class="afield">
+        <label>Reason (optional, for your records)</label>
+        <input id="banemail-reason" type="text" placeholder="e.g. Spam, harassment, policy violation" autocomplete="off">
+      </div>
+      <p id="banemail-confirm-error" style="font-size:11.5px;color:#DC2626;margin-top:4px"></p>
+    </div>
+    <div class="admin-modal-ftr">
+      <button class="modal-btn" onclick="closeBanEmailConfirm()">Cancel</button>
+      <button class="modal-btn danger" id="banemail-confirm-btn" style="background:#9A3412;color:#fff;border-color:#9A3412">Lock out email</button>
     </div>
   </div>
 </div>
 
 <!-- LISTING MODAL -->
-<div id="lm-modal" class="admin-modal">
-  <div class="admin-modal-card">
-    <div class="admin-modal-hdr"><h3 id="lm-title-hdr">Add listing</h3><button class="close-btn" onclick="closeLM()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
-    <div class="admin-modal-body">
-      <input id="lm-id" type="hidden">
-      <div class="afield"><label>Title</label><input id="lm-title" type="text" placeholder="Modern Studio – Beltline"></div>
-      <div class="afield-row">
-        <div class="afield"><label>Neighbourhood</label><input id="lm-neighbourhood" type="text" placeholder="Beltline"></div>
-        <div class="afield"><label>Price / mo (CAD)</label><input id="lm-price" type="number" placeholder="850"></div>
-      </div>
-      <div class="afield"><label>Address</label><input id="lm-address" type="text" placeholder="1240 12 Ave SW, Calgary, AB"></div>
-      <div class="afield-row">
-        <div class="afield"><label>Beds</label><input id="lm-beds" type="number" placeholder="1"></div>
-        <div class="afield"><label>Baths</label><input id="lm-baths" type="number" placeholder="1"></div>
-      </div>
-      <div class="afield-row">
-        <div class="afield"><label>Latitude</label><input id="lm-lat" type="number" step="any" placeholder="51.0369"></div>
-        <div class="afield"><label>Longitude</label><input id="lm-lng" type="number" step="any" placeholder="-114.0853"></div>
-      </div>
-      <div class="afield"><label>Tags (comma separated)</label><input id="lm-tags" type="text" placeholder="WiFi, Laundry, CTrain 3 min"></div>
-      <div class="afield"><label>Porchlight URL</label><input id="lm-url" type="url" placeholder="https://porchlights.pages.dev/..."></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
-        <label class="acheck"><input id="lm-furnished"  type="checkbox"> Furnished</label>
-        <label class="acheck"><input id="lm-utilities"  type="checkbox"> Utilities incl.</label>
-        <label class="acheck"><input id="lm-intl"       type="checkbox"> Intl. Friendly</label>
-        <label class="acheck"><input id="lm-shortterm"  type="checkbox"> Short-term OK</label>
-        <label class="acheck"><input id="lm-featured"   type="checkbox"> Featured</label>
-        <label class="acheck"><input id="lm-bvc"        type="checkbox"> Near BVC</label>
-      </div>
-    </div>
-    <div class="admin-modal-ftr">
-      <button class="modal-btn" onclick="closeLM()">Cancel</button>
-      <button class="modal-btn primary" onclick="saveListing()">Save listing</button>
-    </div>
-  </div>
-</div>
+<div id="lm-modal" class="admin-modal"><div class="admin-modal-card"><div class="admin-modal-hdr"><h3>Add / edit listing</h3><button class="close-btn" onclick="closeLM()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div><div class="admin-modal-body"><input id="lm-id" type="hidden"><div class="afield"><label>Title</label><input id="lm-title" type="text" placeholder="Modern Studio – Beltline"></div><div class="afield-row"><div class="afield"><label>Neighbourhood</label><input id="lm-neighbourhood" type="text"></div><div class="afield"><label>Price / mo (CAD)</label><input id="lm-price" type="number"></div></div><div class="afield"><label>Address</label><input id="lm-address" type="text"></div><div class="afield-row"><div class="afield"><label>Beds</label><input id="lm-beds" type="number"></div><div class="afield"><label>Baths</label><input id="lm-baths" type="number"></div></div><div class="afield-row"><div class="afield"><label>Latitude</label><input id="lm-lat" type="number" step="any"></div><div class="afield"><label>Longitude</label><input id="lm-lng" type="number" step="any"></div></div><div class="afield"><label>Tags (comma separated)</label><input id="lm-tags" type="text" placeholder="WiFi, Laundry, CTrain 3 min"></div><div class="afield"><label>Porchlight URL</label><input id="lm-url" type="url" placeholder="https://porchlights.pages.dev/..."></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px"><label class="acheck"><input id="lm-furnished" type="checkbox"> Furnished</label><label class="acheck"><input id="lm-utilities" type="checkbox"> Utilities incl.</label><label class="acheck"><input id="lm-intl" type="checkbox"> Intl. Friendly</label><label class="acheck"><input id="lm-shortterm" type="checkbox"> Short-term OK</label><label class="acheck"><input id="lm-featured" type="checkbox"> Featured</label><label class="acheck"><input id="lm-bvc" type="checkbox"> Near BVC</label></div></div><div class="admin-modal-ftr"><button class="modal-btn" onclick="closeLM()">Cancel</button><button class="modal-btn primary" onclick="saveListing()">Save listing</button></div></div></div>
 
 <!-- JOB MODAL -->
-<div id="jm-modal" class="admin-modal">
-  <div class="admin-modal-card">
-    <div class="admin-modal-hdr"><h3>Add / edit job</h3><button class="close-btn" onclick="closeJM()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
-    <div class="admin-modal-body">
-      <input id="jm-id" type="hidden">
-      <div class="afield"><label>Job title</label><input id="jm-title" type="text" placeholder="Junior UI/UX Designer"></div>
-      <div class="afield"><label>Company</label><input id="jm-company" type="text" placeholder="Attain Design"></div>
-      <div class="afield-row">
-        <div class="afield"><label>Salary</label><input id="jm-salary" type="text" placeholder="$55K/yr"></div>
-        <div class="afield"><label>Type</label><select id="jm-type"><option value="design">Design</option><option value="frontend">Frontend</option><option value="dev">Dev</option><option value="other">Other</option></select></div>
-      </div>
-      <div class="afield"><label>Level</label><select id="jm-level"><option value="entry">Entry level</option><option value="mid">Mid level</option><option value="senior">Senior</option></select></div>
-      <div class="afield"><label>Tags (comma separated)</label><input id="jm-tags" type="text" placeholder="Figma, Hybrid, New"></div>
-      <label class="acheck"><input id="jm-remote" type="checkbox"> Remote / hybrid</label>
-    </div>
-    <div class="admin-modal-ftr">
-      <button class="modal-btn" onclick="closeJM()">Cancel</button>
-      <button class="modal-btn primary" onclick="saveJob()">Save job</button>
-    </div>
-  </div>
-</div>
+<div id="jm-modal" class="admin-modal"><div class="admin-modal-card"><div class="admin-modal-hdr"><h3>Add / edit job</h3><button class="close-btn" onclick="closeJM()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div><div class="admin-modal-body"><input id="jm-id" type="hidden"><div class="afield"><label>Job title</label><input id="jm-title" type="text"></div><div class="afield"><label>Company</label><input id="jm-company" type="text"></div><div class="afield-row"><div class="afield"><label>Salary</label><input id="jm-salary" type="text" placeholder="$55K/yr"></div><div class="afield"><label>Type</label><select id="jm-type"><option value="design">Design</option><option value="frontend">Frontend</option><option value="dev">Dev</option><option value="other">Other</option></select></div></div><div class="afield"><label>Level</label><select id="jm-level"><option value="entry">Entry level</option><option value="mid">Mid level</option><option value="senior">Senior</option></select></div><div class="afield"><label>Tags (comma separated)</label><input id="jm-tags" type="text"></div><label class="acheck"><input id="jm-remote" type="checkbox"> Remote / hybrid</label></div><div class="admin-modal-ftr"><button class="modal-btn" onclick="closeJM()">Cancel</button><button class="modal-btn primary" onclick="saveJob()">Save job</button></div></div></div>
 
 <!-- EVENT MODAL -->
-<div id="em-modal" class="admin-modal">
-  <div class="admin-modal-card">
-    <div class="admin-modal-hdr"><h3>Add / edit event</h3><button class="close-btn" onclick="closeEM()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
-    <div class="admin-modal-body">
-      <input id="em-id" type="hidden">
-      <div class="afield"><label>Event title</label><input id="em-title" type="text" placeholder="BVC Orientation"></div>
-      <div class="afield-row">
-        <div class="afield"><label>Day</label><input id="em-day" type="number" min="1" max="31" placeholder="18"></div>
-        <div class="afield"><label>Month</label><select id="em-mon"><option>Jan</option><option>Feb</option><option>Mar</option><option>Apr</option><option>May</option><option selected>Jun</option><option>Jul</option><option>Aug</option><option>Sep</option><option>Oct</option><option>Nov</option><option>Dec</option></select></div>
-      </div>
-      <div class="afield"><label>Time</label><input id="em-time" type="text" placeholder="10:00 AM"></div>
-      <div class="afield"><label>Venue</label><input id="em-venue" type="text" placeholder="Main Campus, BVC"></div>
-      <div class="afield"><label>Category</label><select id="em-category"><option value="campus">Campus</option><option value="tech">Tech</option><option value="cultural">Cultural</option><option value="winter">Winter</option><option value="networking">Networking</option></select></div>
-      <label class="acheck"><input id="em-free" type="checkbox"> Free event</label>
-    </div>
-    <div class="admin-modal-ftr">
-      <button class="modal-btn" onclick="closeEM()">Cancel</button>
-      <button class="modal-btn primary" onclick="saveEvent()">Save event</button>
-    </div>
-  </div>
-</div>
+<div id="em-modal" class="admin-modal"><div class="admin-modal-card"><div class="admin-modal-hdr"><h3>Add / edit event</h3><button class="close-btn" onclick="closeEM()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div><div class="admin-modal-body"><input id="em-id" type="hidden"><div class="afield"><label>Event title</label><input id="em-title" type="text"></div><div class="afield-row"><div class="afield"><label>Day</label><input id="em-day" type="number" min="1" max="31"></div><div class="afield"><label>Month</label><select id="em-mon"><option>Jan</option><option>Feb</option><option>Mar</option><option>Apr</option><option>May</option><option selected>Jun</option><option>Jul</option><option>Aug</option><option>Sep</option><option>Oct</option><option>Nov</option><option>Dec</option></select></div></div><div class="afield"><label>Time</label><input id="em-time" type="text" placeholder="10:00 AM"></div><div class="afield"><label>Venue</label><input id="em-venue" type="text"></div><div class="afield"><label>Category</label><select id="em-category"><option value="campus">Campus</option><option value="tech">Tech</option><option value="cultural">Cultural</option><option value="winter">Winter</option><option value="networking">Networking</option></select></div><label class="acheck"><input id="em-free" type="checkbox"> Free event</label></div><div class="admin-modal-ftr"><button class="modal-btn" onclick="closeEM()">Cancel</button><button class="modal-btn primary" onclick="saveEvent()">Save event</button></div></div></div>
 
 <script type="module">
+// ── All imports at top ────────────────────────────────────────────────────────
 import { guardAdmin, adminSignIn, adminSignOut } from './js/admin-auth.js';
 import { startUserListener, setFilter, setSearch } from './js/admin-users.js';
 import { adminToast, initAdminUI } from './js/admin-ui.js';
@@ -310,31 +351,47 @@ import {
   startDashboardListener, saveDashboard,
   startSettlementListener, addTask, saveSettleTasks,
   startListingsListener, startJobsListener, startEventsListener,
+  startBannedEmailsListener,
 } from './js/admin-content.js';
+import { db } from '../js/firebase.js';
+import { doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
-window._setFilter    = setFilter;
-window._setSearch    = setSearch;
-window._saveDashboard= saveDashboard;
-window._addTask      = addTask;
-window._saveTasks    = saveSettleTasks;
+// ── Globals ───────────────────────────────────────────────────────────────────
+window._setFilter     = setFilter;
+window._setSearch     = setSearch;
+window._saveDashboard = saveDashboard;
+window._addTask       = addTask;
+window._saveTasks     = saveSettleTasks;
 
+// ── Auth buttons ──────────────────────────────────────────────────────────────
 document.getElementById('admin-signin-btn').addEventListener('click', adminSignIn);
 document.getElementById('admin-email').addEventListener('keydown', e => { if(e.key==='Enter') adminSignIn(); });
 document.getElementById('admin-pass').addEventListener('keydown',  e => { if(e.key==='Enter') adminSignIn(); });
 document.getElementById('admin-signout-btn').addEventListener('click', adminSignOut);
 
+// ── Init UI ───────────────────────────────────────────────────────────────────
 initAdminUI();
 
-// Panel switching
-const PANELS = ['users','listings','jobs','events','settlement','dashboard'];
-const TITLES  = { users:'Users', listings:'Listings', jobs:'Jobs', events:'Events', settlement:'Settlement checklist', dashboard:'Dashboard settings' };
-window.showPanel = (name) => {
-  PANELS.forEach(p => document.getElementById('panel-'+p)?.classList.toggle('active', p===name));
-  document.getElementById('panel-title').textContent = TITLES[name] || name;
-  document.querySelectorAll('.sidebar-link').forEach((l,i) => l.classList.toggle('active', i===PANELS.indexOf(name)));
+// ── Panel switching ───────────────────────────────────────────────────────────
+const PANELS = ['users','listings','jobs','events','ui-controls','settlement','dashboard','banned-emails'];
+const TITLES  = {
+  users:'Users', listings:'Listings', jobs:'Jobs', events:'Events',
+  'ui-controls':'UI Controls', settlement:'Settlement checklist', dashboard:'Dashboard settings'
 };
 
-// Close modals on backdrop
+window.showPanel = (name) => {
+  PANELS.forEach(p => {
+    const el = document.getElementById('panel-' + p);
+    if (el) el.classList.toggle('active', p === name);
+  });
+  const titleEl = document.getElementById('panel-title');
+  if (titleEl) titleEl.textContent = TITLES[name] || name;
+  document.querySelectorAll('.sidebar-link').forEach((l,i) =>
+    l.classList.toggle('active', i === PANELS.indexOf(name))
+  );
+};
+
+// ── Close modals ──────────────────────────────────────────────────────────────
 document.querySelectorAll('.admin-modal').forEach(m => {
   m.addEventListener('click', e => { if(e.target===m) m.classList.remove('open'); });
 });
@@ -342,28 +399,94 @@ document.addEventListener('keydown', e => {
   if(e.key==='Escape') document.querySelectorAll('.admin-modal.open').forEach(m=>m.classList.remove('open'));
 });
 
+// ── UI Controls ───────────────────────────────────────────────────────────────
+async function loadUIConfig() {
+  try {
+    const snap = await getDoc(doc(db, 'settings', 'uiConfig'));
+    const cfg  = snap.exists() ? snap.data() : {};
+    const defaults = {
+      'toggle-featured-listing': cfg.showFeaturedListing !== false,
+      'toggle-upcoming-events':  cfg.showUpcomingEvents  !== false,
+      'toggle-qa-housing':       cfg['qa-housing'] !== false,
+      'toggle-qa-jobs':          cfg['qa-jobs']    !== false,
+      'toggle-qa-events':        cfg['qa-events']  !== false,
+      'toggle-qa-budget':        cfg['qa-budget']  !== false,
+    };
+    Object.entries(defaults).forEach(([id, on]) => {
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('on', on);
+    });
+    const alertInput = document.getElementById('ui-alert-text');
+    if (alertInput && cfg.alertText) alertInput.value = cfg.alertText;
+  } catch(e) {
+    console.warn('loadUIConfig failed:', e.message);
+  }
+}
+
+window._toggleUI = async (key, btn) => {
+  btn.classList.toggle('on');
+  const isOn = btn.classList.contains('on');
+  try {
+    const snap = await getDoc(doc(db, 'settings', 'uiConfig'));
+    const cfg  = snap.exists() ? snap.data() : {};
+    cfg[key] = isOn;
+    cfg.updatedAt = serverTimestamp();
+    await setDoc(doc(db, 'settings', 'uiConfig'), cfg);
+    adminToast(isOn ? 'Section shown' : 'Section hidden');
+  } catch(e) {
+    adminToast('Failed to save', 'error');
+    btn.classList.toggle('on'); // revert
+  }
+};
+
+window._saveUIAlert = async () => {
+  const text = document.getElementById('ui-alert-text').value.trim();
+  try {
+    const snap = await getDoc(doc(db, 'settings', 'uiConfig'));
+    const cfg  = snap.exists() ? snap.data() : {};
+    cfg.alertText = text;
+    cfg.updatedAt = serverTimestamp();
+    await setDoc(doc(db, 'settings', 'uiConfig'), cfg);
+    adminToast(text ? 'Alert saved' : 'Alert cleared — weather alerts will show');
+  } catch(e) {
+    adminToast('Failed to save', 'error');
+  }
+};
+
+// ── Guard & start listeners ───────────────────────────────────────────────────
 guardAdmin((user, data) => {
-  const name     = data.name || user.email || 'Admin';
+  const name     = data.name || user.displayName || user.email.split('@')[0] || 'Admin';
+  const first    = name.split(' ')[0] || name;
   const initials = name.split(' ').filter(Boolean).map(n=>n[0]).join('').toUpperCase().slice(0,2) || 'A';
+
   const av = document.getElementById('sidebar-av');
   if (av) av.textContent = initials;
   const nameEl = document.getElementById('admin-user-name');
-  if (nameEl) nameEl.textContent = name.split(' ')[0] || name;
-  const welcomeEl = document.getElementById('admin-welcome-name');
-  if (welcomeEl) welcomeEl.textContent = name.split(' ')[0] || name;
+  if (nameEl) nameEl.textContent = first;
 
+  // Retry welcome name until element ready
+  const tryWelcome = () => {
+    const el = document.getElementById('admin-welcome-name');
+    if (el) el.textContent = first;
+    else setTimeout(tryWelcome, 100);
+  };
+  tryWelcome();
+
+  // Start all listeners
   startUserListener();
   startListingsListener();
   startJobsListener();
   startEventsListener();
   startSettlementListener();
   startDashboardListener();
+  startBannedEmailsListener();
+  loadUIConfig();
 });
 
-// Mobile sidebar
+// ── Mobile sidebar ────────────────────────────────────────────────────────────
 const mq = window.matchMedia('(max-width:768px)');
 const st = document.getElementById('sidebar-toggle');
-if(st) {
+if (st) {
   st.style.display = mq.matches ? 'block' : 'none';
   mq.addEventListener('change', e => { st.style.display = e.matches?'block':'none'; });
   st.addEventListener('click', () => document.getElementById('admin-sidebar').classList.toggle('open'));

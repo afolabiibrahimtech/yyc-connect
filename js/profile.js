@@ -20,6 +20,109 @@ let _cachedCompleted     = [];
 let _cachedUid           = null;
 let _cachedImmType       = '';
 
+// ── Rent stat ────────────────────────────────────────────────────────────────
+// Real Calgary averages from Zumper June 2026
+const CALGARY_RENTS = {
+  studio:  { avg: 1399, label: 'Studio avg' },
+  '1br':   { avg: 1599, label: '1BR avg'    },
+  '2br':   { avg: 1910, label: '2BR avg'    },
+  house:   { avg: 2110, label: 'House avg'  },
+};
+
+export async function updateRentStat(userData) {
+  const valEl = document.getElementById('s-rent');
+  const lblEl = document.getElementById('s-rent-lbl');
+  if (!valEl || !lblEl) return;
+
+  // Try to get admin-set rents from Firestore
+  let rents = { studio:'$1,399', '1br':'$1,599', '2br':'$1,910', house:'$2,110' };
+  try {
+    const snap = await getDoc(doc(db, 'settings', 'dashboard'));
+    if (snap.exists()) {
+      const d = snap.data();
+      if (d.rent1br)    rents['1br']  = d.rent1br;
+      if (d.rent2br)    rents['2br']  = d.rent2br;
+      if (d.rentStudio) rents.studio  = d.rentStudio;
+      if (d.rentHouse)  rents.house   = d.rentHouse;
+    }
+  } catch(e) { /* use defaults */ }
+
+  // Pick tier based on user budget
+  const budget = userData?.budget;
+  if (budget) {
+    const nums = budget.match(/\d+/g);
+    if (nums) {
+      const max = parseInt(nums[nums.length - 1]);
+      if (max < 1450) {
+        valEl.textContent = rents.studio; lblEl.textContent = 'Studio avg Calgary';
+      } else if (max < 1700) {
+        valEl.textContent = rents['1br']; lblEl.textContent = '1BR avg Calgary';
+      } else if (max < 2200) {
+        valEl.textContent = rents['2br']; lblEl.textContent = '2BR avg Calgary';
+      } else {
+        valEl.textContent = rents.house;  lblEl.textContent = 'House avg Calgary';
+      }
+      return;
+    }
+  }
+
+  // Default
+  valEl.textContent = rents['1br'];
+  lblEl.textContent = '1BR avg Calgary';
+}
+
+// ── Move-in countdown ────────────────────────────────────────────────────────
+export function updateMoveinCountdown(arrivalDate) {
+  const valEl = document.getElementById('s-movein');
+  const lblEl = document.getElementById('s-movein-lbl');
+
+  if (!arrivalDate) {
+    // No date set — prompt user to add it
+    if (valEl) {
+      valEl.innerHTML = `<span style="font-size:10px;font-weight:600;color:rgba(255,255,255,0.5);line-height:1.3;display:block">Add move-in<br>date</span>`;
+    }
+    if (lblEl) lblEl.textContent = 'Tap to set';
+    return;
+  }
+
+  const today    = new Date();
+  today.setHours(0,0,0,0);
+  const arrival  = new Date(arrivalDate + 'T00:00:00');
+  const diffMs   = arrival - today;
+  const diffDays = Math.round(diffMs / 86400000);
+
+  if (diffDays > 0) {
+    // Countdown
+    if (valEl) valEl.textContent = diffDays;
+    if (lblEl) {
+      lblEl.textContent = diffDays === 1 ? 'Day to Calgary!' : 'Days to Calgary';
+    }
+  } else if (diffDays === 0) {
+    // Today!
+    if (valEl) valEl.innerHTML = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M17.8 19.2L16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5l-8.2-1.8-.8.8 4.5 4.5-3 1.5 1 2.5 4-1.5 3.5 3.5-1.5 4L12 19.8l.8-.8z"/>
+    </svg>`;
+    if (lblEl) lblEl.textContent = 'You land today!';
+  } else {
+    // Already arrived
+    const daysSince = Math.abs(diffDays);
+    if (valEl) valEl.innerHTML = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2 22h20"/>
+      <path d="M3.77 10.77L2 9l2-4.5 1.45.24a2 2 0 011.1.75l1.06 1.45c.34.46.5 1.02.46 1.58l-.18 1.98 5.56 1.56 2.07-4.14a1 1 0 011.47-.4l.28.17a2 2 0 01.79 2.26l-3.3 8.25"/>
+    </svg>`;
+    if (lblEl) {
+      if (daysSince < 7)
+        lblEl.textContent = `Landed ${daysSince}d ago!`;
+      else if (daysSince < 30)
+        lblEl.textContent = `${Math.floor(daysSince/7)}w in Calgary!`;
+      else if (daysSince < 365)
+        lblEl.textContent = `${Math.floor(daysSince/30)}mo in Calgary!`;
+      else
+        lblEl.textContent = `${Math.floor(daysSince/365)}yr in Calgary!`;
+    }
+  }
+}
+
 export function getCachedSettlement() {
   return { tasks: _cachedTasks, completed: _cachedCompleted, uid: _cachedUid };
 }
@@ -77,11 +180,14 @@ export function loadUserProfile(uid) {
     if (d.arrivalDate) {
       const dt = new Date(d.arrivalDate + 'T00:00:00');
       setText('pref-arrival', dt.toLocaleDateString('en-CA', { year:'numeric', month:'short', day:'numeric' }));
+      updateMoveinCountdown(d.arrivalDate);
     } else {
       setText('pref-arrival', null);
+      updateMoveinCountdown(null);
     }
 
     await loadSettlement(uid, d.immigrationType || '');
+    updateRentStat(d);
   });
 }
 

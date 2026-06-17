@@ -39,6 +39,19 @@ export function switchAuthTab(tab) {
   });
   document.getElementById('signin-form').style.display = tab === 'signin' ? 'block' : 'none';
   document.getElementById('signup-form').style.display = tab === 'signup' ? 'block' : 'none';
+
+  // Always reset the sign-up wizard back to step 1 when switching to it,
+  // so stale step-2 state from a previous visit doesn't linger.
+  if (tab === 'signup') {
+    const step1 = document.getElementById('su-step-1');
+    const step2 = document.getElementById('su-step-2');
+    const dot1  = document.getElementById('su-dot-1');
+    const dot2  = document.getElementById('su-dot-2');
+    if (step1) step1.style.display = 'block';
+    if (step2) step2.style.display = 'none';
+    if (dot1)  dot1.classList.add('active');
+    if (dot2)  dot2.classList.remove('active');
+  }
 }
 
 // ── Toggle buttons (settings) ─────────────────────────────────────────────────

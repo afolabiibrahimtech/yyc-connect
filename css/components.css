@@ -196,6 +196,12 @@ input[type="range"] { width: 100%; accent-color: var(--amber); height: 4px; curs
 .auth-field input { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 14px; font-family: 'Inter', sans-serif; color: var(--text); outline: none; transition: border-color 0.2s; }
 .auth-field input:focus { border-color: var(--amber); }
 
+/* Sign-up step indicator dots */
+.auth-step-indicator { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 20px; }
+.step-dot  { width: 8px; height: 8px; border-radius: 50%; background: var(--border2); transition: all 0.2s; }
+.step-dot.active { background: var(--amber); width: 22px; border-radius: 4px; }
+.step-line { width: 28px; height: 2px; background: var(--border2); }
+
 .auth-btn  { width: 100%; padding: 14px; background: var(--amber); color: var(--navy); border: none; border-radius: var(--radius-md); font-size: 14px; font-weight: 700; font-family: 'Sora', sans-serif; margin-top: 4px; transition: background 0.15s; }
 .auth-btn:hover { background: var(--amber2); }
 

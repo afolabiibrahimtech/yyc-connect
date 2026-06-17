@@ -13,19 +13,26 @@ export function startDashboardListener() {
   onSnapshot(doc(db, 'settings', 'dashboard'), snap => {
     const d = snap.data() || {};
     const set = (id, val) => { const el = document.getElementById(id); if(el) el.value = val ?? ''; };
-    set('dash-movein', d.daysToMovein ?? 12);
-    set('dash-rent',   d.avgRent      || '$850');
-    set('dash-alert',  d.alertText    || 'First snowfall expected this week.');
-    set('dash-weather',d.weather      || '−3°C Calgary');
+    set('dash-movein',      d.daysToMovein   ?? 12);
+    set('dash-rent-studio', d.rentStudio     || '$1,399');
+    set('dash-rent-1br',    d.rent1br        || '$1,599');
+    set('dash-rent-2br',    d.rent2br        || '$1,910');
+    set('dash-rent-house',  d.rentHouse      || '$2,110');
+    set('dash-alert',       d.alertText      || '');
+    set('dash-weather',     d.weather        || '');
   });
 }
 
 export async function saveDashboard() {
+  const g = (id) => document.getElementById(id)?.value.trim() || '';
   await setDoc(doc(db, 'settings', 'dashboard'), {
-    daysToMovein: parseInt(document.getElementById('dash-movein').value) || 12,
-    avgRent:      document.getElementById('dash-rent').value.trim(),
-    alertText:    document.getElementById('dash-alert').value.trim(),
-    weather:      document.getElementById('dash-weather').value.trim(),
+    daysToMovein: parseInt(g('dash-movein')) || 12,
+    rentStudio:   g('dash-rent-studio') || '$1,399',
+    rent1br:      g('dash-rent-1br')    || '$1,599',
+    rent2br:      g('dash-rent-2br')    || '$1,910',
+    rentHouse:    g('dash-rent-house')  || '$2,110',
+    alertText:    g('dash-alert'),
+    weather:      g('dash-weather'),
     updatedAt:    serverTimestamp(),
   }, { merge: true });
   adminToast('Dashboard settings saved');
@@ -357,3 +364,33 @@ window.deleteEvent = async (id) => {
   await deleteDoc(doc(db,'events',id));
   adminToast('Event deleted');
 };
+
+// ── Banned emails ──────────────────────────────────────────────────────────────
+export function startBannedEmailsListener() {
+  onSnapshot(collection(db, 'bannedEmails'), snap => {
+    const listEl = document.getElementById('banned-emails-list');
+    if (!listEl) return;
+
+    const docs = snap.docs.map(d => d.data());
+    if (!docs.length) {
+      listEl.innerHTML = `<p style="font-size:13px;color:var(--muted);text-align:center;padding:24px 0">No emails are currently locked out.</p>`;
+      return;
+    }
+
+    docs.sort((a, b) => (b.bannedAt?.seconds || 0) - (a.bannedAt?.seconds || 0));
+
+    listEl.innerHTML = docs.map(d => {
+      const date = d.bannedAt?.seconds
+        ? new Date(d.bannedAt.seconds * 1000).toLocaleDateString('en-CA', { year:'numeric', month:'short', day:'numeric' })
+        : '—';
+      return `
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px">
+          <div style="min-width:0">
+            <div style="font-size:13px;font-weight:600;color:var(--text)">${d.email}</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">${d.reason ? d.reason + ' · ' : ''}Locked ${date}</div>
+          </div>
+          <button class="modal-btn" style="flex-shrink:0;padding:7px 14px;font-size:12px" onclick="window.unbanEmail('${d.email}')">Unlock</button>
+        </div>`;
+    }).join('');
+  });
+}

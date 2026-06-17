@@ -4,19 +4,43 @@ import {
   createUserWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
+  linkWithCredential,
+  EmailAuthProvider,
+  fetchSignInMethodsForEmail,
   signOut as fbSignOut,
-  onAuthStateChanged,
   updateProfile
 } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 import {
-  doc, getDoc, setDoc, serverTimestamp
+  doc, getDoc, getDocFromServer, setDoc, serverTimestamp
 } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
-import { seedIfEmpty, startListeners } from './data.js';
 import { toast } from './ui.js';
 
 const googleProvider = new GoogleAuthProvider();
 const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/dv933cgea/image/upload`;
 const CLOUDINARY_PRESET = 'yyc-connect';
+
+// ── Email ban check ────────────────────────────────────────────────────────────
+// bannedEmails/{sanitizedEmail} → { email, reason, bannedAt, bannedBy }
+// Email used as part of the doc ID (lowercased, sanitized) for fast direct lookup
+// without needing a query — keeps this cheap and works even while signed out.
+export function sanitizeEmailKey(email) {
+  return email.trim().toLowerCase().replace(/[^a-z0-9@._-]/g, '_');
+}
+
+export async function checkEmailBanned(email) {
+  if (!email) return null;
+  try {
+    const snap = await getDoc(doc(db, 'bannedEmails', sanitizeEmailKey(email)));
+    if (snap.exists()) {
+      return snap.data(); // { email, reason, bannedAt, ... }
+    }
+  } catch(e) {
+    // If the ban check itself fails (e.g. offline), fail open rather than
+    // locking everyone out due to a network blip.
+    console.warn('Ban check failed:', e.message);
+  }
+  return null;
+}
 
 export const AVATARS = [
   { id:'av1',  label:'Sunny',  bg:'#FBBF24', svg:`<circle cx="50" cy="38" r="22" fill="#FBBF24"/><ellipse cx="50" cy="75" rx="20" ry="14" fill="#FBBF24"/><circle cx="43" cy="35" r="3" fill="#0D1B2A"/><circle cx="57" cy="35" r="3" fill="#0D1B2A"/><path d="M43 45 Q50 52 57 45" stroke="#0D1B2A" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M30 28 Q50 10 70 28" stroke="#92400E" stroke-width="4" fill="none" stroke-linecap="round"/>` },
@@ -92,12 +116,45 @@ export async function signIn() {
   setError('si-error','');
   const btn = document.getElementById('si-btn');
   btn.textContent = 'Signing in...'; btn.disabled = true;
+
+  const ban = await checkEmailBanned(email);
+  if (ban) {
+    setError('si-error', 'This account has been locked. Contact support if you believe this is a mistake.');
+    btn.textContent = 'Sign in'; btn.disabled = false;
+    return;
+  }
+
   try {
     await signInWithEmailAndPassword(auth, email, pass);
   } catch(e) {
     setError('si-error', friendlyError(e.code));
     btn.textContent = 'Sign in'; btn.disabled = false;
   }
+}
+
+export function signupGoToStep2() {
+  const name    = document.getElementById('su-name').value.trim();
+  const email   = document.getElementById('su-email').value.trim();
+  const pass    = document.getElementById('su-pass').value;
+  const confirm = document.getElementById('su-pass-confirm').value;
+  setError('su-error-1', '');
+
+  if (!name)              { setError('su-error-1', 'Please enter your full name.'); return; }
+  if (!email)             { setError('su-error-1', 'Please enter your email.'); return; }
+  if (!pass || pass.length < 6) { setError('su-error-1', 'Password must be at least 6 characters.'); return; }
+  if (pass !== confirm)   { setError('su-error-1', 'Passwords do not match.'); return; }
+
+  document.getElementById('su-step-1').style.display = 'none';
+  document.getElementById('su-step-2').style.display = 'block';
+  document.getElementById('su-dot-1').classList.remove('active');
+  document.getElementById('su-dot-2').classList.add('active');
+}
+
+export function signupGoToStep1() {
+  document.getElementById('su-step-2').style.display = 'none';
+  document.getElementById('su-step-1').style.display = 'block';
+  document.getElementById('su-dot-2').classList.remove('active');
+  document.getElementById('su-dot-1').classList.add('active');
 }
 
 export async function signUp() {
@@ -107,16 +164,23 @@ export async function signUp() {
   const country    = document.getElementById('su-country').value;
   const immType    = document.getElementById('su-immigration').value;
   const dreamCity  = document.getElementById('su-city').value;
-  const customCity = document.getElementById('su-city-custom')?.value.trim();
+  const customCity = document.getElementById('su-city-other')?.value.trim();
   const photoFile  = document.getElementById('su-photo')?.files[0];
-  const selectedAv = document.querySelector('.avatar-opt.selected')?.dataset.id || 'av1';
-  setError('su-error','');
-  if (!name)     { setError('su-error','Please enter your full name.'); return; }
-  if (!country)  { setError('su-error','Please select your country.'); return; }
-  if (!immType)  { setError('su-error','Please select your immigration type.'); return; }
-  if (!dreamCity){ setError('su-error','Please select your dream city.'); return; }
+  const selectedAv = document.querySelector('#su-av-grid .av-btn.selected')?.dataset.id || 'av1';
+  setError('su-error-2','');
+  if (!country)  { setError('su-error-2','Please select your country.'); return; }
+  if (!immType)  { setError('su-error-2','Please select your immigration type.'); return; }
+  if (!dreamCity){ setError('su-error-2','Please select your dream city.'); return; }
   const btn = document.getElementById('su-btn');
   btn.textContent = 'Creating account...'; btn.disabled = true;
+
+  const ban = await checkEmailBanned(email);
+  if (ban) {
+    setError('su-error-2', 'This email has been locked from creating an account. Contact support if you believe this is a mistake.');
+    btn.textContent = 'Create account'; btn.disabled = false;
+    return;
+  }
+
   try {
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     const uid  = cred.user.uid;
@@ -138,7 +202,7 @@ export async function signUp() {
       createdAt: serverTimestamp(), lastSeen: serverTimestamp(),
     });
   } catch(e) {
-    setError('su-error', friendlyError(e.code));
+    setError('su-error-2', friendlyError(e.code));
     btn.textContent = 'Create account'; btn.disabled = false;
   }
 }
@@ -147,13 +211,32 @@ export async function signInGoogle() {
   try {
     const result = await signInWithPopup(auth, googleProvider);
     const user   = result.user;
-    const snap   = await getDoc(doc(db,'users',user.uid));
+
+    const ban = await checkEmailBanned(user.email);
+    if (ban) {
+      await fbSignOut(auth);
+      toast('This account has been locked. Contact support if you believe this is a mistake.');
+      return;
+    }
+
+    // Use getDocFromServer (not getDoc) to bypass Firestore's local cache.
+    // If this device had a previous session for this exact UID that was
+    // later deleted by an admin, the local cache can still hold the old
+    // "doc exists" answer until it resyncs — which would wrongly skip
+    // onboarding for what should be treated as a brand-new account.
+    let snap;
+    try {
+      snap = await getDocFromServer(doc(db,'users',user.uid));
+    } catch(e) {
+      snap = await getDoc(doc(db,'users',user.uid));
+    }
     if (!snap.exists()) {
       await setDoc(doc(db,'users',user.uid), {
         name: user.displayName||'', email: user.email,
         country:'', countryFlag:'🌍', immigrationType:'', dreamCity:'',
         photoURL: user.photoURL||'', avatarId:'av1',
         role:'member', status:'active',
+        onboardingComplete: false,
         createdAt: serverTimestamp(), lastSeen: serverTimestamp(),
       });
     }
@@ -165,37 +248,214 @@ export async function signOut() {
   toast('Signed out');
 }
 
-export function initAuth() {
-  onAuthStateChanged(auth, async (user) => {
-    const authScreen = document.getElementById('auth-screen');
-    const appShell   = document.getElementById('app');
-    if (user) {
-      if (authScreen) authScreen.classList.add('hidden');
-      if (appShell)   appShell.style.display = 'block';
-      const name     = user.displayName || user.email.split('@')[0];
-      const initials = name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
-      const map = { 'hero-name': name.split(' ')[0], 'user-avatar': initials,
-        'profile-initials': initials, 'profile-name': name, 'profile-email': user.email };
-      Object.entries(map).forEach(([id,val]) => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = val;
-      });
-      if (user.photoURL) {
-        const av = document.getElementById('user-avatar');
-        if (av) { av.style.backgroundImage=`url(${user.photoURL})`; av.style.backgroundSize='cover'; av.textContent=''; }
-      }
-      // Ensure role and status always exist — fixes users who signed up before these fields were added
-      await setDoc(doc(db,'users',user.uid), {
-        lastSeen: serverTimestamp(),
-        role:   (await getDoc(doc(db,'users',user.uid))).data()?.role   || 'member',
-        status: (await getDoc(doc(db,'users',user.uid))).data()?.status || 'active',
-      }, { merge: true });
-      await seedIfEmpty();
-      startListeners();
-      if (window._onUserReady) window._onUserReady(user);
-    } else {
-      if (authScreen) authScreen.classList.remove('hidden');
-      if (appShell)   appShell.style.display = 'none';
+// ── Let a Google-only user add a password, so they can sign in either way ────
+export async function setPasswordForAccount(newPassword) {
+  const user = auth.currentUser;
+  if (!user || !user.email) {
+    return { ok: false, error: 'Not signed in.' };
+  }
+
+  try {
+    const credential = EmailAuthProvider.credential(user.email, newPassword);
+    await linkWithCredential(user, credential);
+    return { ok: true };
+  } catch(e) {
+    if (e.code === 'auth/provider-already-linked' || e.code === 'auth/credential-already-in-use') {
+      return { ok: false, error: 'A password is already set for this account.' };
     }
-  });
+    if (e.code === 'auth/weak-password') {
+      return { ok: false, error: 'Password must be at least 6 characters.' };
+    }
+    return { ok: false, error: friendlyError(e.code) };
+  }
+}
+
+// ── Check whether the current user already has a password sign-in method ─────
+export async function hasPasswordProvider() {
+  const user = auth.currentUser;
+  if (!user) return false;
+  return user.providerData.some(p => p.providerId === 'password');
+}
+
+// ── Periodic ban check while a session is active ──────────────────────────────
+// Call startBanPolling(email) right after a successful sign-in and
+// stopBanPolling() on sign-out. Wired into the real auth listener in
+// index.html (this used to live inside an initAuth() function here that
+// was never actually called — removed to avoid confusion).
+let _banPollTimer = null;
+
+export function startBanPolling(email) {
+  stopBanPolling();
+  _banPollTimer = setInterval(async () => {
+    const ban = await checkEmailBanned(email);
+    if (ban) {
+      stopBanPolling();
+      await fbSignOut(auth);
+      showLockedOutScreen();
+    }
+  }, 60000); // every 60 seconds
+}
+
+export function stopBanPolling() {
+  if (_banPollTimer) { clearInterval(_banPollTimer); _banPollTimer = null; }
+}
+
+// ── Google onboarding — mandatory password + profile setup for new sign-ups ──
+let _onboardingUser = null;
+
+export function showGoogleOnboarding(user, userData) {
+  _onboardingUser = user;
+  const passScreen    = document.getElementById('google-onboard-pass');
+  const profileScreen = document.getElementById('google-onboard-profile');
+
+  // Pre-fill name from Google so the user can confirm or edit it rather
+  // than starting from a blank field.
+  const nameInput = document.getElementById('gob-name');
+  if (nameInput && !nameInput.value) nameInput.value = user.displayName || '';
+
+  // Show their Google account photo as a starting preview, since they
+  // haven't uploaded a custom one or picked an avatar yet.
+  if (user.photoURL) {
+    const preview = document.getElementById('gob-photo-preview');
+    const img     = document.getElementById('gob-photo-img');
+    const icon    = document.getElementById('gob-photo-icon');
+    const lbl     = document.getElementById('gob-photo-lbl');
+    if (preview && img && icon && lbl) {
+      img.src = user.photoURL;
+      preview.style.display = 'block';
+      icon.style.display    = 'none';
+      lbl.textContent       = 'Using your Google photo — tap to change';
+    }
+  }
+
+  // If they already have a password provider linked (e.g. resumed flow after
+  // setting password but before finishing profile), skip straight to profile.
+  const hasPassword = user.providerData.some(p => p.providerId === 'password');
+  if (hasPassword) {
+    if (passScreen)    passScreen.style.display = 'none';
+    if (profileScreen) profileScreen.style.display = 'flex';
+  } else {
+    if (passScreen)    passScreen.style.display = 'flex';
+    if (profileScreen) profileScreen.style.display = 'none';
+  }
+}
+
+export function hideGoogleOnboarding() {
+  document.getElementById('google-onboard-pass')?.style.setProperty('display', 'none');
+  document.getElementById('google-onboard-profile')?.style.setProperty('display', 'none');
+  _onboardingUser = null;
+}
+
+export async function submitGoogleOnboardPassword() {
+  const pass    = document.getElementById('gob-pass').value;
+  const confirm = document.getElementById('gob-pass-confirm').value;
+  setError('gob-pass-error', '');
+
+  if (!pass || pass.length < 6) { setError('gob-pass-error', 'Password must be at least 6 characters.'); return; }
+  if (pass !== confirm)         { setError('gob-pass-error', 'Passwords do not match.'); return; }
+
+  const btn = document.getElementById('gob-pass-btn');
+  btn.textContent = 'Saving...'; btn.disabled = true;
+
+  const result = await setPasswordForAccount(pass);
+  btn.textContent = 'Continue'; btn.disabled = false;
+
+  if (!result.ok) {
+    setError('gob-pass-error', result.error);
+    return;
+  }
+
+  document.getElementById('google-onboard-pass').style.display = 'none';
+  document.getElementById('google-onboard-profile').style.display = 'flex';
+}
+
+export async function submitGoogleOnboardProfile() {
+  const name        = document.getElementById('gob-name').value.trim();
+  const country     = document.getElementById('gob-country').value;
+  const immType     = document.getElementById('gob-immigration').value;
+  const dreamCity    = document.getElementById('gob-city').value;
+  const customCity  = document.getElementById('gob-city-other')?.value.trim();
+  const photoFile   = document.getElementById('gob-photo')?.files[0];
+  const selectedAv  = document.querySelector('#gob-av-grid .av-btn.selected')?.dataset.id || null;
+  setError('gob-profile-error', '');
+
+  if (!name)     { setError('gob-profile-error', 'Please enter your name.'); return; }
+  if (!country)  { setError('gob-profile-error', 'Please select your country.'); return; }
+  if (!immType)  { setError('gob-profile-error', 'Please select your immigration type.'); return; }
+  if (!dreamCity){ setError('gob-profile-error', 'Please select your dream city.'); return; }
+
+  const btn = document.getElementById('gob-profile-btn');
+  btn.textContent = 'Saving...'; btn.disabled = true;
+
+  const user = _onboardingUser || auth.currentUser;
+  if (!user) { setError('gob-profile-error', 'Session expired — please sign in again.'); return; }
+
+  try {
+    const countryObj = COUNTRIES.find(c => c.name === country) || { name: country, flag:'🌍' };
+    const finalCity  = dreamCity === 'other' ? (customCity || 'Alberta') : dreamCity;
+
+    // Photo priority: a freshly uploaded photo wins, then a chosen avatar
+    // (which clears any photo so the avatar actually shows), and only if
+    // neither was picked do we keep whatever Google originally provided.
+    let photoURL = user.photoURL || '';
+    let avatarId = '';
+    if (photoFile) {
+      toast('Uploading photo...');
+      photoURL = await uploadToCloudinary(photoFile);
+      avatarId = '';
+    } else if (selectedAv) {
+      photoURL = '';
+      avatarId = selectedAv;
+    }
+
+    await updateProfile(user, { displayName: name, photoURL: photoURL || user.photoURL || '' });
+
+    await setDoc(doc(db,'users',user.uid), {
+      name,
+      country: countryObj.name, countryFlag: countryObj.flag,
+      immigrationType: immType,
+      dreamCity: finalCity,
+      photoURL,
+      avatarId,
+      onboardingComplete: true,
+    }, { merge: true });
+
+    hideGoogleOnboarding();
+    document.getElementById('app').style.display = 'block';
+    if (window._onUserReady) window._onUserReady(user);
+  } catch(e) {
+    setError('gob-profile-error', friendlyError(e.code));
+    btn.textContent = 'Finish setting up'; btn.disabled = false;
+  }
+}
+
+// ── Locked-out screen ──────────────────────────────────────────────────────────
+export function showLockedOutScreen() {
+  const appShell    = document.getElementById('app');
+  const authScreen  = document.getElementById('auth-screen');
+  if (appShell)   appShell.style.display = 'none';
+  if (authScreen) authScreen.classList.add('hidden');
+
+  let lockScreen = document.getElementById('locked-out-screen');
+  if (!lockScreen) {
+    lockScreen = document.createElement('div');
+    lockScreen.id = 'locked-out-screen';
+    lockScreen.style.cssText = `
+      position:fixed;inset:0;z-index:600;background:#0D1B2A;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      padding:32px 24px;text-align:center;font-family:'Inter',sans-serif;`;
+    lockScreen.innerHTML = `
+      <div style="width:64px;height:64px;border-radius:50%;background:rgba(220,38,38,0.12);border:1px solid rgba(220,38,38,0.3);display:flex;align-items:center;justify-content:center;margin-bottom:20px">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      </div>
+      <div style="font-family:'Sora',sans-serif;font-size:20px;font-weight:700;color:#fff;margin-bottom:10px">Account locked</div>
+      <p style="font-size:14px;color:rgba(255,255,255,0.55);max-width:340px;line-height:1.6;margin-bottom:24px">
+        This account has been locked by an administrator and can no longer access YYC Connect. If you believe this is a mistake, please contact support.
+      </p>
+      <button onclick="window.location.reload()" style="padding:11px 24px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif">
+        Reload page
+      </button>`;
+    document.body.appendChild(lockScreen);
+  }
+  lockScreen.style.display = 'flex';
 }

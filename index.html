@@ -69,6 +69,229 @@
   #settle-modal{align-items:center}
   .settle-sheet{border-radius:20px;max-height:80vh}
 }
+/* Real job cards */
+.rjc-list-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:12px 0 8px;font-size:13px;font-weight:600;color:var(--text)}
+.real-job-card{border:1px solid var(--border);border-radius:var(--radius-md);padding:16px;margin-bottom:10px;background:var(--card);transition:border-color 0.15s,box-shadow 0.15s}
+.real-job-card:hover{border-color:var(--amber);box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.rjc-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.rjc-logo{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rjc-info{flex:1;min-width:0}
+.rjc-title{font-family:'Sora',sans-serif;font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px;line-height:1.3}
+.rjc-company{font-size:12px;color:var(--muted)}
+.rjc-save-btn{background:none;border:1px solid var(--border);border-radius:8px;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);flex-shrink:0;transition:all 0.15s}
+.rjc-save-btn:hover{border-color:var(--amber);color:var(--amber)}
+.rjc-meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.rjc-salary{font-size:12px;font-weight:600;color:var(--success);background:#ECFDF5;padding:3px 10px;border-radius:20px}
+.rjc-tag{font-size:11px;padding:3px 10px;border-radius:20px;background:var(--surface);color:var(--subtext)}
+.rjc-remote{background:#EFF6FF;color:#1E40AF}
+.rjc-desc{font-size:12px;color:var(--subtext);line-height:1.6;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.rjc-footer{display:flex;align-items:center;justify-content:space-between}
+.rjc-source{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:500}
+.rjc-source-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.rjc-apply-btn{display:flex;align-items:center;gap:5px;padding:7px 14px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;text-decoration:none;transition:background 0.15s}
+.rjc-apply-btn:hover{background:var(--navy2)}
+.load-more-btn{width:100%;padding:12px;border:1px dashed var(--border2);border-radius:var(--radius-md);background:none;font-size:13px;color:var(--amber);font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;margin:4px 0 8px;transition:all 0.15s}
+.load-more-btn:hover{background:var(--surface)}
+.ai-section-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;padding:12px 0 6px}
+
+/* Resource link cards */
+.link-card{display:flex;align-items:flex-start;gap:12px;padding:14px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--card);text-decoration:none;margin-bottom:10px;transition:all 0.15s}
+.link-card:hover{border-color:var(--amber);box-shadow:0 2px 10px rgba(0,0,0,0.05)}
+.link-card-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.link-card-body{flex:1;min-width:0}
+.link-card-title{font-family:'Sora',sans-serif;font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.link-card-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;background:rgba(245,166,35,0.15);color:var(--amber);text-transform:uppercase;letter-spacing:0.4px}
+.link-card-desc{font-size:11.5px;color:var(--subtext);line-height:1.5}
+.link-card-arrow{flex-shrink:0;margin-top:10px}
+.info-note{display:flex;align-items:flex-start;gap:8px;font-size:11.5px;color:var(--subtext);background:var(--surface);border-radius:var(--radius-md);padding:12px 14px;line-height:1.6;margin-top:4px}
+.info-note svg{flex-shrink:0;margin-top:1px;color:var(--muted)}
+
+/* Drawer close button — circular, subtle, on dark headers */
+.drawer-close-btn{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background 0.15s}
+.drawer-close-btn:hover{background:rgba(255,255,255,0.2)}
+.drawer-close-btn:active{transform:scale(0.92)}
+
+/* ── My Tasks drawer ───────────────────────────────────────────────────────── */
+.task-add-row{margin-bottom:8px}
+.task-add-row-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.task-input{width:100%;padding:11px 13px;border:1px solid var(--border);border-radius:var(--radius-md);font-size:13px;font-family:'Inter',sans-serif;color:var(--text);outline:none;background:#fff;transition:border-color 0.15s}
+.task-input:focus{border-color:var(--amber)}
+.task-input-sm{padding:9px 10px;font-size:12px}
+.task-add-btn{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:12px;background:var(--navy);color:#fff;border:none;border-radius:var(--radius-md);font-size:13px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;margin-bottom:18px;transition:opacity 0.15s}
+.task-add-btn:hover{opacity:0.9}
+.task-add-btn.shake{animation:task-shake 0.35s ease}
+@keyframes task-shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+.task-search-wrap{position:relative;display:flex;align-items:center;margin-bottom:14px}
+.task-search-wrap svg{position:absolute;left:12px;color:var(--muted);pointer-events:none}
+.task-search{width:100%;padding:10px 13px 10px 34px;border:1px solid var(--border);border-radius:var(--radius-md);font-size:13px;font-family:'Inter',sans-serif;color:var(--text);outline:none;background:var(--surface)}
+.task-search:focus{border-color:var(--amber);background:#fff}
+
+.task-p-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;display:inline-block;margin-right:4px}
+.task-p-dot.high{background:#EF4444}
+.task-p-dot.medium{background:#F5A623}
+.task-p-dot.low{background:#10B981}
+.svc-cat-pill .task-p-dot{margin-right:5px}
+
+.task-list{list-style:none;margin:14px 0 0;display:flex;flex-direction:column;gap:8px;padding:0}
+.task-list li{background:var(--surface);padding:13px 14px;border-radius:var(--radius-md);display:flex;align-items:flex-start;gap:11px;border:1px solid var(--border);transition:all 0.15s;cursor:grab}
+.task-list li:hover{border-color:var(--amber)}
+.task-list li.completed .task-text{text-decoration:line-through;color:var(--muted)}
+.task-list li.completed{opacity:0.6}
+.task-list li.overdue{border-left:3px solid var(--danger)}
+.task-list li.dragging{opacity:0.35;cursor:grabbing}
+.task-list li.drag-over{border-color:var(--amber);box-shadow:0 0 0 2px rgba(245,166,35,0.18)}
+.task-list input[type=checkbox]{width:17px;height:17px;accent-color:var(--amber);cursor:pointer;flex-shrink:0;margin-top:2px}
+.task-body{flex:1;min-width:0}
+.task-top{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.task-text{font-size:13.5px;font-weight:500;color:var(--text);word-break:break-word;line-height:1.4}
+.task-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px}
+.task-due{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--subtext)}
+.task-due svg{flex-shrink:0}
+.task-due.overdue-label{color:var(--danger);font-weight:600}
+.task-cat-badge{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:500;text-transform:capitalize;padding:2px 9px;border-radius:999px;border:1px solid var(--border);color:var(--subtext);background:#fff}
+.task-delete-btn{background:none;border:none;color:var(--muted);cursor:pointer;padding:4px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.task-delete-btn:hover{background:rgba(239,68,68,0.1);color:var(--danger)}
+.task-empty-state{text-align:center;padding:32px 16px;color:var(--muted);font-size:13px;border:2px dashed var(--border);border-radius:var(--radius-md);list-style:none}
+
+.task-stats{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12.5px;border-top:1px solid var(--border);padding-top:14px;margin-top:18px}
+#tk-clear-completed{background:none;border:1px solid var(--danger);color:var(--danger);padding:6px 13px;border-radius:999px;font-size:11.5px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;transition:all 0.15s}
+#tk-clear-completed:hover{background:var(--danger);color:#fff}
+
+/* Sign out link inside Edit Profile modal */
+.ep-signout-link{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:11px;margin:4px 0 18px;background:none;border:1px solid var(--danger);border-radius:var(--radius-md);color:var(--danger);font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:background 0.15s}
+.ep-signout-link:hover{background:rgba(220,38,38,0.06)}
+
+/* Section title row with optional "See all" button */
+.sec-title{display:flex;align-items:center;justify-content:space-between;font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:12px}
+.see-all-btn{display:flex;align-items:center;gap:4px;padding:6px 12px;border-radius:20px;background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.3);color:var(--amber);font-size:11.5px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap;transition:all 0.15s}
+.see-all-btn:hover{background:var(--amber);color:var(--navy);border-color:var(--amber)}
+.see-all-btn:active{transform:scale(0.96)}
+
+/* Local Services drawer */
+#services-drawer{position:fixed;inset:0;z-index:400;display:flex;flex-direction:column;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);background:#fff}
+#services-drawer.open{transform:translateY(0)}
+.services-drawer-hdr{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--navy)}
+.services-drawer-title{font-family:'Sora',sans-serif;font-size:16px;font-weight:700;color:#fff}
+.services-drawer-sub{font-size:11px;color:rgba(255,255,255,0.45);margin-top:2px}
+.services-drawer-body{flex:1;overflow-y:auto;padding:16px 16px 40px;-webkit-overflow-scrolling:touch}
+.svc-section{margin-bottom:24px}
+.svc-section-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:10px}
+.svc-section-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.svc-locate-btn{display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:20px;border:1px solid rgba(245,166,35,0.35);background:rgba(245,166,35,0.08);color:var(--amber);font-size:11px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap;transition:all 0.15s}
+.svc-locate-btn:hover{background:var(--amber);color:var(--navy)}
+.svc-locate-btn.active{background:var(--amber);color:var(--navy)}
+.svc-locate-btn:disabled{opacity:0.6;cursor:default}
+
+.ctrain-card{background:var(--surface);border-radius:var(--radius-md);padding:14px;display:flex;flex-direction:column;gap:12px}
+.ctrain-line{display:flex;align-items:center;gap:10px}
+.ctrain-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.ctrain-name{font-family:'Sora',sans-serif;font-size:13px;font-weight:600}
+.ctrain-route{font-size:11px;color:var(--muted);margin-top:1px}
+
+.svc-cat-pills{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;-webkit-overflow-scrolling:touch}
+.svc-cat-pill{flex-shrink:0;display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:20px;border:1px solid var(--border);background:#fff;font-size:12px;color:var(--subtext);cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap;transition:all 0.15s}
+.svc-cat-pill.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.svc-cat-pill svg{flex-shrink:0}
+
+.services-loading{display:flex;align-items:center;gap:10px;padding:20px;color:var(--muted);font-size:13px}
+.services-empty{padding:20px;text-align:center;color:var(--muted);font-size:13px}
+.service-item{display:flex;align-items:center;gap:10px;padding:10px 4px;border-bottom:1px solid var(--border);cursor:pointer;border-radius:8px;transition:background 0.15s}
+.service-item:hover{background:var(--surface)}
+.service-item:active{transform:scale(0.99)}
+.service-item:last-child{border-bottom:none}
+.service-item-icon{width:32px;height:32px;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.service-item-info{flex:1;min-width:0}
+.service-item-name{font-size:13px;font-weight:600;color:var(--text)}
+.service-item-addr{font-size:11px;color:var(--muted);margin-top:1px}
+.service-item-action{width:30px;height:30px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--navy);flex-shrink:0;text-decoration:none}
+.service-item-arrow{flex-shrink:0}
+
+.agency-card{border:1px solid var(--border);border-radius:var(--radius-md);padding:14px;margin-bottom:10px}
+.agency-name{font-family:'Sora',sans-serif;font-size:13px;font-weight:600;margin-bottom:4px}
+.agency-desc{font-size:12px;color:var(--subtext);line-height:1.5;margin-bottom:8px}
+.agency-meta{font-size:11px;color:var(--muted);margin-bottom:2px}
+.agency-link{font-size:12px;color:var(--amber);font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:4px;margin-top:6px}
+
+/* Winter Survival drawer */
+#winter-drawer{position:fixed;inset:0;z-index:400;display:flex;flex-direction:column;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);background:#fff}
+#winter-drawer.open{transform:translateY(0)}
+#meetups-drawer{position:fixed;inset:0;z-index:400;display:flex;flex-direction:column;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);background:#fff}
+#meetups-drawer.open{transform:translateY(0)}
+#tasks-drawer{position:fixed;inset:0;z-index:400;display:flex;flex-direction:column;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);background:#fff}
+#tasks-drawer.open{transform:translateY(0)}
+.winter-temp-banner{background:var(--surface);border-radius:var(--radius-md);padding:16px;text-align:center;margin-bottom:20px;font-size:13px;color:var(--subtext);min-height:50px;display:flex;align-items:center;justify-content:center}
+.winter-progress{font-size:11px;font-weight:700;color:var(--amber);background:rgba(245,166,35,0.12);padding:3px 10px;border-radius:20px}
+.winter-gear-item{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--border);cursor:pointer}
+.winter-gear-item:last-child{border-bottom:none}
+.winter-gear-check{width:22px;height:22px;border-radius:50%;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.winter-gear-check.checked{background:var(--success);border-color:var(--success)}
+.winter-gear-check.checked svg{display:block}
+.winter-gear-check svg{display:none;color:#fff}
+.winter-gear-name{font-size:13px;font-weight:500;flex:1}
+.winter-gear-name.done{color:var(--muted);text-decoration:line-through}
+.winter-gear-temp{font-size:11px;color:var(--muted)}
+.winter-tip-card{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.winter-tip-card:last-child{border-bottom:none}
+.winter-tip-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.winter-tip-title{font-size:13px;font-weight:600;margin-bottom:3px}
+.winter-tip-desc{font-size:12px;color:var(--subtext);line-height:1.55}
+/* Move-in stat box */
+#movein-stat-box:hover{opacity:0.8}
+#movein-stat-box:active{opacity:0.6;transform:scale(0.97)}
+@keyframes pulse-amber{0%,100%{box-shadow:0 0 0 0 rgba(245,166,35,0.4)}50%{box-shadow:0 0 0 6px rgba(245,166,35,0)}}
+.stat-box.needs-date{animation:pulse-amber 2s ease-in-out 3}
+
+/* Weather modal */
+.weather-day{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--border)}
+.weather-day:last-child{border-bottom:none}
+.weather-day-name{font-size:13px;font-weight:500;width:80px}
+.weather-day-icon{font-size:20px;width:32px;text-align:center}
+.weather-day-desc{font-size:12px;color:var(--subtext);flex:1;padding:0 10px}
+.weather-day-temps{text-align:right}
+.weather-day-high{font-family:'Sora',sans-serif;font-size:14px;font-weight:600;color:var(--text)}
+.weather-day-low{font-size:12px;color:var(--muted)}
+.weather-current-card{background:var(--navy);padding:20px;display:flex;align-items:center;gap:16px}
+.weather-current-temp{font-family:'Sora',sans-serif;font-size:48px;font-weight:700;color:#fff;line-height:1}
+.weather-current-info{}
+.weather-current-label{font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:4px}
+.weather-current-details{font-size:12px;color:rgba(255,255,255,0.45)}
+.weather-alert-card{background:#FFFBEB;border-left:3px solid var(--amber);padding:12px 16px;font-size:12px;color:#92400E;line-height:1.6}
+.set-alert-btn{display:flex;align-items:center;gap:6px;padding:6px 12px;background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.3);border-radius:20px;font-size:11px;font-weight:600;color:var(--amber);cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap;flex-shrink:0;transition:all 0.15s}
+.set-alert-btn:hover{background:var(--amber);color:var(--navy)}
+
+/* Job alerts */
+.job-alerts-panel{border:1px solid var(--border);border-radius:var(--radius-md);padding:16px;background:var(--card);margin-bottom:16px}
+.job-alerts-title{font-family:'Sora',sans-serif;font-size:14px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.job-alert-item{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
+.job-alert-item:last-child{border-bottom:none}
+.job-alert-info{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500}
+.job-alert-search{font-size:11px;padding:5px 12px;border-radius:20px;background:var(--navy);color:#fff;border:none;cursor:pointer;font-family:'Inter',sans-serif}
+.job-alert-delete{background:none;border:1px solid var(--border);border-radius:8px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted)}
+.job-alert-delete:hover{border-color:var(--danger);color:var(--danger)}
+
+/* Notification bell */
+.notif-bell{position:relative;cursor:pointer;background:none;border:none;padding:4px;color:rgba(255,255,255,0.6);transition:color 0.15s}
+.notif-bell:hover{color:#fff}
+#alert-bell-count{position:absolute;top:-2px;right:-2px;background:var(--danger);color:#fff;font-size:9px;font-weight:700;width:16px;height:16px;border-radius:50%;display:none;align-items:center;justify-content:center;font-family:'Sora',sans-serif}
+
+/* Notifications drawer */
+#notif-drawer{position:fixed;top:56px;right:0;width:320px;max-height:calc(100vh - 60px);background:#fff;border:1px solid var(--border);border-radius:0 0 0 var(--radius-lg);box-shadow:0 8px 32px rgba(0,0,0,0.12);z-index:200;transform:translateX(100%);transition:transform 0.25s;overflow-y:auto}
+#notif-drawer.open{transform:translateX(0)}
+.notif-drawer-hdr{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:1}
+.notif-drawer-title{font-family:'Sora',sans-serif;font-size:14px;font-weight:600}
+.notif-close{background:none;border:none;cursor:pointer;color:var(--muted);padding:4px}
+.notif-item{padding:14px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s}
+.notif-item:hover{background:var(--surface)}
+.notif-item.unread{background:#FFFBEB;border-left:3px solid var(--amber)}
+.notif-item-title{font-size:13px;font-weight:600;margin-bottom:3px}
+.notif-item-body{font-size:12px;color:var(--subtext);line-height:1.5}
+.notif-item-time{font-size:11px;color:var(--muted);margin-top:4px}
+.notif-empty{padding:40px 20px;text-align:center;color:var(--muted);font-size:13px}
+.notif-bell{position:relative;cursor:pointer;background:none;border:none;padding:4px;color:rgba(255,255,255,0.6)}
+.notif-bell:hover{color:#fff}
+#alert-bell-count{position:absolute;top:-2px;right:-2px;background:var(--danger);color:#fff;font-size:9px;font-weight:700;width:16px;height:16px;border-radius:50%;display:none;align-items:center;justify-content:center;font-family:'Sora',sans-serif}
+
 /* Popular jobs grid */
 .popular-jobs-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
 .popular-job-card{border:1px solid var(--border);border-radius:var(--radius-md);padding:14px;cursor:pointer;transition:all 0.15s;background:var(--card);text-align:left}
@@ -133,13 +356,21 @@
 /* Edit profile modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.2s}
 .modal-overlay.open{opacity:1;pointer-events:all}
-.modal-card{background:#fff;border-radius:var(--radius-xl);width:100%;max-width:480px;max-height:90vh;overflow-y:auto;transform:translateY(12px);transition:transform 0.2s}
+.modal-card{background:#fff;border-radius:var(--radius-xl);width:100%;max-width:480px;max-height:85vh;overflow-y:auto;transform:translateY(12px);transition:transform 0.2s;-webkit-overflow-scrolling:touch}
+@media(max-width:600px){
+  .modal-overlay{align-items:flex-end;padding:0}
+  .modal-card{border-radius:20px 20px 0 0;max-height:92vh;padding-bottom:env(safe-area-inset-bottom,16px);display:flex;flex-direction:column}
+  .modal-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .modal-footer{flex-shrink:0}
+  #weather-modal .modal-card{max-height:95vh}
+  #weather-modal-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+}
 .modal-overlay.open .modal-card{transform:translateY(0)}
-.modal-hdr{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:1}
+.modal-hdr{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:#fff;position:sticky;top:0;z-index:1}
 .modal-hdr-title{font-family:'Sora',sans-serif;font-size:15px;font-weight:600}
 .modal-close-btn{background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;border-radius:8px}
 .modal-body{padding:20px 22px}
-.modal-footer{padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:10px;position:sticky;bottom:0;background:#fff}
+.modal-footer{padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:10px;background:#fff}
 .mfield{margin-bottom:14px}
 .mfield label{display:block;font-size:11px;font-weight:600;color:var(--subtext);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px}
 .mfield input,.mfield select{width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:var(--radius-md);font-size:13px;font-family:'Inter',sans-serif;color:var(--text);outline:none;transition:border-color 0.2s;background:#fff}
@@ -179,53 +410,137 @@
       </button>
     </div>
 
-    <!-- Sign up -->
+    <!-- Sign up — Step 1: account basics -->
     <div id="signup-form" style="display:none">
-      <div class="auth-field"><label for="su-name">Full name</label><input id="su-name" type="text" placeholder="Your full name" autocomplete="name"></div>
-      <div class="auth-field"><label for="su-email">Email</label><input id="su-email" type="email" placeholder="you@example.com" autocomplete="email"></div>
-      <div class="auth-field"><label for="su-pass">Password</label><input id="su-pass" type="password" placeholder="At least 6 characters" autocomplete="new-password"></div>
-      <div class="auth-field"><label for="su-country">Country of origin</label>
-        <select id="su-country" style="width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-md);font-size:14px;font-family:Inter,sans-serif;color:var(--text);outline:none;background:#fff">
-          <option value="">Select your country...</option>
-        </select>
+      <div class="auth-step-indicator">
+        <span class="step-dot active" id="su-dot-1"></span>
+        <span class="step-line"></span>
+        <span class="step-dot" id="su-dot-2"></span>
       </div>
-      <div class="auth-field"><label for="su-immigration">Immigration type</label>
-        <select id="su-immigration" style="width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-md);font-size:14px;font-family:Inter,sans-serif;color:var(--text);outline:none;background:#fff">
-          <option value="">Select type...</option>
-          <option value="student">International Student</option>
-          <option value="worker">Temporary Foreign Worker</option>
-          <option value="pr">Permanent Resident (PR)</option>
-          <option value="visitor">Visitor / Tourist</option>
-          <option value="refugee">Refugee / Asylum Seeker</option>
-        </select>
+
+      <div id="su-step-1">
+        <div class="auth-field"><label for="su-name">Full name</label><input id="su-name" type="text" placeholder="Your full name" autocomplete="name"></div>
+        <div class="auth-field"><label for="su-email">Email</label><input id="su-email" type="email" placeholder="you@example.com" autocomplete="email"></div>
+        <div class="auth-field"><label for="su-pass">Password</label><input id="su-pass" type="password" placeholder="At least 6 characters" autocomplete="new-password"></div>
+        <div class="auth-field"><label for="su-pass-confirm">Confirm password</label><input id="su-pass-confirm" type="password" placeholder="Re-enter your password" autocomplete="new-password"></div>
+        <p class="auth-error" id="su-error-1" role="alert"></p>
+        <button class="auth-btn" id="su-next-btn">Continue</button>
+        <div class="auth-divider">or</div>
+        <button class="google-btn" id="google-btn-su">
+          <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
+          Continue with Google
+        </button>
       </div>
-      <div class="auth-field"><label for="su-city">Dream city in Alberta</label>
-        <select id="su-city" style="width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-md);font-size:14px;font-family:Inter,sans-serif;color:var(--text);outline:none;background:#fff" onchange="document.getElementById('su-city-wrap').style.display=this.value==='other'?'block':'none'">
-          <option value="">Select a city...</option>
-        </select>
-      </div>
-      <div id="su-city-wrap" class="auth-field" style="display:none">
-        <label for="su-city-other">Specify city</label>
-        <input id="su-city-other" type="text" placeholder="Your city in Alberta">
-      </div>
-      <div class="auth-field">
-        <label>Profile photo</label>
-        <div style="border:1px dashed var(--border2);border-radius:var(--radius-md);padding:14px;text-align:center;cursor:pointer" onclick="document.getElementById('su-photo').click()">
-          <div id="su-photo-preview" style="display:none;margin-bottom:8px"><img id="su-photo-img" style="width:52px;height:52px;border-radius:50%;object-fit:cover;margin:0 auto"></div>
-          <svg id="su-photo-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.5" style="margin:0 auto 6px;display:block"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
-          <p id="su-photo-lbl" style="font-size:12px;color:var(--muted)">Tap to upload a photo</p>
-          <input id="su-photo" type="file" accept="image/*" style="display:none" onchange="onSignupPhotoChange(this)">
+
+      <div id="su-step-2" style="display:none">
+        <p style="font-size:12px;color:var(--muted);margin-bottom:14px">Almost done — tell us a bit more so we can personalize your experience.</p>
+        <div class="auth-field"><label for="su-country">Country of origin</label>
+          <select id="su-country" style="width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-md);font-size:14px;font-family:Inter,sans-serif;color:var(--text);outline:none;background:#fff">
+            <option value="">Select your country...</option>
+          </select>
+        </div>
+        <div class="auth-field"><label for="su-immigration">Immigration type</label>
+          <select id="su-immigration" style="width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-md);font-size:14px;font-family:Inter,sans-serif;color:var(--text);outline:none;background:#fff">
+            <option value="">Select type...</option>
+            <option value="student">International Student</option>
+            <option value="worker">Temporary Foreign Worker</option>
+            <option value="pr">Permanent Resident (PR)</option>
+            <option value="visitor">Visitor / Tourist</option>
+            <option value="refugee">Refugee / Asylum Seeker</option>
+          </select>
+        </div>
+        <div class="auth-field"><label for="su-city">Dream city in Alberta</label>
+          <select id="su-city" style="width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-md);font-size:14px;font-family:Inter,sans-serif;color:var(--text);outline:none;background:#fff" onchange="document.getElementById('su-city-wrap').style.display=this.value==='other'?'block':'none'">
+            <option value="">Select a city...</option>
+          </select>
+        </div>
+        <div id="su-city-wrap" class="auth-field" style="display:none">
+          <label for="su-city-other">Specify city</label>
+          <input id="su-city-other" type="text" placeholder="Your city in Alberta">
+        </div>
+        <div class="auth-field">
+          <label>Profile photo</label>
+          <div style="border:1px dashed var(--border2);border-radius:var(--radius-md);padding:14px;text-align:center;cursor:pointer" onclick="document.getElementById('su-photo').click()">
+            <div id="su-photo-preview" style="display:none;margin-bottom:8px"><img id="su-photo-img" style="width:52px;height:52px;border-radius:50%;object-fit:cover;margin:0 auto"></div>
+            <svg id="su-photo-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.5" style="margin:0 auto 6px;display:block"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <p id="su-photo-lbl" style="font-size:12px;color:var(--muted)">Tap to upload a photo</p>
+            <input id="su-photo" type="file" accept="image/*" style="display:none" onchange="onSignupPhotoChange(this)">
+          </div>
+        </div>
+        <div class="auth-field"><label>Or choose an avatar</label><div id="su-av-grid" class="av-grid"></div></div>
+        <p class="auth-error" id="su-error-2" role="alert"></p>
+        <div style="display:flex;gap:10px">
+          <button class="auth-btn" id="su-back-btn" style="background:none;border:1px solid var(--border);color:var(--text);flex:0 0 auto;padding:13px 18px">Back</button>
+          <button class="auth-btn" id="su-btn" style="flex:1">Create account</button>
         </div>
       </div>
-      <div class="auth-field"><label>Or choose an avatar</label><div id="su-av-grid" class="av-grid"></div></div>
-      <p class="auth-error" id="su-error" role="alert"></p>
-      <button class="auth-btn" id="su-btn">Create account</button>
-      <div class="auth-divider">or</div>
-      <button class="google-btn" id="google-btn-su">
-        <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
-        Continue with Google
-      </button>
     </div>
+  </div>
+</div>
+
+<!-- ── GOOGLE ONBOARDING — Step 1: set a password (mandatory) ──────────────────── -->
+<div id="google-onboard-pass" style="display:none;position:fixed;inset:0;background:var(--navy);z-index:550;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px">
+  <div class="auth-logo">YYC<span>Connect</span></div>
+  <p class="auth-tagline">One more step to secure your account</p>
+  <div class="auth-card" style="max-width:400px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <div style="width:36px;height:36px;border-radius:10px;background:rgba(245,166,35,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      </div>
+      <div>
+        <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:600">Set a password</div>
+        <div style="font-size:11.5px;color:var(--muted)">So you can sign in without Google next time too</div>
+      </div>
+    </div>
+    <div class="auth-field"><label for="gob-pass">Password</label><input id="gob-pass" type="password" placeholder="At least 6 characters" autocomplete="new-password"></div>
+    <div class="auth-field"><label for="gob-pass-confirm">Confirm password</label><input id="gob-pass-confirm" type="password" placeholder="Re-enter your password" autocomplete="new-password"></div>
+    <p class="auth-error" id="gob-pass-error" role="alert"></p>
+    <button class="auth-btn" id="gob-pass-btn">Continue</button>
+  </div>
+</div>
+
+<!-- ── GOOGLE ONBOARDING — Step 2: profile setup ────────────────────────────────── -->
+<div id="google-onboard-profile" style="display:none;position:fixed;inset:0;background:var(--navy);z-index:550;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;overflow-y:auto">
+  <div class="auth-logo">YYC<span>Connect</span></div>
+  <p class="auth-tagline">Tell us a bit about yourself</p>
+  <div class="auth-card" style="max-width:400px;max-height:80vh">
+    <div class="auth-field"><label for="gob-name">Full name</label><input id="gob-name" type="text" placeholder="Your full name"></div>
+    <div class="auth-field"><label for="gob-country">Country of origin</label>
+      <select id="gob-country" style="width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-md);font-size:14px;font-family:Inter,sans-serif;color:var(--text);outline:none;background:#fff">
+        <option value="">Select your country...</option>
+      </select>
+    </div>
+    <div class="auth-field"><label for="gob-immigration">Immigration type</label>
+      <select id="gob-immigration" style="width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-md);font-size:14px;font-family:Inter,sans-serif;color:var(--text);outline:none;background:#fff">
+        <option value="">Select type...</option>
+        <option value="student">International Student</option>
+        <option value="worker">Temporary Foreign Worker</option>
+        <option value="pr">Permanent Resident (PR)</option>
+        <option value="visitor">Visitor / Tourist</option>
+        <option value="refugee">Refugee / Asylum Seeker</option>
+      </select>
+    </div>
+    <div class="auth-field"><label for="gob-city">Dream city in Alberta</label>
+      <select id="gob-city" style="width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-md);font-size:14px;font-family:Inter,sans-serif;color:var(--text);outline:none;background:#fff" onchange="document.getElementById('gob-city-wrap').style.display=this.value==='other'?'block':'none'">
+        <option value="">Select a city...</option>
+      </select>
+    </div>
+    <div id="gob-city-wrap" class="auth-field" style="display:none">
+      <label for="gob-city-other">Specify city</label>
+      <input id="gob-city-other" type="text" placeholder="Your city in Alberta">
+    </div>
+    <div class="auth-field">
+      <label>Profile photo</label>
+      <div style="border:1px dashed var(--border2);border-radius:var(--radius-md);padding:14px;text-align:center;cursor:pointer" onclick="document.getElementById('gob-photo').click()">
+        <div id="gob-photo-preview" style="display:none;margin-bottom:8px"><img id="gob-photo-img" style="width:52px;height:52px;border-radius:50%;object-fit:cover;margin:0 auto"></div>
+        <svg id="gob-photo-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.5" style="margin:0 auto 6px;display:block"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        <p id="gob-photo-lbl" style="font-size:12px;color:var(--muted)">Tap to upload a photo, or use your Google photo below</p>
+        <input id="gob-photo" type="file" accept="image/*" style="display:none" onchange="onGobPhotoChange(this)">
+      </div>
+    </div>
+    <div class="auth-field"><label>Or choose an avatar</label><div id="gob-av-grid" class="av-grid"></div></div>
+    <p class="auth-error" id="gob-profile-error" role="alert"></p>
+    <button class="auth-btn" id="gob-profile-btn">Finish setting up</button>
   </div>
 </div>
 
@@ -249,7 +564,20 @@
         </div>
       </div>
       <div class="mfield"><label>Choose avatar</label><div id="ep-av-grid" class="av-grid"></div></div>
+      <button type="button" class="ep-signout-link" id="ep-signout-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sign out
+      </button>
       <div class="mfield"><label for="ep-name">Full name</label><input id="ep-name" type="text"></div>
+      <div class="mfield">
+        <label for="ep-email">Email address</label>
+        <input id="ep-email" type="email">
+        <p style="font-size:11px;color:var(--muted);margin-top:4px">You'll need to verify your new email address</p>
+      </div>
+      <div class="mfield" id="ep-pass-wrap">
+        <label for="ep-current-pass">Current password (required to change email)</label>
+        <input id="ep-current-pass" type="password" placeholder="Enter current password">
+      </div>
       <div class="mfield"><label for="ep-country">Country of origin</label><select id="ep-country"><option value="">Select...</option></select></div>
       <div class="mfield"><label for="ep-imm">Immigration type</label>
         <select id="ep-imm">
@@ -279,6 +607,260 @@
   </div>
 </div>
 
+<!-- ── WEATHER MODAL ──────────────────────────────────────────────────────────── -->
+<div id="weather-modal" class="modal-overlay" onclick="if(event.target===this)window._closeWeather()">
+  <div class="modal-card" style="max-width:420px">
+    <div class="modal-hdr" style="background:var(--navy);position:sticky;top:0;z-index:2">
+      <span class="modal-hdr-title" style="color:#fff;font-size:15px">📍 Calgary Weather</span>
+      <button class="modal-close-btn"
+        onclick="window._closeWeather()"
+        style="color:#fff;background:rgba(255,255,255,0.15);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;flex-shrink:0"
+        aria-label="Close weather">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div id="weather-modal-body" style="padding:0;overflow-y:auto">
+      <div style="padding:40px;text-align:center;color:var(--muted)">
+        <div class="ai-spinner" style="margin:0 auto 12px"></div>
+        Loading forecast...
+      </div>
+    </div>
+    <div style="padding:14px 20px;border-top:1px solid var(--border);background:#fff;position:sticky;bottom:0;z-index:2">
+      <button onclick="window._closeWeather()"
+        style="width:100%;padding:12px;background:var(--navy);color:#fff;border:none;border-radius:var(--radius-md);font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif">
+        Close
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── NOTIFICATIONS DRAWER ──────────────────────────────────────────────────── -->
+<div id="notif-drawer">
+  <div class="notif-drawer-hdr">
+    <span class="notif-drawer-title">Job alerts</span>
+    <button class="notif-close" onclick="window._closeNotifDrawer()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div id="notif-list">
+    <div class="notif-empty">No notifications yet.<br>Set a job alert to get started.</div>
+  </div>
+</div>
+
+<!-- ── LOCAL SERVICES DRAWER ──────────────────────────────────────────────────── -->
+<div id="services-drawer">
+  <div class="services-drawer-hdr">
+    <div>
+      <div class="services-drawer-title">Local Services Directory</div>
+      <div class="services-drawer-sub">Calgary, AB</div>
+    </div>
+    <button class="drawer-close-btn" onclick="window._closeServices()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <div class="services-drawer-body">
+    <!-- CTrain info -->
+    <div class="svc-section">
+      <div class="svc-section-title">CTrain Lines</div>
+      <div class="ctrain-card">
+        <div class="ctrain-line"><span class="ctrain-dot" style="background:#C8102E"></span><div><div class="ctrain-name">Red Line</div><div class="ctrain-route">Tuscany ↔ Somerset-Bridlewood</div></div></div>
+        <div class="ctrain-line"><span class="ctrain-dot" style="background:#003DA5"></span><div><div class="ctrain-name">Blue Line</div><div class="ctrain-route">Crowfoot ↔ Saddletowne</div></div></div>
+      </div>
+    </div>
+
+    <!-- Live category map -->
+    <div class="svc-section">
+      <div class="svc-section-title-row">
+        <div class="svc-section-title" style="margin-bottom:0">Find nearby</div>
+        <button class="svc-locate-btn" id="svc-locate-btn" onclick="window._useMyLocation()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg>
+          Use my location
+        </button>
+      </div>
+      <div class="svc-cat-pills" id="svc-cat-pills"></div>
+      <div id="services-map" style="height:240px;border-radius:var(--radius-md);overflow:hidden;margin-bottom:10px"></div>
+      <div id="services-list"></div>
+    </div>
+
+    <!-- Settlement agencies -->
+    <div class="svc-section">
+      <div class="svc-section-title">Settlement agencies</div>
+      <div id="settlement-agencies-list"></div>
+    </div>
+
+    <!-- ESL programs -->
+    <div class="svc-section">
+      <div class="svc-section-title">English language (ESL/LINC) programs</div>
+      <div id="esl-programs-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── WINTER SURVIVAL DRAWER ─────────────────────────────────────────────────── -->
+<div id="winter-drawer">
+  <div class="services-drawer-hdr" style="background:linear-gradient(135deg,var(--navy) 0%,#1a3a5c 100%)">
+    <div>
+      <div class="services-drawer-title">Winter Survival Guide</div>
+      <div class="services-drawer-sub">Calgary winters reach −30°C — be ready</div>
+    </div>
+    <button class="drawer-close-btn" onclick="window._closeWinter()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <div class="services-drawer-body">
+    <!-- Current temp context -->
+    <div class="winter-temp-banner" id="winter-temp-banner">
+      <div class="ai-spinner" style="margin:0 auto"></div>
+    </div>
+
+    <!-- Gear checklist -->
+    <div class="svc-section">
+      <div class="svc-section-title-row">
+        <div class="svc-section-title" style="margin-bottom:0">Essential gear checklist</div>
+        <span class="winter-progress" id="winter-progress">0/8</span>
+      </div>
+      <div id="winter-gear-list"></div>
+    </div>
+
+    <!-- Black ice safety -->
+    <div class="svc-section">
+      <div class="svc-section-title">Black ice & walking safely</div>
+      <div class="winter-tip-card">
+        <div class="winter-tip-icon" style="background:#FEE2E2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#991B1B" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+        <div><div class="winter-tip-title">Walk like a penguin</div><p class="winter-tip-desc">Take short, flat-footed steps with your centre of gravity over your front leg. Keep your hands free, not in pockets, for balance.</p></div>
+      </div>
+      <div class="winter-tip-card">
+        <div class="winter-tip-icon" style="background:#FEF3C7"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#92400E" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        <div><div class="winter-tip-title">Black ice is invisible</div><p class="winter-tip-desc">Most dangerous near building entrances, bus stops and bridges. Looks like a wet patch but is solid ice — slow down on any dark, shiny pavement.</p></div>
+      </div>
+      <div class="winter-tip-card">
+        <div class="winter-tip-icon" style="background:#DBEAFE"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+        <div><div class="winter-tip-title">Get ice cleats</div><p class="winter-tip-desc">Slip-on ice grippers (~$20–30 CAD) fit over your regular boots and dramatically reduce fall risk. Available at Canadian Tire, Walmart, MEC.</p></div>
+      </div>
+    </div>
+
+    <!-- Transit tips -->
+    <div class="svc-section">
+      <div class="svc-section-title">Winter transit tips</div>
+      <div class="winter-tip-card">
+        <div class="winter-tip-icon" style="background:#D1FAE5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#065F46" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
+        <div><div class="winter-tip-title">Use the +15 Skyway</div><p class="winter-tip-desc">Calgary's downtown has an 18km network of enclosed, heated walkways connecting buildings above street level — stay warm and avoid ice entirely.</p></div>
+      </div>
+      <div class="winter-tip-card">
+        <div class="winter-tip-icon" style="background:#FCE7F3"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9D174D" stroke-width="2"><rect x="4" y="3" width="16" height="13" rx="2"/><path d="M4 11h16"/><path d="M8 19l-2 3"/><path d="M16 19l2 3"/></svg></div>
+        <div><div class="winter-tip-title">CTrain platforms get icy</div><p class="winter-tip-desc">Hold the railing when boarding/exiting. Trains can be delayed in extreme cold (below −30°C) — check the Calgary Transit app for real-time alerts.</p></div>
+      </div>
+      <div class="winter-tip-card">
+        <div class="winter-tip-icon" style="background:#E0E7FF"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3730A3" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        <div><div class="winter-tip-title">Leave extra time</div><p class="winter-tip-desc">Add 10–15 minutes to any commute in winter. Buses run slower, sidewalks need careful navigation, and warming up a car (if you have one) takes time.</p></div>
+      </div>
+      <div class="winter-tip-card">
+        <div class="winter-tip-icon" style="background:#FFE4E6"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#BE123C" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0016.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 002 8.5c0 2.29 1.51 4.04 3 5.5l7 7z"/></svg></div>
+        <div><div class="winter-tip-title">Know frostbite signs</div><p class="winter-tip-desc">Numbness, white/grey patches on skin, or a waxy look on fingers, nose, ears. Get indoors and warm gradually — don't rub the area.</p></div>
+      </div>
+    </div>
+
+    <div class="info-note">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      Calgary's weather can swing 20°C+ in a single day due to Chinook winds. Layer your clothing so you can adapt quickly.
+    </div>
+  </div>
+</div>
+
+<!-- ── MEETUPS DRAWER ─────────────────────────────────────────────────────────── -->
+<div id="meetups-drawer">
+  <div class="services-drawer-hdr" style="background:linear-gradient(135deg,var(--navy) 0%,#4a1d5c 100%)">
+    <div>
+      <div class="services-drawer-title">Find Meetups</div>
+      <div class="services-drawer-sub">Choose what you're interested in</div>
+    </div>
+    <button class="drawer-close-btn" onclick="window._closeMeetups()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <div class="services-drawer-body">
+    <p style="font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.6">Pick a category to see live Calgary groups and events. These link out to Eventbrite, Meetup, and local organizers — always current.</p>
+
+    <div class="svc-cat-pills" id="meetup-cat-pills" style="flex-wrap:wrap;overflow-x:visible"></div>
+
+    <div id="meetup-results"></div>
+  </div>
+</div>
+
+<!-- ── MY TASKS DRAWER ────────────────────────────────────────────────────────── -->
+<div id="tasks-drawer">
+  <div class="services-drawer-hdr" style="background:linear-gradient(135deg,var(--navy) 0%,#0f3a52 100%)">
+    <div>
+      <div class="services-drawer-title">My Tasks</div>
+      <div class="services-drawer-sub" id="tasks-count-sub">Stay organised, stay ahead</div>
+    </div>
+    <button class="drawer-close-btn" onclick="window._closeTasks()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <div class="services-drawer-body">
+    <!-- Add task -->
+    <div class="task-add-row">
+      <input type="text" id="tk-input" class="task-input" placeholder="What needs to be done?">
+    </div>
+    <div class="task-add-row task-add-row-grid">
+      <input type="datetime-local" id="tk-due" class="task-input task-input-sm">
+      <select id="tk-priority" class="task-input task-input-sm">
+        <option value="none">Priority</option>
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+      <select id="tk-category" class="task-input task-input-sm">
+        <option value="none">Category</option>
+        <option value="work">Work</option>
+        <option value="personal">Personal</option>
+        <option value="health">Health</option>
+        <option value="finance">Finance</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <button id="tk-add-btn" class="task-add-btn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Add task
+    </button>
+
+    <!-- Search -->
+    <div class="task-search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="tk-search" class="task-search" placeholder="Search tasks...">
+    </div>
+
+    <!-- Filters -->
+    <div class="svc-cat-pills" id="tk-status-filters" style="flex-wrap:wrap;overflow-x:visible;margin-bottom:8px">
+      <button class="svc-cat-pill active" data-filter="all">All</button>
+      <button class="svc-cat-pill" data-filter="active">Active</button>
+      <button class="svc-cat-pill" data-filter="completed">Completed</button>
+      <button class="svc-cat-pill" data-filter="overdue">Overdue</button>
+    </div>
+    <div class="svc-cat-pills" id="tk-priority-filters" style="flex-wrap:wrap;overflow-x:visible;margin-bottom:8px">
+      <button class="svc-cat-pill active" data-priority="all">All priorities</button>
+      <button class="svc-cat-pill" data-priority="high"><span class="task-p-dot high"></span>High</button>
+      <button class="svc-cat-pill" data-priority="medium"><span class="task-p-dot medium"></span>Medium</button>
+      <button class="svc-cat-pill" data-priority="low"><span class="task-p-dot low"></span>Low</button>
+    </div>
+
+    <ul id="tk-list" class="task-list"></ul>
+
+    <div class="task-stats">
+      <span id="tk-count-label">0 tasks remaining</span>
+      <button id="tk-clear-completed">Clear completed</button>
+    </div>
+  </div>
+</div>
+
 <!-- ── PORCHLIGHT DRAWER ───────────────────────────────────────────────────────── -->
 <div id="porchlight-drawer">
   <div class="drawer-header">
@@ -295,14 +877,14 @@
 <!-- ── MAIN APP ────────────────────────────────────────────────────────────────── -->
 <div id="app">
   <aside class="app-sidebar">
-    <div class="sidebar-brand"><div class="logo">YYC<span>Connect</span></div></div>
+    <div class="sidebar-brand"><div class="logo" onclick="window._goHome()" style="cursor:pointer">YYC<span>Connect</span></div></div>
     <nav class="sidebar-nav-links">
-      <button class="snav-tab active" onclick="window._nav('home')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</button>
-      <button class="snav-tab" onclick="window._nav('housing')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Housing</button>
-      <button class="snav-tab" onclick="window._nav('jobs')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>Jobs</button>
-      <button class="snav-tab" onclick="window._nav('events')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Events</button>
-      <button class="snav-tab" onclick="window._nav('resources')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Resources</button>
-      <button class="snav-tab" onclick="window._nav('profile')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</button>
+      <button class="sidebar-tab active" data-section="home" onclick="window._nav('home')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</button>
+      <button class="sidebar-tab" data-section="housing" onclick="window._nav('housing')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Housing</button>
+      <button class="sidebar-tab" data-section="jobs" onclick="window._nav('jobs')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>Jobs</button>
+      <button class="sidebar-tab" data-section="events" onclick="window._nav('events')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Events</button>
+      <button class="sidebar-tab" data-section="resources" onclick="window._nav('resources')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Resources</button>
+      <button class="sidebar-tab" data-section="profile" onclick="window._nav('profile')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</button>
     </nav>
     <div class="sidebar-footer">
       <button id="sidebar-signout" style="display:flex;align-items:center;gap:8px;width:100%;padding:10px 12px;border-radius:10px;background:none;border:none;cursor:pointer;font-size:13px;color:rgba(255,255,255,0.4);font-family:Inter,sans-serif"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sign out</button>
@@ -312,9 +894,16 @@
   <div class="app-main">
     <header class="topbar app-topbar">
       <div class="topbar-inner">
-        <div class="logo">YYC<span>Connect</span></div>
+        <div class="logo" onclick="window._goHome()" style="cursor:pointer">YYC<span>Connect</span></div>
         <div class="topbar-right" style="gap:16px">
-          <div class="weather-pill"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 17.58A5 5 0 0018 8h-1.26A8 8 0 104 16.25"/><line x1="8" y1="16" x2="8.01" y2="16"/><line x1="8" y1="20" x2="8.01" y2="20"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>−3°C Calgary</div>
+          <button class="notif-bell" onclick="window._toggleNotifDrawer()" title="Job alerts" aria-label="Job alerts">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+            <span id="alert-bell-count"></span>
+          </button>
+          <button class="weather-pill" onclick="typeof window._openWeather==='function'?window._openWeather():null" title="Calgary weather" style="cursor:pointer;border:none">
+            <span id="weather-pill-icon" style="display:flex;align-items:center"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 17.58A5 5 0 0018 8h-1.26A8 8 0 104 16.25"/></svg></span>
+            <span id="weather-pill-text">—°C</span>
+          </button>
           <button class="avatar" id="user-avatar" onclick="window._nav('profile')"></button>
         </div>
       </div>
@@ -345,8 +934,8 @@
       </div>
       <div class="stat-row">
         <div class="stat-box"><div class="stat-val" id="s-movein">—</div><div class="stat-lbl">Days to move-in</div></div>
-        <div class="stat-box"><div class="stat-val" id="s-events">—</div><div class="stat-lbl">Events this week</div></div>
-        <div class="stat-box"><div class="stat-val" id="s-rent">$850</div><div class="stat-lbl">Avg rent nearby</div></div>
+        <div class="stat-box" onclick="window._openTasks()" style="cursor:pointer" title="View my tasks"><div class="stat-val" id="s-tasks">—</div><div class="stat-lbl">Tasks remaining</div></div>
+        <div class="stat-box" onclick="window._nav('resources')" style="cursor:pointer" title="View budget calculator"><div class="stat-val" id="s-rent">$1,599</div><div class="stat-lbl" id="s-rent-lbl">1BR avg Calgary</div></div>
       </div>
     </section>
 
@@ -366,14 +955,20 @@
         <div class="sec-title">Quick access</div>
         <div class="quick-grid">
           <div class="qcard qc-blue" onclick="window._nav('housing')" role="button" tabindex="0"><div class="qcard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="qcard-title">Housing</div><div class="qcard-sub">Powered by Porchlight</div></div>
-          <div class="qcard qc-green" onclick="window._nav('jobs')" role="button" tabindex="0"><div class="qcard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div><div class="qcard-title">Job Board</div><div class="qcard-sub" id="job-count-label">Loading...</div></div>
+          <div class="qcard qc-green" onclick="window._nav('jobs')" role="button" tabindex="0"><div class="qcard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div><div class="qcard-title">Job Board</div><div class="qcard-sub" id="job-count-label">Search Calgary jobs</div></div>
           <div class="qcard qc-amber" onclick="window._nav('events')" role="button" tabindex="0"><div class="qcard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div class="qcard-title">Events</div><div class="qcard-sub" id="event-count-label">Loading...</div></div>
-          <div class="qcard qc-purple" onclick="window._nav('resources')" role="button" tabindex="0"><div class="qcard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><div class="qcard-title">Budget</div><div class="qcard-sub">Plan monthly costs</div></div>
+          <div class="qcard qc-purple" onclick="window._nav('resources')" role="button" tabindex="0"><div class="qcard-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div><div class="qcard-title">Budget</div><div class="qcard-sub" id="budget-quick-sub">Plan monthly costs</div></div>
         </div>
-        <div class="sec-title">Featured listing <a onclick="window._nav('housing')">See all</a></div>
+        <div class="sec-title" data-section="featured-listing" id="section-featured-listing">Featured listing <button class="see-all-btn" onclick="window._nav('housing')">See all<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></button></div>
         <div id="home-listing"><div class="skeleton" style="height:130px;border-radius:16px"></div><div class="skeleton" style="width:60%;margin-top:14px"></div><div class="skeleton" style="width:40%"></div></div>
-        <div class="sec-title" style="margin-top:8px">Upcoming events <a onclick="window._nav('events')">See all</a></div>
-        <div id="home-events"><div class="skeleton" style="height:72px;border-radius:12px"></div><div class="skeleton" style="height:72px;border-radius:12px;margin-top:12px"></div></div>
+        <div class="sec-title" style="margin-top:8px" data-section="upcoming-events" id="section-upcoming-events">Upcoming events <button class="see-all-btn" onclick="window._nav('events')">See all<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></button></div>
+        <div class="rcard" onclick="window._nav('events')" style="cursor:pointer" role="button" tabindex="0">
+          <div class="rcard-header">
+            <div class="rcard-icon" style="background:#FFF7ED"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9A3412" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+            <div class="rcard-title">What's happening in Calgary</div>
+          </div>
+          <p class="rcard-sub">Live festivals, concerts, sports & free community events — always current</p>
+        </div>
       </section>
 
       <!-- HOUSING -->
@@ -435,6 +1030,18 @@
         <!-- AI results -->
         <div id="ai-job-results"></div>
 
+        <!-- Job alerts panel -->
+        <div class="job-alerts-panel" id="job-alerts-panel">
+          <div class="job-alerts-title">
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" style="display:inline;vertical-align:-2px;margin-right:5px"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+              My job alerts
+            </span>
+            <button onclick="window._requestPush()" style="font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid var(--border);background:#fff;cursor:pointer;font-family:'Inter',sans-serif;color:var(--subtext)">Enable notifications</button>
+          </div>
+          <div id="job-alerts-list"></div>
+        </div>
+
         <!-- Popular searches -->
         <div class="sec-title" style="margin-top:4px">Popular searches in Calgary</div>
         <div id="popular-jobs-grid" class="popular-jobs-grid"></div>
@@ -442,35 +1049,122 @@
 
       <!-- EVENTS -->
       <section id="sec-events" class="sec">
-        <div class="filter-bar" id="event-filters">
-          <button class="fpill active" data-filter="all">All</button>
-          <button class="fpill" data-filter="campus">Campus</button>
-          <button class="fpill" data-filter="cultural">Cultural</button>
-          <button class="fpill" data-filter="tech">Tech</button>
-          <button class="fpill" data-filter="winter">Winter</button>
-          <button class="fpill" data-filter="free">Free</button>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.6">Calgary's event scene changes daily — here are the best live sources, always current and updated directly by the organizers.</p>
+
+        <div class="sec-title">Festivals, concerts & city-wide</div>
+        <a href="https://www.visitcalgary.com/events" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon" style="background:#FFF7ED"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9A3412" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+          <div class="link-card-body"><div class="link-card-title">Tourism Calgary — Events Calendar</div><div class="link-card-desc">Official interactive calendar: festivals, concerts, exhibits, family fun</div></div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" class="link-card-arrow"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+        <a href="https://www.eventbrite.ca/d/canada--calgary/events/" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon" style="background:#EFF6FF"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div class="link-card-body"><div class="link-card-title">Eventbrite — All Calgary Events</div><div class="link-card-desc">Live, searchable listings updated by organizers every day</div></div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" class="link-card-arrow"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+        <a href="https://www.ticketmaster.ca/discover/calgary" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon" style="background:#FDF4FF"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#86198F" stroke-width="2"><path d="M21 10V8a2 2 0 00-2-2H5a2 2 0 00-2 2v2a2 2 0 010 4v2a2 2 0 002 2h14a2 2 0 002-2v-2a2 2 0 010-4z"/></svg></div>
+          <div class="link-card-body"><div class="link-card-title">Ticketmaster — Calgary</div><div class="link-card-desc">Concerts, sports games, theatre — Saddledome, McMahon Stadium & more</div></div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" class="link-card-arrow"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+
+        <div class="sec-title" style="margin-top:18px">Free & community</div>
+        <a href="https://www.calgary.ca/things-to-do/events.html" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon" style="background:#ECFDF5"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#065F46" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>
+          <div class="link-card-body"><div class="link-card-title">City of Calgary — Things to Do</div><div class="link-card-desc">Free city-run programming, markets, and public events</div></div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" class="link-card-arrow"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+        <a href="https://www.todocanada.ca/things-to-do-calgary-this-weekend/" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon" style="background:#FEF3C7"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B45309" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9" y2="9"/><line x1="15" y1="9" x2="15" y2="9"/></svg></div>
+          <div class="link-card-body"><div class="link-card-title">This Weekend in Calgary</div><div class="link-card-desc">Weekly digest: free family activities, live music, markets</div></div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" class="link-card-arrow"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+
+        <div class="sec-title" style="margin-top:18px">Sports — home games</div>
+        <a href="https://www.ticketmaster.ca/calgary-stampeders-tickets/artist/805439" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon" style="background:#FEF2F2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B91C1C" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div>
+          <div class="link-card-body"><div class="link-card-title">Calgary Stampeders (CFL)</div><div class="link-card-desc">Home games at McMahon Stadium</div></div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" class="link-card-arrow"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+        <a href="https://www.calgarysurge.com/schedule" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon" style="background:#FEF2F2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B91C1C" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div>
+          <div class="link-card-body"><div class="link-card-title">Calgary Surge (Basketball)</div><div class="link-card-desc">Home games at WinSport Event Centre</div></div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" class="link-card-arrow"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+        <a href="https://www.cavalryfc.ca/schedule" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon" style="background:#FEF2F2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B91C1C" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div>
+          <div class="link-card-body"><div class="link-card-title">Cavalry FC (Soccer)</div><div class="link-card-desc">Home games — Calgary's pro soccer club</div></div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" class="link-card-arrow"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+
+        <div class="info-note" style="margin-top:18px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          Looking for ongoing groups and meetups instead of one-time events? Check the <a href="#" onclick="window._nav('resources');setTimeout(()=>window._openMeetups(),200);return false" style="color:var(--amber);font-weight:600">Find meetups</a> card in Resources.
         </div>
-        <div class="sec-title">June 2026</div>
-        <div id="events-list"><div class="skeleton" style="height:72px;border-radius:12px;margin-bottom:12px"></div><div class="skeleton" style="height:72px;border-radius:12px"></div></div>
       </section>
 
       <!-- RESOURCES -->
       <section id="sec-resources" class="sec">
-        <div class="alert"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><p><strong>−3°C today · Snow expected Thursday</strong></p></div>
+        <div class="alert"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><p>Loading Calgary weather...</p></div>
         <div class="sec-title">Budget calculator</div>
         <div class="budget-card">
-          <div class="budget-row"><div class="budget-row-top"><label class="budget-label" for="br-rent"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Rent</label><span class="budget-val" id="bv-rent">$850</span></div><input type="range" id="br-rent" min="500" max="2000" step="50" value="850"></div>
-          <div class="budget-row"><div class="budget-row-top"><label class="budget-label" for="br-food"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>Food & groceries</label><span class="budget-val" id="bv-food">$250</span></div><input type="range" id="br-food" min="100" max="600" step="10" value="250"></div>
-          <div class="budget-row"><div class="budget-row-top"><label class="budget-label" for="br-transit"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>Transit</label><span class="budget-val" id="bv-transit">$110</span></div><input type="range" id="br-transit" min="0" max="120" step="5" value="110"></div>
-          <div class="budget-row"><div class="budget-row-top"><label class="budget-label" for="br-winter"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H5v10a2 2 0 002 2h10a2 2 0 002-2V10h1.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>Winter gear</label><span class="budget-val" id="bv-winter">$150</span></div><input type="range" id="br-winter" min="0" max="500" step="25" value="150"></div>
-          <div class="budget-row"><div class="budget-row-top"><label class="budget-label" for="br-misc"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>Phone & misc</label><span class="budget-val" id="bv-misc">$80</span></div><input type="range" id="br-misc" min="50" max="300" step="10" value="80"></div>
+          <div class="budget-row"><div class="budget-row-top"><label class="budget-label" for="br-rent"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Rent</label><span class="budget-val" id="bv-rent">$1,599</span></div><input type="range" id="br-rent" min="500" max="3000" step="50" value="1599"></div>
+          <div class="budget-row"><div class="budget-row-top"><label class="budget-label" for="br-food"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>Food & groceries</label><span class="budget-val" id="bv-food">$250</span></div><input type="range" id="br-food" min="100" max="1000" step="10" value="250"></div>
+          <div class="budget-row"><div class="budget-row-top"><label class="budget-label" for="br-transit"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>Transit & rideshare</label><span class="budget-val" id="bv-transit">$110</span></div><input type="range" id="br-transit" min="0" max="600" step="10" value="110"></div>
+          <div class="budget-row"><div class="budget-row-top"><label class="budget-label" for="br-winter"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H5v10a2 2 0 002 2h10a2 2 0 002-2V10h1.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>Winter gear</label><span class="budget-val" id="bv-winter">$150</span></div><input type="range" id="br-winter" min="0" max="2000" step="50" value="150"></div>
+          <div class="budget-row"><div class="budget-row-top"><label class="budget-label" for="br-misc"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>Phone & misc</label><span class="budget-val" id="bv-misc">$80</span></div><input type="range" id="br-misc" min="50" max="700" step="10" value="80"></div>
           <div class="budget-total"><div class="budget-total-lbl">Estimated monthly total</div><div class="budget-total-val" id="budget-total">$1,440</div><div class="budget-total-sub">Canadian dollars (CAD)</div></div>
         </div>
         <div class="sec-title">Resource hub</div>
-        <div class="rcard"><div class="rcard-header"><div class="rcard-icon" style="background:#EFF6FF"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="rcard-title">Immigration & study tips</div></div><p class="rcard-sub">Study permit, PGWP, spousal open work permit, GIC setup</p></div>
-        <div class="rcard"><div class="rcard-header"><div class="rcard-icon" style="background:#ECFDF5"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#065F46" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div><div class="rcard-title">Local services directory</div></div><p class="rcard-sub">CTrain routes, walk-in clinics, banks, grocery stores near BVC</p></div>
-        <div class="rcard"><div class="rcard-header"><div class="rcard-icon" style="background:#F0F9FF"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0369A1" stroke-width="2"><path d="M20 17.58A5 5 0 0018 8h-1.26A8 8 0 104 16.25"/></svg></div><div class="rcard-title">Winter survival checklist</div></div><p class="rcard-sub">Prepare for −30°C: gear, black ice, transit tips</p></div>
-        <div class="rcard"><div class="rcard-header"><div class="rcard-icon" style="background:#FFF7ED"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9A3412" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div><div class="rcard-title">Banking & GIC setup</div></div><p class="rcard-sub">Open a Canadian bank account, set up your GIC, student credit cards</p></div>
+        <div class="rcard" onclick="document.getElementById('immigration-updates').scrollIntoView({behavior:'smooth',block:'start'})" style="cursor:pointer" role="button" tabindex="0"><div class="rcard-header"><div class="rcard-icon" style="background:#EFF6FF"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="rcard-title">Immigration & study tips</div></div><p class="rcard-sub">Study permit, PGWP, spousal open work permit, GIC setup</p></div>
+        <div class="rcard" onclick="window._openServices()" style="cursor:pointer" role="button" tabindex="0"><div class="rcard-header"><div class="rcard-icon" style="background:#ECFDF5"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#065F46" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div><div class="rcard-title">Local services directory</div></div><p class="rcard-sub">CTrain routes, walk-in clinics, banks, libraries, settlement agencies near you</p></div>
+        <div class="rcard" onclick="window._openWinter()" style="cursor:pointer" role="button" tabindex="0"><div class="rcard-header"><div class="rcard-icon" style="background:#F0F9FF"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0369A1" stroke-width="2"><path d="M20 17.58A5 5 0 0018 8h-1.26A8 8 0 104 16.25"/></svg></div><div class="rcard-title">Winter survival checklist</div></div><p class="rcard-sub">Prepare for −30°C: gear, black ice, transit tips</p></div>
+
+        <div class="rcard" onclick="window._openMeetups()" style="cursor:pointer" role="button" tabindex="0"><div class="rcard-header"><div class="rcard-icon" style="background:#FDF4FF"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#86198F" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div><div class="rcard-title">Find meetups</div></div><p class="rcard-sub">Sports, language exchange, networking & social groups in Calgary</p></div>
+
+        <div class="sec-title" id="immigration-updates" style="margin-top:8px">Immigration & PR updates</div>
+        <p style="font-size:12px;color:var(--muted);margin:-6px 0 12px;line-height:1.6">Live links to official government sources — always current, no outdated info.</p>
+
+        <a href="https://www.alberta.ca/aaip-processing-information" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon" style="background:#FEF3C7"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#92400E" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+          <div class="link-card-body">
+            <div class="link-card-title">Alberta AAIP Draw Results <span class="link-card-badge">Live</span></div>
+            <div class="link-card-desc">Official Express Entry, Opportunity Stream, Rural Renewal & Tech Pathway draws, updated as they happen</div>
+          </div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" class="link-card-arrow"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+
+        <a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry.html" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon" style="background:#FEE2E2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#991B1B" stroke-width="2"><path d="M12 2a4 4 0 014 4v1.5a4 4 0 01-8 0V6a4 4 0 014-4z"/><path d="M6 21v-2a6 6 0 0112 0v2"/></svg></div>
+          <div class="link-card-body">
+            <div class="link-card-title">Federal Express Entry <span class="link-card-badge">Official</span></div>
+            <div class="link-card-desc">IRCC's main portal — create your profile, check CRS score, view draw history</div>
+          </div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" class="link-card-arrow"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+
+        <a href="https://www.alberta.ca/aaip-alberta-express-entry-stream" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon" style="background:#DBEAFE"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E40AF" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <div class="link-card-body">
+            <div class="link-card-title">Alberta Express Entry Stream</div>
+            <div class="link-card-desc">Eligibility criteria, CRS requirements, and how the 600-point nomination boost works</div>
+          </div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" class="link-card-arrow"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+
+        <a href="https://www.alberta.ca/aaip-eligibility-criteria" target="_blank" rel="noopener" class="link-card">
+          <div class="link-card-icon" style="background:#D1FAE5"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#065F46" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+          <div class="link-card-body">
+            <div class="link-card-title">All AAIP Streams & Eligibility</div>
+            <div class="link-card-desc">Opportunity Stream, Health Care Pathway, Tech Pathway, Rural Renewal — full criteria</div>
+          </div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" class="link-card-arrow"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+
+        <div class="info-note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          A provincial nomination is not PR. After AAIP approval you still apply to IRCC federally for permanent residence.
+        </div>
       </section>
 
       <!-- PROFILE -->
@@ -502,6 +1196,12 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           Edit profile
         </button>
+        <div id="admin-panel-link" style="display:none;margin-bottom:10px">
+          <a href="./admin/" class="btn btn-outline btn-block" style="text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            Open Admin Dashboard
+          </a>
+        </div>
         <button class="btn btn-danger btn-block" id="signout-btn">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
           Sign out
@@ -555,18 +1255,31 @@
 // ── All imports first — this is mandatory for ES modules ──────────────────────
 import { auth, db }                                                    from './js/firebase.js';
 import { signIn, signUp, signInGoogle, signOut,
-         AVATARS, COUNTRIES, ALBERTA_CITIES, uploadToCloudinary }      from './js/auth.js';
+         AVATARS, COUNTRIES, ALBERTA_CITIES, uploadToCloudinary,
+         signupGoToStep2, signupGoToStep1,
+         submitGoogleOnboardPassword, submitGoogleOnboardProfile,
+         checkEmailBanned, showLockedOutScreen,
+         showGoogleOnboarding, hideGoogleOnboarding,
+         startBanPolling, stopBanPolling }                              from './js/auth.js';
 import { showSec, setBottomNav, switchAuthTab, toast, initToggles }    from './js/ui.js';
 import { seedIfEmpty, startListeners }                                  from './js/data.js';
-import { loadUserProfile, getCachedSettlement }                          from './js/profile.js';
+import { loadUserProfile, getCachedSettlement, updateMoveinCountdown, updateRentStat } from './js/profile.js';
 import { initSettlementChips, openSettleModal, closeSettleModal }       from './js/settlement.js';
 import { initFilters }                                                  from './js/filters.js';
-import { initBudget }                                                   from './js/budget.js';
+import { initBudget, reloadBudgetForUser, getUserBudgetTotal }          from './js/budget.js';
 // map.js not used — Porchlight iframe handles map
 import { onAuthStateChanged }                                           from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-import { doc, getDoc, updateDoc, setDoc, serverTimestamp }              from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import { doc, getDoc, getDocFromServer, updateDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 import { updateProfile }                                                from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-import { runJobAISearch, renderPopularJobs }                             from './js/jobs-ai.js';
+import { runJobAISearch, renderPopularJobs, initJobAlerts, initNotifications, setRoleAlert, requestPushPermission } from './js/jobs-ai.js';
+import { initWeather, openWeatherModal, closeWeatherModal, fetchCalgaryWeather } from './js/weather.js';
+import {
+  SERVICE_CATEGORIES, SETTLEMENT_AGENCIES, ESL_PROGRAMS,
+  categoryIconSVG, initServicesMap, loadCategory, refreshServicesMap,
+  requestUserLocation, clearUserLocation
+} from './js/services.js';
+import { MEETUP_CATEGORIES, categoryIconSVG as meetupIconSVG } from './js/meetups.js';
+import { loadTasksForUser, initTasks, getActiveTaskCount } from './js/tasks.js';
 
 // ── State ─────────────────────────────────────────────────────────────────────
 let currentUid  = null;
@@ -576,9 +1289,319 @@ let epSelAvatar = null;
 
 // ── Expose globals needed by inline onclick handlers ──────────────────────────
 window._toast         = toast;
+window._refreshBudgetCard = () => updateBudgetQuickCard();
+window._openWeather   = openWeatherModal;
+window._closeWeather  = closeWeatherModal;
 window.switchAuthTab  = switchAuthTab;
 
+// ── Local Services drawer ──────────────────────────────────────────────────────
+let _servicesOpened = false;
+
+window._openServices = () => {
+  document.getElementById('services-drawer')?.classList.add('open');
+  if (!_servicesOpened) {
+    _servicesOpened = true;
+    renderCategoryPills();
+    renderSettlementAgencies();
+    renderESLPrograms();
+    setTimeout(async () => {
+      await initServicesMap();
+      refreshServicesMap();
+    }, 150);
+  } else {
+    refreshServicesMap();
+  }
+};
+
+window._closeServices = () => {
+  document.getElementById('services-drawer')?.classList.remove('open');
+};
+
+window._loadSvcCategory = async (catId) => {
+  await loadCategory(catId);
+};
+
+window._useMyLocation = async () => {
+  const btn = document.getElementById('svc-locate-btn');
+  if (!btn) return;
+  const originalHTML = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite"><circle cx="12" cy="12" r="10" stroke-dasharray="40" stroke-dashoffset="10"/></svg> Locating...`;
+
+  const result = await requestUserLocation();
+
+  if (result.ok) {
+    btn.classList.add('active');
+    btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Using your location`;
+    window._toast('Showing results near you');
+    // Reload current active category with new center
+    const activePill = document.querySelector('.svc-cat-pill.active');
+    const catId = activePill?.dataset.cat || 'clinic';
+    await loadCategory(catId);
+  } else {
+    btn.disabled = false;
+    btn.innerHTML = originalHTML;
+    if (result.reason === 'denied') {
+      window._toast('Location access denied — showing downtown Calgary instead');
+    } else if (result.reason === 'unsupported') {
+      window._toast('Location not supported on this device');
+    } else {
+      window._toast('Could not get your location — try again');
+    }
+  }
+};
+
+// ── Winter Survival drawer ─────────────────────────────────────────────────────
+const WINTER_GEAR = [
+  { id: 'coat',    name: 'Insulated winter parka (rated to -30°C)', temp: 'Essential' },
+  { id: 'boots',   name: 'Waterproof insulated winter boots',        temp: 'Essential' },
+  { id: 'cleats',  name: 'Slip-on ice cleats / grippers',             temp: 'Essential' },
+  { id: 'gloves',  name: 'Insulated waterproof gloves or mittens',    temp: 'Essential' },
+  { id: 'hat',     name: 'Warm hat covering ears',                    temp: 'Essential' },
+  { id: 'scarf',   name: 'Scarf or neck gaiter',                      temp: 'Recommended' },
+  { id: 'layers',  name: 'Thermal base layers (top & bottom)',        temp: 'Recommended' },
+  { id: 'socks',   name: 'Wool or thermal socks',                     temp: 'Recommended' },
+];
+
+let _winterOpened = false;
+let _gearState = {};
+
+window._openWinter = async () => {
+  document.getElementById('winter-drawer')?.classList.add('open');
+  if (!_winterOpened) {
+    _winterOpened = true;
+    await renderWinterGear();
+    renderWinterTempBanner();
+  }
+};
+
+window._closeWinter = () => {
+  document.getElementById('winter-drawer')?.classList.remove('open');
+};
+
+// ── Meetups drawer ─────────────────────────────────────────────────────────────
+let _meetupsOpened = false;
+let _selectedMeetupCats = new Set();
+
+window._openMeetups = async () => {
+  document.getElementById('meetups-drawer')?.classList.add('open');
+  if (!_meetupsOpened) {
+    _meetupsOpened = true;
+    await loadMeetupInterests();
+    renderMeetupPills();
+    renderMeetupResults();
+  }
+};
+
+window._closeMeetups = () => {
+  document.getElementById('meetups-drawer')?.classList.remove('open');
+};
+
+// ── My Tasks drawer ────────────────────────────────────────────────────────────
+window._openTasks = () => {
+  document.getElementById('tasks-drawer')?.classList.add('open');
+};
+
+window._closeTasks = () => {
+  document.getElementById('tasks-drawer')?.classList.remove('open');
+};
+
+async function loadMeetupInterests() {
+  const uid = auth.currentUser?.uid;
+  if (!uid) return;
+  try {
+    const snap = await getDoc(doc(db, 'users', uid));
+    const saved = snap.data()?.meetupInterests;
+    if (Array.isArray(saved) && saved.length) {
+      _selectedMeetupCats = new Set(saved);
+    }
+  } catch(e) { /* default to empty selection */ }
+}
+
+function renderMeetupPills() {
+  const el = document.getElementById('meetup-cat-pills');
+  if (!el) return;
+  el.innerHTML = MEETUP_CATEGORIES.map(c => `
+    <button class="svc-cat-pill ${_selectedMeetupCats.has(c.id) ? 'active' : ''}" data-cat="${c.id}" onclick="window._toggleMeetupCat('${c.id}')">
+      ${meetupIconSVG(c.icon, 14)} ${c.label}
+    </button>`).join('');
+}
+
+window._toggleMeetupCat = async (catId) => {
+  if (_selectedMeetupCats.has(catId)) _selectedMeetupCats.delete(catId);
+  else _selectedMeetupCats.add(catId);
+  renderMeetupPills();
+  renderMeetupResults();
+
+  const uid = auth.currentUser?.uid;
+  if (uid) {
+    try {
+      await setDoc(doc(db, 'users', uid), {
+        meetupInterests: Array.from(_selectedMeetupCats),
+      }, { merge: true });
+    } catch(e) { /* fail silently, selection still works locally */ }
+  }
+};
+
+function renderMeetupResults() {
+  const el = document.getElementById('meetup-results');
+  if (!el) return;
+
+  const activeCats = _selectedMeetupCats.size
+    ? MEETUP_CATEGORIES.filter(c => _selectedMeetupCats.has(c.id))
+    : MEETUP_CATEGORIES; // show all if nothing selected yet
+
+  if (!_selectedMeetupCats.size) {
+    el.innerHTML = `<p style="font-size:12px;color:var(--muted);text-align:center;padding:16px 0">Tap a category above to filter, or browse everything below.</p>` + renderMeetupCards(activeCats);
+  } else {
+    el.innerHTML = renderMeetupCards(activeCats);
+  }
+}
+
+function renderMeetupCards(categories) {
+  return categories.map(cat => `
+    <div class="svc-section-title" style="margin-top:18px;display:flex;align-items:center;gap:6px">
+      <span style="color:${cat.color}">${meetupIconSVG(cat.icon, 14, cat.color)}</span> ${cat.label}
+    </div>
+    ${cat.sources.map(s => `
+      <a href="${s.url}" target="_blank" rel="noopener" class="link-card">
+        <div class="link-card-icon" style="background:${cat.bg}">${meetupIconSVG(cat.icon, 18, cat.color)}</div>
+        <div class="link-card-body">
+          <div class="link-card-title">${s.name}</div>
+          <div class="link-card-desc">${s.desc}</div>
+        </div>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" class="link-card-arrow"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>`).join('')}
+  `).join('');
+}
+
+async function updateBudgetQuickCard() {
+  const budgetEl = document.getElementById('budget-quick-sub');
+  if (!budgetEl) return;
+
+  // If the calculator sliders are present in the DOM right now, read live values
+  // (instant, no Firestore round-trip) — otherwise fetch the user's saved total.
+  const liveTotalEl = document.getElementById('budget-total');
+  if (liveTotalEl && liveTotalEl.textContent !== '$0') {
+    budgetEl.textContent = `${liveTotalEl.textContent}/mo planned`;
+    return;
+  }
+
+  const total = await getUserBudgetTotal();
+  budgetEl.textContent = total != null ? `$${total.toLocaleString()}/mo planned` : 'Plan monthly costs';
+}
+
+async function renderWinterTempBanner() {
+  const el = document.getElementById('winter-temp-banner');
+  if (!el) return;
+  try {
+    const data = await fetchCalgaryWeather();
+    if (data?.current) {
+      const t = data.current.temp;
+      const urgent = t < -15;
+      el.innerHTML = `
+        <div>
+          <div style="font-family:'Sora',sans-serif;font-size:22px;font-weight:700;color:${urgent?'#DC2626':'var(--navy)'}">${t}°C right now</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">${urgent ? 'Dress in full winter gear today' : 'Current Calgary conditions'}</div>
+        </div>`;
+    } else {
+      el.innerHTML = `<span style="font-size:12px;color:var(--muted)">Weather unavailable right now</span>`;
+    }
+  } catch(e) {
+    el.innerHTML = `<span style="font-size:12px;color:var(--muted)">Weather unavailable right now</span>`;
+  }
+}
+
+async function renderWinterGear() {
+  const uid = auth.currentUser?.uid;
+  if (uid) {
+    try {
+      const snap = await getDoc(doc(db, 'users', uid, 'progress', 'winterGear'));
+      if (snap.exists()) _gearState = snap.data().items || {};
+    } catch(e) { /* default empty */ }
+  }
+  renderGearHTML();
+}
+
+function renderGearHTML() {
+  const el = document.getElementById('winter-gear-list');
+  if (!el) return;
+  el.innerHTML = WINTER_GEAR.map(g => `
+    <div class="winter-gear-item" onclick="window._toggleGear('${g.id}')">
+      <div class="winter-gear-check ${_gearState[g.id] ? 'checked' : ''}" id="gear-check-${g.id}">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <span class="winter-gear-name ${_gearState[g.id] ? 'done' : ''}" id="gear-name-${g.id}">${g.name}</span>
+      <span class="winter-gear-temp">${g.temp}</span>
+    </div>`).join('');
+  updateWinterProgress();
+}
+
+function updateWinterProgress() {
+  const count = Object.values(_gearState).filter(Boolean).length;
+  const el = document.getElementById('winter-progress');
+  if (el) el.textContent = `${count}/${WINTER_GEAR.length}`;
+}
+
+window._toggleGear = async (gearId) => {
+  _gearState[gearId] = !_gearState[gearId];
+  const checkEl = document.getElementById(`gear-check-${gearId}`);
+  const nameEl  = document.getElementById(`gear-name-${gearId}`);
+  if (checkEl) checkEl.classList.toggle('checked', _gearState[gearId]);
+  if (nameEl)  nameEl.classList.toggle('done', _gearState[gearId]);
+  updateWinterProgress();
+
+  const uid = auth.currentUser?.uid;
+  if (uid) {
+    try {
+      await setDoc(doc(db, 'users', uid, 'progress', 'winterGear'), { items: _gearState }, { merge: true });
+    } catch(e) { /* fail silently */ }
+  }
+};
+
+function renderCategoryPills() {
+  const el = document.getElementById('svc-cat-pills');
+  if (!el) return;
+  el.innerHTML = SERVICE_CATEGORIES.map((c, i) => `
+    <button class="svc-cat-pill ${i===0?'active':''}" data-cat="${c.id}" onclick="window._loadSvcCategory('${c.id}')">
+      ${categoryIconSVG(c.icon, 14)} ${c.label}
+    </button>`).join('');
+}
+
+function renderSettlementAgencies() {
+  const el = document.getElementById('settlement-agencies-list');
+  if (!el) return;
+  el.innerHTML = SETTLEMENT_AGENCIES.map(a => `
+    <div class="agency-card">
+      <div class="agency-name">${a.name}</div>
+      <p class="agency-desc">${a.desc}</p>
+      <div class="agency-meta">📍 ${a.address}</div>
+      <div class="agency-meta">📞 ${a.phone}</div>
+      <a href="${a.url}" target="_blank" rel="noopener" class="agency-link">
+        Visit website
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>`).join('');
+}
+
+function renderESLPrograms() {
+  const el = document.getElementById('esl-programs-list');
+  if (!el) return;
+  el.innerHTML = ESL_PROGRAMS.map(p => `
+    <div class="agency-card">
+      <div class="agency-name">${p.name}</div>
+      <p class="agency-desc">${p.desc}</p>
+      <a href="${p.url}" target="_blank" rel="noopener" class="agency-link">
+        Visit website
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>`).join('');
+}
+
 // ── AI job search globals ─────────────────────────────────────────────────────
+window._requestPush  = requestPushPermission;
+window._setJobAlert  = setRoleAlert;
+
 window._jobAISearch = async (query) => {
   document.getElementById('job-search').value = query;
   await runJobAISearch(query);
@@ -598,14 +1621,27 @@ window._closeSettleModal = closeSettleModal;
 const SECTIONS = ['home','housing','jobs','events','resources','profile'];
 window._nav = (id) => {
   showSec(id);
-  document.querySelectorAll('.app-sidebar .snav-tab').forEach((t,i) =>
-    t.classList.toggle('active', SECTIONS[i] === id));
+  document.querySelectorAll('.app-sidebar .sidebar-tab').forEach(t =>
+    t.classList.toggle('active', t.dataset.section === id));
   const bnMap = {home:'bn-home',housing:'bn-housing',jobs:'bn-jobs',events:'bn-events',resources:'bn-resources'};
   if (bnMap[id]) setBottomNav(bnMap[id]);
   if (id === 'housing') {
     // Porchlight iframe loads on first "Browse listings" click
     // Nothing to do here
   }
+};
+
+// Clicking the YYC Connect logo always returns to Home, closing any open
+// drawer or modal first so it doesn't stay visually stuck on top.
+window._goHome = () => {
+  window._closeModal?.();
+  window._closeDrawer?.();
+  window._closeServices?.();
+  window._closeWinter?.();
+  window._closeMeetups?.();
+  window._closeTasks?.();
+  window._closeWeather?.();
+  window._nav('home');
 };
 
 // ── Map — update markers whenever listings are rendered ───────────────────────
@@ -639,10 +1675,13 @@ window._closeModal = () => {
 document.getElementById('edit-modal').addEventListener('click', e => {
   if (e.target.id === 'edit-modal') window._closeModal();
 });
+document.getElementById('weather-modal')?.addEventListener('click', e => {
+  if (e.target.id === 'weather-modal') closeWeatherModal();
+});
 
 // Escape key
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { window._closeModal(); window._closeDrawer(); closeSettleModal(); }
+  if (e.key === 'Escape') { window._closeModal(); window._closeDrawer(); closeSettleModal(); window._closeWeather(); window._closeServices(); window._closeWinter(); window._closeMeetups(); window._closeTasks(); }
 });
 
 // ── Avatar grid builder ───────────────────────────────────────────────────────
@@ -683,6 +1722,8 @@ populateSelect('su-country',  COUNTRIES);
 populateSelect('su-city',     ALBERTA_CITIES);
 populateSelect('ep-country',  COUNTRIES);
 populateSelect('ep-city',     ALBERTA_CITIES);
+populateSelect('gob-country', COUNTRIES);
+populateSelect('gob-city',    ALBERTA_CITIES);
 
 // ── Avatar grids ──────────────────────────────────────────────────────────────
 buildAvatarGrid('su-av-grid', () => {
@@ -691,6 +1732,8 @@ buildAvatarGrid('su-av-grid', () => {
   document.getElementById('su-photo-lbl').textContent       = 'Tap to upload a photo';
   document.getElementById('su-photo').value = '';
 });
+
+buildAvatarGrid('gob-av-grid', () => {});
 
 buildAvatarGrid('ep-av-grid', (av) => {
   epSelAvatar = av.id;
@@ -715,6 +1758,19 @@ window.onSignupPhotoChange = (input) => {
   reader.readAsDataURL(input.files[0]);
 };
 
+window.onGobPhotoChange = (input) => {
+  if (!input.files?.[0]) return;
+  document.getElementById('gob-av-grid').querySelectorAll('.av-btn').forEach(b => b.classList.remove('selected'));
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('gob-photo-img').src = e.target.result;
+    document.getElementById('gob-photo-preview').style.display = 'block';
+    document.getElementById('gob-photo-icon').style.display    = 'none';
+    document.getElementById('gob-photo-lbl').textContent       = input.files[0].name;
+  };
+  reader.readAsDataURL(input.files[0]);
+};
+
 window.onEditPhotoChange = (input) => {
   if (!input.files?.[0]) return;
   epNewPhoto = input.files[0];
@@ -732,10 +1788,20 @@ window.onEditPhotoChange = (input) => {
 // ── Open edit profile ─────────────────────────────────────────────────────────
 async function openEditProfile() {
   if (!currentUid) return;
-  const snap = await getDoc(doc(db, 'users', currentUid));
-  const d    = snap.data() || {};
+
+  // Use a fresh server read (bypassing local cache) so data just written
+  // moments ago during sign-up or Google onboarding is guaranteed to show
+  // up here, rather than a possibly-stale cached snapshot.
+  let snap;
+  try {
+    snap = await getDocFromServer(doc(db, 'users', currentUid));
+  } catch(e) {
+    snap = await getDoc(doc(db, 'users', currentUid));
+  }
+  const d = snap.data() || {};
 
   document.getElementById('ep-name').value    = d.name             || '';
+  document.getElementById('ep-email').value   = d.email             || auth.currentUser?.email || '';
   document.getElementById('ep-country').value = d.country          || '';
   document.getElementById('ep-imm').value     = d.immigrationType  || '';
   document.getElementById('ep-budget').value  = d.budget           || '';
@@ -781,8 +1847,10 @@ async function saveProfile() {
   btn.textContent = 'Saving...'; btn.disabled = true;
   document.getElementById('ep-err').textContent = '';
   try {
-    const name    = document.getElementById('ep-name').value.trim();
-    const country = document.getElementById('ep-country').value;
+    const name       = document.getElementById('ep-name').value.trim();
+    const newEmail   = document.getElementById('ep-email').value.trim();
+    const currentPass= document.getElementById('ep-current-pass').value;
+    const country    = document.getElementById('ep-country').value;
     const immType = document.getElementById('ep-imm').value;
     const cityVal = document.getElementById('ep-city').value;
     const budget  = document.getElementById('ep-budget').value.trim();
@@ -809,7 +1877,33 @@ async function saveProfile() {
     else if (epSelAvatar)    { update.avatarId = epSelAvatar; update.photoURL = ''; }
 
     await updateDoc(doc(db, 'users', currentUid), update);
+    // Update display name
     if (name && auth.currentUser) await updateProfile(auth.currentUser, { displayName: name });
+
+    // Update email if changed
+    if (newEmail && newEmail !== auth.currentUser?.email) {
+      if (!currentPass) {
+        document.getElementById('ep-err').textContent = 'Enter your current password to change email.';
+        btn.textContent = 'Save changes'; btn.disabled = false;
+        return;
+      }
+      try {
+        const { EmailAuthProvider, reauthenticateWithCredential, verifyBeforeUpdateEmail } =
+          await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
+        const credential = EmailAuthProvider.credential(auth.currentUser.email, currentPass);
+        await reauthenticateWithCredential(auth.currentUser, credential);
+        await verifyBeforeUpdateEmail(auth.currentUser, newEmail);
+        window._toast('Verification email sent to ' + newEmail);
+        update.email = newEmail;
+      } catch(emailErr) {
+        document.getElementById('ep-err').textContent =
+          emailErr.code === 'auth/wrong-password' ? 'Incorrect password.' :
+          emailErr.code === 'auth/too-many-requests' ? 'Too many attempts. Try later.' :
+          'Could not update email. Try again.';
+        btn.textContent = 'Save changes'; btn.disabled = false;
+        return;
+      }
+    }
     window._closeModal();
     toast('Profile updated');
   } catch(e) {
@@ -822,10 +1916,18 @@ async function saveProfile() {
 
 // ── Auth button listeners ─────────────────────────────────────────────────────
 document.getElementById('si-btn').addEventListener('click', signIn);
+document.getElementById('su-next-btn').addEventListener('click', signupGoToStep2);
+document.getElementById('su-back-btn').addEventListener('click', signupGoToStep1);
 document.getElementById('su-btn').addEventListener('click', signUp);
 document.getElementById('google-btn-si').addEventListener('click', signInGoogle);
 document.getElementById('google-btn-su').addEventListener('click', signInGoogle);
+document.getElementById('gob-pass-btn').addEventListener('click', submitGoogleOnboardPassword);
+document.getElementById('gob-profile-btn').addEventListener('click', submitGoogleOnboardProfile);
 document.getElementById('signout-btn').addEventListener('click', signOut);
+document.getElementById('ep-signout-btn').addEventListener('click', () => {
+  window._closeModal();
+  signOut();
+});
 document.getElementById('sidebar-signout').addEventListener('click', signOut);
 document.getElementById('edit-profile-btn').addEventListener('click', openEditProfile);
 document.getElementById('ep-save').addEventListener('click', saveProfile);
@@ -837,46 +1939,257 @@ document.getElementById('ep-save').addEventListener('click', saveProfile);
 });
 
 // ── Auth state observer ───────────────────────────────────────────────────────
-onAuthStateChanged(auth, async (user) => {
+async function runAuthFlow(user) {
   const authScreen = document.getElementById('auth-screen');
   const appEl      = document.getElementById('app');
 
   if (user) {
+    // Check ban status immediately on every auth state change (page load,
+    // refresh, tab focus) — this is what makes an active session get
+    // kicked out the moment they're banned, not just blocked on next login.
+    const ban = await checkEmailBanned(user.email);
+    if (ban) {
+      await signOut();
+      showLockedOutScreen();
+      return;
+    }
+
+    // Read the user's doc with a fresh server read (bypassing local cache)
+    // so a brand-new sign-up or a just-deleted account is always evaluated
+    // against real, current data rather than a stale cached answer.
+    let userData;
+    try {
+      userData = (await getDocFromServer(doc(db,'users',user.uid))).data();
+    } catch(e) {
+      userData = (await getDoc(doc(db,'users',user.uid))).data();
+    }
+    for (let i = 0; i < 6 && !userData; i++) {
+      await new Promise(r => setTimeout(r, 200));
+      userData = (await getDoc(doc(db,'users',user.uid))).data();
+    }
+
+    // Doc still missing after retries — this account no longer exists
+    // server-side (e.g. deleted by an admin). Force sign-out instead of
+    // letting a deleted account browse the app.
+    if (!userData) {
+      await signOut();
+      appEl.style.display = 'none';
+      authScreen.classList.remove('hidden');
+      window._toast('Your session has ended. Please sign in again.');
+      return;
+    }
+
+    // New Google sign-up that hasn't finished setting a password + profile —
+    // route into the mandatory onboarding screens instead of the dashboard.
+    if (userData.onboardingComplete === false) {
+      authScreen.classList.add('hidden');
+      appEl.style.display = 'none';
+      showGoogleOnboarding(user, userData);
+      return;
+    }
+    hideGoogleOnboarding();
+
     currentUid = user.uid;
     authScreen.classList.add('hidden');
     appEl.style.display = 'block';
+    startBanPolling(user.email);
 
     // Ensure role + status exist for users who signed up before these fields
-    const existingSnap = await getDoc(doc(db, 'users', user.uid));
-    const existing = existingSnap.data() || {};
     await setDoc(doc(db, 'users', user.uid), {
       lastSeen: serverTimestamp(),
-      role:     existing.role   || 'member',
-      status:   existing.status || 'active',
+      role:     userData.role   || 'member',
+      status:   userData.status || 'active',
     }, { merge: true });
+
+    // Check if admin — redirect to admin panel if accessing from /admin/
+    const _userData = userData;
+
+    // Admin view-only mode on user homepage
+    if (_userData.role === 'admin') {
+      // Show admin badge
+      const badge = document.getElementById('profile-badge');
+      if (badge) { badge.textContent = 'Admin'; badge.style.background='rgba(245,166,35,0.15)'; badge.style.color='var(--amber)'; }
+      const adminLink = document.getElementById('admin-panel-link');
+      if (adminLink) adminLink.style.display = 'block';
+
+      // Add view-only banner
+      const banner = document.createElement('div');
+      banner.id = 'admin-view-banner';
+      banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:500;background:var(--amber);color:var(--navy);text-align:center;padding:8px 16px;font-size:12px;font-weight:700;font-family:Inter,sans-serif;display:flex;align-items:center;justify-content:center;gap:10px';
+      banner.innerHTML = `
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        Admin view — this is what users see. Editing is disabled.
+        <a href="./admin/" style="background:var(--navy);color:var(--amber);padding:3px 10px;border-radius:20px;text-decoration:none;font-size:11px">Go to Admin Panel →</a>`;
+      document.body.prepend(banner);
+
+      // Offset app content for banner
+      const appEl = document.getElementById('app');
+      if (appEl) appEl.style.paddingTop = '36px';
+
+      // ── Disable all editing in view-only mode ──────────────────────────────
+      // Block edit profile modal
+      const editBtn = document.getElementById('edit-profile-btn');
+      if (editBtn) {
+        editBtn.disabled = true;
+        editBtn.style.opacity = '0.4';
+        editBtn.style.cursor  = 'not-allowed';
+        editBtn.title = 'Editing disabled in admin view mode';
+        editBtn.onclick = (e) => {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          window._toast('Editing disabled in admin view — go to Admin Panel to manage content');
+          return false;
+        };
+      }
+
+      // Block sign out button (admin should stay signed in)
+      const signoutBtn = document.getElementById('signout-btn');
+      if (signoutBtn) {
+        signoutBtn.textContent = '← Go to Admin Panel';
+        signoutBtn.onclick = (e) => {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          window.location.href = './admin/';
+        };
+      }
+      const sidebarSignout = document.getElementById('sidebar-signout');
+      if (sidebarSignout) {
+        sidebarSignout.querySelector('svg')?.remove();
+        sidebarSignout.innerHTML = '← Admin Panel';
+        sidebarSignout.onclick = (e) => {
+          e.preventDefault();
+          window.location.href = './admin/';
+        };
+      }
+
+      // Block settlement chips — view only
+      const chipsContainer = document.getElementById('task-chips');
+      if (chipsContainer) {
+        chipsContainer.style.pointerEvents = 'none';
+        chipsContainer.style.opacity = '0.6';
+      }
+      const settleEditBtn = document.getElementById('settle-edit-btn');
+      if (settleEditBtn) {
+        settleEditBtn.disabled = true;
+        settleEditBtn.style.opacity = '0.4';
+        settleEditBtn.style.cursor = 'not-allowed';
+        settleEditBtn.onclick = (e) => {
+          e.preventDefault();
+          window._toast('View only — go to Admin Panel to edit settlement tasks');
+          return false;
+        };
+      }
+
+      // Block job alerts
+      window._setJobAlert = () => window._toast('View only — sign in as a regular user to set job alerts');
+      window._requestPush  = () => window._toast('View only mode');
+
+      // Add view-only overlay to profile section
+      const profileHdr = document.querySelector('.profile-hdr');
+      if (profileHdr) {
+        const viewTag = document.createElement('div');
+        viewTag.style.cssText = 'background:#FFF3CD;border:1px solid #FFC107;border-radius:8px;padding:8px 12px;font-size:12px;color:#856404;margin-top:12px;display:flex;align-items:center;gap:6px';
+        viewTag.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Admin view — you are previewing the user interface';
+        profileHdr.insertAdjacentElement('afterend', viewTag);
+      }
+    }
 
     await seedIfEmpty();
     startListeners();
     loadUserProfile(user.uid);
+    updateRentStat(_userData);
+    loadUIConfig();
+
+    // Pulse movein box if no arrival date set yet
+    setTimeout(() => {
+      const box = document.getElementById('movein-stat-box');
+      const val = document.getElementById('s-movein');
+      if (box && val && val.textContent === '—') {
+        box.classList.add('needs-date');
+        updateMoveinCountdown(null);
+      }
+    }, 2500);
+
+    // Update budget quick card when profile loads
+    setTimeout(updateBudgetQuickCard, 1800);
     renderPopularJobs();
+    initJobAlerts();
+    initNotifications();
+    initWeather();
+    reloadBudgetForUser();
+    loadTasksForUser();
 
   } else {
+    stopBanPolling();
     currentUid = null;
     authScreen.classList.remove('hidden');
     appEl.style.display = 'none';
   }
-});
+}
+
+onAuthStateChanged(auth, runAuthFlow);
+
+// Allow code that completes sign-up/onboarding (which doesn't always trigger
+// a fresh onAuthStateChanged event, since Firebase may already consider the
+// user "signed in" throughout that flow) to explicitly re-run the same logic
+// with freshly-saved data, so the dashboard reflects it immediately.
+window._onUserReady = (user) => runAuthFlow(user || auth.currentUser);
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 initFilters();
 initBudget();
+initTasks();
 initToggles();
 initSettlementChips();
+
+// ── UI Config — admin can show/hide sections ──────────────────────────────────
+import { onSnapshot as _onSnap } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+window.loadUIConfig = () => {
+  _onSnap(doc(db, 'settings', 'uiConfig'), (snap) => {
+    const cfg = snap.exists() ? snap.data() : {};
+    applyUIConfig(cfg);
+  });
+};
+
+function applyUIConfig(cfg) {
+  // Featured listing
+  const showFL = cfg.showFeaturedListing !== false;
+  ['section-featured-listing','home-listing'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = showFL ? '' : 'none';
+  });
+
+  // Upcoming events
+  const showUE = cfg.showUpcomingEvents !== false;
+  ['section-upcoming-events','home-events'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = showUE ? '' : 'none';
+  });
+
+  // Quick access cards — match admin toggle IDs: 'qa-housing', 'qa-jobs' etc
+  const qaGrid = document.querySelector('.quick-grid');
+  if (qaGrid) {
+    const cards = qaGrid.querySelectorAll('.qcard');
+    const keys  = ['qa-housing','qa-jobs','qa-events','qa-budget'];
+    cards.forEach((card, i) => {
+      if (keys[i]) card.style.display = cfg[keys[i]] === false ? 'none' : '';
+    });
+  }
+
+  // Custom alert banner
+  if (cfg.alertText) {
+    document.querySelectorAll('.alert p').forEach(el => {
+      el.innerHTML = cfg.alertText;
+    });
+  }
+}
 </script>
 
 <script>
 // Non-module helpers for inline onchange attributes
 window.onSignupPhotoChange = window.onSignupPhotoChange || function(){};
+window.onGobPhotoChange    = window.onGobPhotoChange    || function(){};
 window.onEditPhotoChange   = window.onEditPhotoChange   || function(){};
 </script>
 </body>

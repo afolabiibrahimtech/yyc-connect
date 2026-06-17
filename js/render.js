@@ -95,8 +95,12 @@ export function renderHomeListing(items) {
 export function renderJobs(items) {
   const el = document.getElementById('jobs-list');
   if (!el) return;
+  // jobs-count-label is managed by jobs-ai.js — don't overwrite with Firestore count
   const countEl = document.getElementById('jobs-count-label');
-  if (countEl) countEl.textContent = `${items.length} listing${items.length !== 1 ? 's' : ''} in Calgary`;
+  if (countEl && !countEl.dataset.aiManaged) {
+    countEl.dataset.aiManaged = 'true';
+    countEl.textContent = 'Search Calgary jobs';
+  }
   if (!items.length) { el.innerHTML = emptyState('No jobs match your filters'); return; }
 
   const iconMap = { design: icons.design, frontend: icons.frontend, dev: icons.dev };
@@ -156,6 +160,11 @@ export function renderHomeEvents(items) {
 
 // ── Quick count labels ────────────────────────────────────────────────────────
 export function setQuickCounts({ jobs, events } = {}) {
-  if (jobs     !== undefined) { const el = document.getElementById('job-count-label');   if(el) el.textContent = `${jobs} new listings`; }
-  if (events   !== undefined) { const el = document.getElementById('event-count-label'); if(el) el.textContent = `${events} this week`; }
+  // job-count-label managed by jobs-ai.js — skip Firestore count
+  // if (jobs !== undefined) { ... }
+  // Events tab now links out to live Calgary event sources rather than an
+  // admin-curated count, so the Quick Access subtitle reflects that instead
+  // of a number that no longer corresponds to anything real.
+  const el = document.getElementById('event-count-label');
+  if (el) el.textContent = 'Live listings';
 }
